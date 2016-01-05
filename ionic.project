@@ -1,0 +1,12 @@
+{
+  "name": "Foood365App",
+  "app_id": "c14db7b2",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}
