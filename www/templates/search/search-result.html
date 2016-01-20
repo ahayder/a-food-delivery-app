@@ -1,0 +1,12 @@
+<ion-view title="Search Result">
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+        <ion-list>
+            <ion-item class="item-thumbnail-left" collection-repeat="restaurant in searchResult" ui-sref="app.tabs.foods({restaurantId: restaurant.res_id})">
+                <img ng-src="https://foood365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
+                <h2>{{restaurant.res_name}}</h2>
+                <p>Phone: <strong>{{restaurant.phone}}</strong></p>
+                <address>{{restaurant.res_town}}</br>{{restaurant.res_county}}</br>{{restaurant.res_state}}</br>{{restaurant.res_zipcode}}</address>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

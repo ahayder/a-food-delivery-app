@@ -1,0 +1,18 @@
+<ion-view title="Order">
+    <ion-content overflow-scroll="true" padding="true" scroll="false" class="has-header">
+        <h3>Make Your Pizza</h3>
+        <form class="list"></form>
+        <form class="list">
+            <label class="item item-input" name="pizzaName">
+                <span class="input-label">Name Your Pizza</span>
+                <input type="text" placeholder="Italian Pizza">
+            </label>
+            <ion-toggle toggle-class="toggle-positive" ng-checked="true" name="extraCheese">Extra Cheese</ion-toggle>
+            <ion-item class="item-divider">Toppings</ion-item>
+            <ion-radio name="toppings">Pepperoni</ion-radio>
+            <ion-radio name="toppings">Sausage</ion-radio>
+            <ion-radio name="toppings">Mashrooms</ion-radio>
+            <a href="#/tabs/cart" class="button button-assertive button-block button-large icon ion-ios-cart-outline">Add To Cart</a>
+        </form>
+    </ion-content>
+</ion-view>

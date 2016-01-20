@@ -1,0 +1,19 @@
+<ion-view title="Order">
+    <ion-content overflow-scroll="true" padding="true" scroll="true" class="has-header">
+        <form class="list">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="search" placeholder="">
+            </label>
+        </form>
+
+        <ion-list>
+            <ion-item class="item-thumbnail-left" collection-repeat="food in foods" ng-click="orderModal($index)">
+                <img ng-src="https://foood365.com/resource/food_image/{{food.food_image}}">
+                <h2>{{food.food_name}}</h2>
+                <p>From: <strong>{{food.cuisine_id}}</strong>
+                    <!-- <br>Price: ${{food.food_price}}</p> -->
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -1,17 +1,13 @@
 <ion-view title="Cart">
     <ion-content overflow-scroll="true" padding="true" scroll="false" class="has-header">
         <ion-list>
-            <ion-item class="item-thumbnail-left">
-                <img src="img/1bwWjt4cTqOyBkZpdtb1_Hot_pizza.jpg">
-                <h2>Italian Pizza</h2>
-                <p>Has Sausage &amp; Pepperoni</p>
-            </ion-item>
-            <ion-item class="item-thumbnail-left">
-                <img src="img/1bwWjt4cTqOyBkZpdtb1_Hot_pizza.jpg">
-                <h2>Italian Pizza</h2>
-                <p>Has Sausage &amp; Pepperoni</p>
+            <ion-item class="item">
+                <h2>{{cartFood.name}}</h2>
+                <p>Size: {{cartFood.size}}, Quantity: {{cartFood.qty}}</p>
+                <p>Total Price: ${{cartFood.price}}</p>
             </ion-item>
         </ion-list>
         <button class="button button-balanced button-block button-large icon ion-cash">Checkout</button>
     </ion-content>
 </ion-view>
+

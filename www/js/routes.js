@@ -7,60 +7,95 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
-      
-        
-    .state('tabsController.search', {
-      url: '/search',
+
+    .state('app', {
+      url: '/app',
+      abstract: true,
+      templateUrl: 'templates/menu.html',
+      controller: 'appCtrl'
+    })
+
+    .state('app.my-account', {
+      url: '/my-account',
       views: {
-        'tab1': {
-          templateUrl: 'templates/search.html',
-          controller: 'searchCtrl'
+        'side-menu': {
+          templateUrl: 'templates/my-account.html',
+          controller: 'myAccountCtrl'
         }
       }
     })
-        
-      
-    
-      
-        
-    .state('tabsController.cart', {
-      url: '/cart',
+
+    .state('app.address', {
+      url: '/address',
       views: {
-        'tab2': {
-          templateUrl: 'templates/cart.html',
-          controller: 'cartCtrl'
+        'side-menu': {
+          templateUrl: 'templates/address.html',
+          controller: 'addressCtrl'
         }
       }
     })
-        
-      
-    
-      
-        
-    .state('tabsController.order', {
-      url: '/order',
+
+    .state('app.current-order', {
+      url: '/current-order',
       views: {
-        'tab3': {
-          templateUrl: 'templates/order.html',
-          controller: 'orderCtrl'
+        'side-menu': {
+          templateUrl: 'templates/current-order.html',
+          controller: 'currentOrderCtrl'
         }
       }
     })
-        
-      
-    
-      
-    .state('tabsController', {
-      url: '/tabs',
-      abstract:true,
-      templateUrl: 'templates/tabsController.html'
+
+    .state('app.payment', {
+      url: '/payment',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/payment.html',
+          controller: 'paymentCtrl'
+        }
+      }
     })
-      
-    
-      
-        
-    .state('menu.login', {
+
+    .state('app.invite-friends', {
+      url: '/invite-friends',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/invite-friends.html',
+          controller: 'inviteFriendsCtrl'
+        }
+      }
+    })
+
+    .state('app.favourite', {
+      url: '/favourite',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/favourite.html',
+          controller: 'fovouriteCtrl'
+        }
+      }
+    })
+
+    .state('app.order-history', {
+      url: '/order-history',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/order-history.html',
+          controller: 'orderHistoryCtrl'
+        }
+      }
+    })
+
+    .state('app.reward', {
+      url: '/reward',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/reward.html',
+          controller: 'rewardCtrl'
+        }
+      }
+    })
+
+    .state('app.login', {
       url: '/login',
       views: {
         'side-menu': {
@@ -68,13 +103,9 @@ angular.module('app.routes', [])
           controller: 'loginCtrl'
         }
       }
-    })
+    })      
         
-      
-    
-      
-        
-    .state('menu.signup', {
+    .state('app.signup', {
       url: '/signup',
       views: {
         'side-menu': {
@@ -83,25 +114,77 @@ angular.module('app.routes', [])
         }
       }
     })
-        
-      
+  
+
+    // Tabs
     
-      
-    .state('menu', {
-      url: '/side-menu',
-      abstract:true,
-      templateUrl: 'templates/menu.html',
-      onEnter: function($state){
-        var loggedIn = window.localStorage['loggedIn'] || false;
-        if(loggedIn){
-           $state.go("tabsController.search");
+    .state('app.tabs', {
+      url: '/tabs',
+      abstract: true,
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/tabs.html'
         }
       }
     })
+
+    .state('app.tabs.search', {
+      url: '/search',
+      views: {
+        'search-tab': {
+          templateUrl: 'templates/search/search.html',
+          controller: 'searchCtrl'
+        }
+      }
+    })
+
+    .state('app.tabs.searchResult', {
+      url: '/searchResult',
+      views: {
+        'search-tab': {
+          templateUrl: 'templates/search/search-result.html',
+          controller: 'searchResultCtrl'
+        }
+      }
+    })
+
+
+    .state('app.tabs.foods', {
+      url: '/foods/:restaurantId',
+      views: {
+        'search-tab': {
+          templateUrl: 'templates/search/foods.html',
+          controller: 'foodsCtrl'
+        }
+      }
+    })
+
+
+    .state('app.tabs.order', {
+      url: '/order',
+      views: {
+        'order-tab': {
+          templateUrl: 'templates/order.html',
+          controller: 'orderCtrl'
+        }
+      }
+    })
+        
       
-    ;
+        
+    .state('app.tabs.cart', {
+      url: '/cart',
+      views: {
+        'cart-tab': {
+          templateUrl: 'templates/cart.html',
+          controller: 'cartCtrl'
+        }
+      }
+    });
+      
+    
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/side-menu/login');
+   $urlRouterProvider.otherwise('/app/login');
 
 });

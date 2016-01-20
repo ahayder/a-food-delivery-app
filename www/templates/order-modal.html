@@ -1,0 +1,90 @@
+<ion-modal-view>
+	<ion-header-bar class="bar bar-assertive">
+	  	<h1 class="title">Baper Boro Polay khay</h1>
+	</ion-header-bar>
+
+	<ion-header-bar class="bar-subheader bar-dark">
+        <h1 class="title">Total Price: ${{price}}</h1>
+    </ion-header-bar>
+
+	<ion-content class="has-subheader">
+
+	  	<div class="list card">
+			
+
+			<!-- Deatails and share -->
+
+			<div class="item item-body">
+				<h1 class="title">{{food.food_name}}</h1>
+			    <p>{{food.food_details}}</p>
+			    <p>
+			      <a href="#" class="button button-small button-calm">Share</a>
+			    </p>
+			</div>
+
+			<!-- End Deatails and share -->
+
+
+
+			<!-- Food Size -->
+
+			<div class="item item-divider assertive">
+				Size(s)
+			</div>
+			<ion-radio ng-repeat="size in foodSizes" ng-value="size.price" ng-model="thisFood.sizePrice" ng-click="setPrice(size.price,size.id,size.food_size_name)">{{size.food_size_name}} (${{size.price}})</ion-radio>
+
+			<!-- End Food Size -->
+
+
+
+			<!-- Quantity -->
+
+			<div class="row">
+				<div class="col">
+					<p class="verticle-center">Quantity</p>
+				</div>
+				<div class="col">
+					<div class="button-bar">
+					  <a class="button button-positive" ng-click="decrease()">-</a>
+					  <a class="button">{{qty}}</a>
+					  <a class="button button-positive" ng-click="increase()">+</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- End Quantity -->
+			
+			
+
+			<!-- Extras -->
+
+			<div ng-repeat="fe in foodExtras">
+				<div class="item item-divider assertive" ng-show="fe.bool">
+					Add&nbsp{{fe.type | capitalize }}
+				</div>
+			<ion-checkbox ng-model='fe.ifChecked' ng-checked="fe.ifChecked" ng-click="addExtraFood(fe.price1,fe.ifChecked,fe)">{{fe.item_name}} (${{fe.price1}})</ion-checkbox>
+			</div>	
+
+			<!-- End Extras -->
+
+
+			<!-- Special Instruction -->
+
+			<label class="item item-input">
+				<textarea placeholder="If you have any special instruction" ng-model="instruction"></textarea>
+			</label>
+
+			<!-- End Special Instruction -->
+
+		</div>
+
+		<button class="button button-full button-assertive" ng-click="addToCart()">
+		  Add to Cart
+		</button>
+
+		<button class="button button-full button-calm" ng-click="orderModalClose()">
+		  Cancel
+		</button>
+
+	</ion-content>
+</ion-modal-view>

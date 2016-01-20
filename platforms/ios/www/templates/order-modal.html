@@ -1,0 +1,76 @@
+<ion-modal-view>
+	<ion-header-bar class="bar bar-assertive">
+	  	<h1 class="title">{{thisFood.food_name}}</h1>
+	</ion-header-bar>
+
+	<ion-content>
+	  	<div class="list card">
+
+			<!-- <div class="item item-avatar">
+				<img src="avatar.jpg">
+				<h2>Pretty Hate Machine</h2>
+				<p>Nine Inch Nails</p>
+			</div> -->
+			
+			<!-- Image -->
+			<div class="item item-image">
+				<img ng-src="https://foood365.com/resource/food_image/{{thisFood.food_image}}">
+			</div>
+
+			<div class="item item-body">
+				<h1 class="title">{{thisFood.food_name}}</h1>
+			    <p>{{thisFood.food_detailes}}</p>
+			    <p>
+			      <a href="#" class="subdued">1 Like</a>
+			      <a href="#" class="subdued">5 Comments</a>
+			    </p>
+			</div>
+			
+
+			<!-- price -->
+			<div class="item item-divider assertive">
+				Total Price: $<stong>{{data.price * data.quantity | number}}</strong>
+			</div>
+			<ion-radio ng-repeat="food in foodSizes" ng-model="data.price" ng-value="{{food.price}}">{{food.food_size_name}} <strong>Price: ${{food.price}}</strong>
+			</ion-radio>
+
+
+
+			<!-- Quantity -->
+			<label class="item item-input item-select assertive">
+				<div class="input-label">
+				  Quantity
+				</div>
+				<select ng-model="data.quantity">
+				  <option ng-selected="data.quantity" value="1">1</option>
+				  <option value="2">2</option>
+				  <option value="3">3</option>
+				</select>
+			</label>
+
+
+			
+			
+			<!-- Extras -->
+			<div class="item item-divider">
+				Extras
+			</div>
+			<ion-checkbox ng-repeat="extra in extras" ng-model="extra.item_name" ng-click="t(extra)">{{extra.type | capitalize}}: {{extra.item_name}}</ion-checkbox>
+			
+
+
+
+			<div class="item item-divider">
+				Total Price: $<stong>{{data.price * data.quantity | number}}</strong>
+			</div>
+
+		</div>
+
+		<button class="button button-full button-assertive" ng-click="addToCart()">
+		  Add to Cart
+		</button>
+		<button class="button button-full button-calm" ng-click="orderModalClose()">
+		  Cancel
+		</button>
+	</ion-content>
+</ion-modal-view>

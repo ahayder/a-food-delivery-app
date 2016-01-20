@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function(LocalStorageFactory) {
@@ -21,3 +21,20 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
   });
 })
+
+
+// Capitalize the first character
+.filter('capitalize', function() {
+  return function(input, scope) {
+    if (input!=null)
+    input = input.toLowerCase();
+    return input.substring(0,1).toUpperCase()+input.substring(1);
+  }
+})
+
+// Convert strings to number
+.filter('num', function() {
+    return function(input) {
+      return parseInt(input, 10);
+    };
+});
