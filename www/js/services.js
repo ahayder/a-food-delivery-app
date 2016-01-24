@@ -62,13 +62,28 @@ angular.module('app.services', [])
 
 
 .factory('CartFactory',['$http', function($http) {
-	var cartData = null;
+
+	
+
 	return {
-		saveIntoCart: function(cartInfo){
-			window.localStorage['cartInfo'] = JSON.stringify(cartInfo);
+		saveIntoCart: function(cartData){
+
+			if(window.localStorage['cartInfo'] != ""){
+				var storage = [];
+				storage = JSON.parse(window.localStorage['cartInfo']);
+				storage.push(cartData);
+				window.localStorage['cartInfo'] = JSON.stringify(storage);
+			}
+			else{
+				var storage = [];
+				storage.push(cartData);
+				window.localStorage['cartInfo'] = JSON.stringify(storage);
+			}
+			
+			
 		},
 		getCartInfo: function(){
-			return cartData;
+			return JSON.parse(window.localStorage['cartInfo'] || false);
 		}
 	}
 }])
@@ -80,6 +95,16 @@ angular.module('app.services', [])
   return {
     getZipCode: function(lat, lng) {
       return $http.get("http://ws.geonames.org/findNearbyPostalCodesJSON?formatted=true&lat="+lat+"&lng="+lng+"&username=ahayder");
+    }
+  }
+}])
+
+
+
+.factory('SignUpFactory',['$http', function($http) {
+  return {
+    signup: function(data){
+    	return $http.post("https://foood365.com/api/cusInfoStore", data);
     }
   }
 }]);

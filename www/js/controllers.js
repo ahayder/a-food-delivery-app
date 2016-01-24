@@ -2,11 +2,13 @@ angular.module('app.controllers', [])
 
 .controller('appCtrl', ['$scope', '$state', function ($scope, $state) {
 
+	$scope.login = true;
+
     var loggedIn = window.localStorage['loggedIn'];
 
     if(loggedIn === "true"){
     	$scope.login = true;
-       	$state.go("app.tabs.search"); //app.tabs.search
+       	$state.go("app.tabs.cart"); //app.tabs.search
     }
     else{
       	$state.go("app.login");
@@ -23,6 +25,10 @@ angular.module('app.controllers', [])
       	
       	
     }
+
+    $scope.$watch(function($scope) {
+    	$scope.login;
+    });
 
 }])
 
@@ -391,24 +397,51 @@ angular.module('app.controllers', [])
 
 
 // Cart Controller
-.controller('cartCtrl', ['$scope', '$ionicLoading', function($scope, $ionicLoading) {
+.controller('cartCtrl', ['$scope', '$ionicLoading', 'CartFactory', function($scope, $ionicLoading, CartFactory) {
 
 	$ionicLoading.show({
   		template: 'Loading...'
 	});
 
-	var food = JSON.parse(window.localStorage['cartInfo'] || '[]');
+	var cartInfo = CartFactory.getCartInfo();
+	var grandTotal = 0;
 
-	console.log("hi from cart controller");
-	console.log(food);
+	if(cartInfo){
+		$scope.emptyCart = false;
+		var temp = [];
 
-	$scope.cartFood = {
-		name: food.mainFood.food_name,
-		size: food.sizeInfo.sizeName,
-		qty: food.qty,
-		price: food.totalPrice
+		for(var i = 0; i < cartInfo.length; i++){
 
-	}; 
+			var food = {
+				name: cartInfo[i].mainFood.food_name,
+				size: cartInfo[i].sizeInfo.sizeName,
+				qty: cartInfo[i].qty,
+				price: cartInfo[i].totalPrice,
+				specialInstruction: cartInfo[i].specialInstruction
+			}
+
+			temp.push(food);
+
+			grandTotal += cartInfo[i].totalPrice;
+				
+		}
+
+
+		$scope.grandTotal = grandTotal;
+		$scope.foods = temp;
+
+		console.log("This is cartFoods" + temp);
+
+		console.log("hi from cart controller");
+		console.log(cartInfo);	
+	}
+	else{
+		$scope.emptyCart = true;
+	}
+
+	
+
+	 
 
 
 	$ionicLoading.hide();
@@ -424,6 +457,11 @@ angular.module('app.controllers', [])
 })
 
 .controller('myAccountCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory) {
+	
+
+})
+
+.controller('addressesCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory) {
 	
 
 })
@@ -473,7 +511,6 @@ angular.module('app.controllers', [])
 	$scope.login = function(user){
 		UsersFactory.getUser(user.email, user.password).then(function(response){
 			var userInfo = response.data;
-			console.log(userInfo);
 			
 			if(userInfo.length != 1){
 				$ionicPopup.alert({
@@ -482,6 +519,7 @@ angular.module('app.controllers', [])
 			   });
 			}
 			else{
+				$scope.login = true;
 				$state.go("app.tabs.search");
 				window.localStorage['loggedIn'] = "true";
 			}
@@ -491,7 +529,11 @@ angular.module('app.controllers', [])
 
 }])
    
-.controller('signupCtrl', function($scope) {
+.controller('signupCtrl', function($scope,SignUpFactory) {
+
+	SignUpFactory.signup($scope.data).then(function(response){
+		console.log(response.data);
+	});
 
 });
     

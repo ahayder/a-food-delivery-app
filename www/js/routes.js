@@ -25,12 +25,12 @@ angular.module('app.routes', [])
       }
     })
 
-    .state('app.address', {
-      url: '/address',
+    .state('app.addresses', {
+      url: '/addresses',
       views: {
         'side-menu': {
-          templateUrl: 'templates/address.html',
-          controller: 'addressCtrl'
+          templateUrl: 'templates/addresses.html',
+          controller: 'addressesCtrl'
         }
       }
     })
@@ -70,7 +70,7 @@ angular.module('app.routes', [])
       views: {
         'side-menu': {
           templateUrl: 'templates/favourite.html',
-          controller: 'fovouriteCtrl'
+          controller: 'favouriteCtrl'
         }
       }
     })
@@ -114,6 +114,19 @@ angular.module('app.routes', [])
         }
       }
     })
+
+
+    // Secondary routes
+
+    .state('app.address', {
+      url: '/address',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/address.html',
+          controller: 'addressCtrl'
+        }
+      }
+    })  
   
 
     // Tabs

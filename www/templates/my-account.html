@@ -1,5 +1,39 @@
 <ion-view title="My Account">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <h1 class="title">My Account</h1>
+        <div class="card bar-positive">
+        	<div class="item item-divider">Your info</div>
+        	<div class="item">
+        		Name: {{user.name}}
+        	</div>
+        	<div class="item">
+        		Email: {{user.email}} 
+        	</div>
+        </div>
+
+
+
+        <div class="card list">
+
+        	<div class="item item-divider">Change Password</div>
+
+        	<div class="list list-inset">
+			  <label class="item item-input">
+			    <input type="password" placeholder="Old password">
+			  </label>
+			  <label class="item item-input">
+			    <input type="password" placeholder="New password">
+			  </label>
+			  <label class="item item-input">
+			    <input type="password" placeholder="Confirm new password">
+			  </label>
+			</div>
+			
+			<div class="item">
+				<button class="button button-block button-positive">
+				  Save
+				</button>
+			</div>
+			
+        </div>
     </ion-content>
 </ion-view>
