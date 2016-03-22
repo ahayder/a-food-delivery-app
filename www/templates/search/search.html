@@ -1,15 +1,19 @@
-<ion-view title="Search">
+<ion-view cache-view="false" title="Search">
     <ion-content overflow-scroll="true" padding="true" scroll="false" class="has-header">
         <div class="list list-inset">
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="Search by a restaurant name">
-            </label>
-            <button class="button button-block button-positive" ng-click="searchByLocation()">
-                Search using your location
-            </button>
+           
+            <div class="item item-input-inset">
+                <label class="item-input-wrapper">
+                  <input type="text" placeholder="Enter Your Zip Code" ng-model="zipcode">
+                </label>
+                <button class="button button-dark" ng-click="searchByZipCode(zipcode)">
+                       <i class="icon ion-search placeholder-icon"></i>
+                    </button> 
+              </div>           
+           
         </div>
-        <div id="map">
-        </div>
+        
+        <div id="map" data-tap-disabled="true"></div>
     </ion-content>
+     
 </ion-view>

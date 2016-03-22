@@ -1,18 +1,19 @@
 <ion-view title="Order">
     <ion-content overflow-scroll="true" padding="true" scroll="false" class="has-header">
-        <h3>Make Your Pizza</h3>
-        <form class="list"></form>
         <form class="list">
-            <label class="item item-input" name="pizzaName">
-                <span class="input-label">Name Your Pizza</span>
-                <input type="text" placeholder="Italian Pizza">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="search" placeholder="">
             </label>
-            <ion-toggle toggle-class="toggle-positive" ng-checked="true" name="extraCheese">Extra Cheese</ion-toggle>
-            <ion-item class="item-divider">Toppings</ion-item>
-            <ion-radio name="toppings">Pepperoni</ion-radio>
-            <ion-radio name="toppings">Sausage</ion-radio>
-            <ion-radio name="toppings">Mashrooms</ion-radio>
-            <a href="#/tabs/cart" class="button button-assertive button-block button-large icon ion-ios-cart-outline">Add To Cart</a>
         </form>
+
+        <ion-list>
+            <ion-item class="item-thumbnail-left" ng-repeat="food in foods" ng-click="orderModal($index)">
+                <img ng-src="https://savor365.com/resource/food_image/{{food.food_image}}">
+                <h2>{{food.food_name}}</h2>
+                <p>From: <strong>{{food.cuisine_id}}</strong>
+                    <!-- <br>Price: ${{food.food_price}}</p> -->
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>

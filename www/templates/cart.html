@@ -1,9 +1,13 @@
 <ion-view title="Cart">
     <ion-header-bar class="bar-subheader bar-dark">
-        <h1 class="title">Grand Total: ${{grandTotal}}</h1>
+        <h1 class="title">Grand Total: ${{grandTotal | number:2}}</h1>
+        <button class="button" ui-sref="app.tabs.foods({restaurantId: resId})">
+        Add More
+      </button>
     </ion-header-bar>
     <ion-content overflow-scroll="true" padding="true" scroll="true" class="has-subheader">
-        <ion-list ng-hide="emptyCart">
+    <!-- <button class="button button-balanced button-block button-large icon ion-cash">{{defaultAdrs}}</button> -->
+        <ion-list ng-show="emptyCart">
             <ion-item class="item" ng-repeat="food in foods">
                 <h2>{{food.name}}</h2>
                 <p>Size: {{food.size}}, Quantity: {{food.qty}}</p>
@@ -11,8 +15,24 @@
                 <p>Your Instruction: {{food.specialInstruction}}</p>
             </ion-item>
         </ion-list>
-        <button ng-hide="emptyCart" class="button button-balanced button-block button-large icon ion-cash">Checkout</button>
+        <!-- <button ng-hide="emptyCart" class="button button-balanced button-block button-large icon ion-cash">Checkout</button> -->
+        <!--  <div class="card">
+            <div class="item item-divider">Your Default Shipping Address</div>
+            <div class="item item-text-wrap">
+                <p>Address:  {{defaultAdrs.addrs}}</p>
+                <p>State: {{defaultAdrs.state}}</p>
+                <p>County: {{defaultAdrs.county}}</p>
+                <p>Town: {{defaultAdrs.town}}</p>
+                <p>Zip: {{defaultAdrs.zip_code}}</p>
+                <p>Phone: {{defaultAdrs.phone}}</p>
+                <p>Country: {{defaultAdrs.country}}</p>
+            </div>
+        </div> -->
+        <!-- <button class="button button-balanced button-block button-large icon ion-cash" ng-click="checkout(.01)">Checkout</button> -->
+        <button class="button button-balanced button-block button-large" 
+        ng-click="openDeliveryModal()">Next</button>
         <h4 class="text-center" ng-show="emptyCart">The Cart is Empty</h4>
+     
     </ion-content>
 </ion-view>
 

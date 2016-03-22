@@ -1,0 +1,40 @@
+<ion-modal-view>
+	<ion-header-bar class="bar bar-assertive">
+	  	<h1 class="title">Add a New Card</h1>
+	</ion-header-bar>
+
+	<ion-content class="padding">
+
+	  	<div class="list">
+        <form name="paymentForm">
+             <label class="item item-input">
+                <input type="text" ng-model="payment.name" placeholder="Card Holder Name" required>
+            </label>
+            <label class="item item-input">
+                <input type="number" id="ccnum" name="ccnum" ng-model="payment.cardNumber" placeholder="Card Number" required>
+                <span ng-show="invalidNumber">Enter valid Card Number</span>
+               <!-- <label>CC number <input id="ccnum"></label> -->
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="payment.expDate" placeholder="month/year" required>
+            </label>
+            <label class="item item-input">
+                <input type="number" ng-model="payment.cvv" placeholder="CVV" required>
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="payment.zip" placeholder="Billing Zip" required>
+            </label>
+        </form>
+           
+        </div>
+
+        <button class="button button-full button-positive" ng-click="savePaymentInfos(payment)" 
+        ng-disabled="paymentForm.$invalid">
+		  Save
+		</button>
+		<button class="button button-full button-assertive" ng-click="closeModal()">
+		  Cancel
+		</button>
+
+	</ion-content>
+</ion-modal-view>

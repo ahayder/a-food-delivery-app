@@ -27,29 +27,42 @@ angular.module('app.routes', [])
 
     .state('app.addresses', {
       url: '/addresses',
+      cache:false,
       views: {
         'side-menu': {
-          templateUrl: 'templates/addresses.html',
+          templateUrl: 'templates/address/addresses.html',
           controller: 'addressesCtrl'
         }
       }
     })
 
-    .state('app.current-order', {
-      url: '/current-order',
+    // Single address
+
+    .state('app.address', {
+      url: '/address',
       views: {
         'side-menu': {
-          templateUrl: 'templates/current-order.html',
-          controller: 'currentOrderCtrl'
+          templateUrl: 'templates/address/address.html',
+          controller: 'addressCtrl'
         }
       }
     })
+
+    // .state('app.payments', {
+    //   url: '/payments',
+    //   views: {
+    //     'side-menu': {
+    //       templateUrl: 'templates/payment/payments.html',
+    //       controller: 'paymentsCtrl'
+    //     }
+    //   }
+    // })
 
     .state('app.payment', {
       url: '/payment',
       views: {
         'side-menu': {
-          templateUrl: 'templates/payment.html',
+          templateUrl: 'templates/payment/payment.html',
           controller: 'paymentCtrl'
         }
       }
@@ -77,20 +90,11 @@ angular.module('app.routes', [])
 
     .state('app.order-history', {
       url: '/order-history',
+      cache:false,
       views: {
         'side-menu': {
           templateUrl: 'templates/order-history.html',
           controller: 'orderHistoryCtrl'
-        }
-      }
-    })
-
-    .state('app.reward', {
-      url: '/reward',
-      views: {
-        'side-menu': {
-          templateUrl: 'templates/reward.html',
-          controller: 'rewardCtrl'
         }
       }
     })
@@ -116,17 +120,7 @@ angular.module('app.routes', [])
     })
 
 
-    // Secondary routes
-
-    .state('app.address', {
-      url: '/address',
-      views: {
-        'side-menu': {
-          templateUrl: 'templates/address.html',
-          controller: 'addressCtrl'
-        }
-      }
-    })  
+      
   
 
     // Tabs
@@ -173,24 +167,22 @@ angular.module('app.routes', [])
     })
 
 
-    .state('app.tabs.order', {
-      url: '/order',
-      views: {
-        'order-tab': {
-          templateUrl: 'templates/order.html',
-          controller: 'orderCtrl'
-        }
-      }
-    })
-        
-      
-        
+    // .state('app.tabs.order', {
+    //   url: '/order',
+    //   views: {
+    //     'order-tab': {
+    //       templateUrl: 'templates/order.html',
+    //       controller: 'orderCtrl'
+    //     }
+    //   }
+    // })
     .state('app.tabs.cart', {
       url: '/cart',
+      cache: false,
       views: {
         'cart-tab': {
           templateUrl: 'templates/cart.html',
-          controller: 'cartCtrl'
+           controller: 'cartCtrl'
         }
       }
     });
@@ -198,6 +190,6 @@ angular.module('app.routes', [])
     
 
   // if none of the above states are matched, use this as the fallback
-   $urlRouterProvider.otherwise('/app/login');
+   $urlRouterProvider.otherwise('app/tabs/search');
 
 });

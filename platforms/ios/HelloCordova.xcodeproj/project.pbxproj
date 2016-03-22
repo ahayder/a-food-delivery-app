@@ -41,6 +41,10 @@
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		6CA84FED110D46F395AA9A47 /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C5F26C52484C7F9BE900DB /* CDVLocation.m */; };
 		DBD4BF0E6B274E75BCEB2108 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56B6DEA9778C457F914729AC /* CoreLocation.framework */; };
+		5C85418D888C4811AF579DBE /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = CEADE10B9FE94CEE9C8645E5 /* CDVInAppBrowser.m */; };
+		85374AF862B141E487D25A70 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B6C222D42A4749987BCDC3 /* Toast+UIView.m */; };
+		182BB340E3F041FB8DB94615 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = B87064AF999640E885FF67A4 /* Toast.m */; };
+		2EE0961D1180442A855BBF3E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 609F57A88E994B9C999D9B94 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +113,13 @@
 		06C5F26C52484C7F9BE900DB /* CDVLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		C204D3190E37429BB4159EF0 /* CDVLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		56B6DEA9778C457F914729AC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		CEADE10B9FE94CEE9C8645E5 /* CDVInAppBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVInAppBrowser.m"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		16D20042DA994818AED7886F /* CDVInAppBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVInAppBrowser.h"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		16B6C222D42A4749987BCDC3 /* Toast+UIView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Toast+UIView.m"; path = "cordova-plugin-x-toast/Toast+UIView.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		B87064AF999640E885FF67A4 /* Toast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Toast.m"; path = "cordova-plugin-x-toast/Toast.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		AF4D2160678943D2B1D1F1EB /* Toast+UIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Toast+UIView.h"; path = "cordova-plugin-x-toast/Toast+UIView.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		BEE71473F8A9420CB2F01D38 /* Toast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Toast.h"; path = "cordova-plugin-x-toast/Toast.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		609F57A88E994B9C999D9B94 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "QuartzCore.framework"; path = "System/Library/Frameworks/QuartzCore.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +132,7 @@
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				DBD4BF0E6B274E75BCEB2108 /* CoreLocation.framework in Frameworks */,
+				2EE0961D1180442A855BBF3E /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +206,7 @@
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
 				305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */,
 				56B6DEA9778C457F914729AC /* CoreLocation.framework */,
+				609F57A88E994B9C999D9B94 /* QuartzCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -211,6 +224,12 @@
 			children = (
 				06C5F26C52484C7F9BE900DB /* CDVLocation.m */,
 				C204D3190E37429BB4159EF0 /* CDVLocation.h */,
+				CEADE10B9FE94CEE9C8645E5 /* CDVInAppBrowser.m */,
+				16D20042DA994818AED7886F /* CDVInAppBrowser.h */,
+				16B6C222D42A4749987BCDC3 /* Toast+UIView.m */,
+				B87064AF999640E885FF67A4 /* Toast.m */,
+				AF4D2160678943D2B1D1F1EB /* Toast+UIView.h */,
+				BEE71473F8A9420CB2F01D38 /* Toast.h */,
 			);
 			name = Plugins;
 			path = "HelloCordova/Plugins";
@@ -396,6 +415,9 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				6CA84FED110D46F395AA9A47 /* CDVLocation.m in Sources */,
+				5C85418D888C4811AF579DBE /* CDVInAppBrowser.m in Sources */,
+				85374AF862B141E487D25A70 /* Toast+UIView.m in Sources */,
+				182BB340E3F041FB8DB94615 /* Toast.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

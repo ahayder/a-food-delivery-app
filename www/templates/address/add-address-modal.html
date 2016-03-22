@@ -1,0 +1,37 @@
+<ion-modal-view>
+	<ion-header-bar class="bar bar-assertive">
+	  	<h1 class="title">Add a New Address</h1>
+	</ion-header-bar>
+
+	<ion-content class="padding">
+
+	  	<div class="list">
+            <label class="item item-input">
+                <input type="text" ng-model="address.line1" placeholder="Address Line 1">
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="address.line2" placeholder="Address Line 2">
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="address.city" placeholder="City">
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="address.state" placeholder="State">
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="address.zipcode" placeholder="Zip Code">
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="address.phone" placeholder="Phone No">
+            </label>
+        </div>
+
+        <button class="button button-full button-positive" ng-click="saveAddress(address)">
+		  Save
+		</button>
+		<button class="button button-full button-assertive" ng-click="closeModal()">
+		  Cancel
+		</button>
+
+	</ion-content>
+</ion-modal-view>

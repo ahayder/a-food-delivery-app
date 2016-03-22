@@ -1,11 +1,15 @@
 <ion-view title="Search Result">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list>
+         <!--  -->
             <ion-item class="item-thumbnail-left" collection-repeat="restaurant in searchResult" ui-sref="app.tabs.foods({restaurantId: restaurant.res_id})">
-                <img ng-src="https://foood365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
+                <img ng-src="https://savor365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
                 <h2>{{restaurant.res_name}}</h2>
-                <p>Phone: <strong>{{restaurant.phone}}</strong></p>
-                <address>{{restaurant.res_town}}</br>{{restaurant.res_county}}</br>{{restaurant.res_state}}</br>{{restaurant.res_zipcode}}</address>
+                <p>Phone: <strong>{{restaurant.phone}}, {{restaurant.res_town}}</strong></p>
+                <p> {{restaurant.res_county}}, {{restaurant.res_zipcode}}</p>
+                <!-- <i class="icon ion-plane" style="float: left;"></i> -->
+                <h2>   Delivery Fee : $0.00 <br>  Min Delivery : $0.00    <br>  Delivery Time :45-60 min</h2>
+                
             </ion-item>
         </ion-list>
     </ion-content>

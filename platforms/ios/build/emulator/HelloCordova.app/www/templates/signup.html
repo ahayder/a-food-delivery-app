@@ -4,19 +4,25 @@
         <form class="list">
             <ion-list>
                 <label class="item item-input">
-                    <span class="input-label">Name</span>
-                    <input type="text" placeholder="">
+                    <span class="input-label">Full Name</span>
+                    <input type="text" ng-model="data.name">
                 </label>
                 <label class="item item-input">
-                    <span class="input-label">Username</span>
-                    <input type="text" placeholder="">
+                    <span class="input-label">Email</span>
+                    <input type="email" ng-model="data.email">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Mobile Number</span>
+                    <input type="number" ng-model="data.mobile">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Password</span>
-                    <input type="text" placeholder="">
+                    <input type="password" ng-model="data.password">
                 </label>
             </ion-list>
-            <button class="button button-assertive button-block button-large">Sign up</button>
+            <button class="button button-assertive button-block button-large" ng-click="signUp(data)">Sign up</button>
+            <p class="text-center">Or</p>
+            <button class="button button-positive button-block button-large">Sign up with Facebook</button>
         </form>
     </ion-content>
 </ion-view>

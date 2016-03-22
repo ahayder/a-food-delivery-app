@@ -1,0 +1,109 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-positive">
+        <h1 class="title">Delivery</h1>
+    </ion-header-bar>
+
+    <ion-content class="padding">
+    <div class="card" ng-show='boolAddNewAddress'>
+            <div class="item item-divider">Add New Address</div>
+            <div class="item item-text-wrap">
+                <div class="card list">
+                <form name="myform">
+            <label class="item item-input">
+                <input type="text" ng-model="address.line1" placeholder="Address Line 1" required>
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="address.line2" placeholder="Address Line 2" required>
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="address.city" placeholder="City" required>
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="address.state" placeholder="State" required>
+            </label>
+            <label class="item item-input">
+                <input type="text" ng-model="address.zipcode" placeholder="Zip Code" required>
+            </label>
+             <label class="item item-input">
+                <input type="text" ng-model="address.phone" placeholder="Phone No" required>
+            </label>
+            <button class="button button-full button-positive" ng-disabled="myform.$invalid"ng-click="saveAddress(address)">
+          Save
+        </button>
+        <button class="button button-full button-assertive" ng-click="close()">
+          Cancel
+        </button>
+            </form>
+        </div>
+
+        
+            </div>
+        </div>
+        <button class="button button-dark button-block button-large" ng-click="addAddressDiv()">
+        Change Shipping Address</button>
+        <div class="card">
+            <div class="item item-divider">Your Default Shipping Address</div>
+            <div class="item item-text-wrap">
+                <p>Address: {{defaultAdrs.addrs}}</p>
+                <p>State: {{defaultAdrs.state}}</p>
+                <!-- <p>County: {{defaultAdrs.county}}</p> -->
+                <p>Town: {{defaultAdrs.town}}</p>
+                <p>Zip: {{defaultAdrs.zip_code}}</p>
+                <p>Phone: {{defaultAdrs.phone}}</p>
+                <p>Country: {{defaultAdrs.country}}</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="item item-divider">Your Shipping Type</div>
+            <div class="item item-text-wrap">
+            
+            <ion-list>
+              <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(0)">Pick Up</ion-radio>
+              <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(1)">Delivery</ion-radio>
+            </ion-list>
+
+            </div>
+        </div>
+
+        <div class="card">
+        <div class="item item-text-wrap">
+           <h2>Delivery Charge ${{deliveryCharge}}</h2>
+           <br>
+           <!-- <h2>Tips</h2> -->
+            <!-- <label class="item item-input">
+                <input type="number" ng-model="tips" placeholder="Tips">%
+            </label> -->
+           <!--  Tips: ${{tipsPercent}}<br>
+            <a class="button button-positive" ng-click="setTipsPercent(-1)">-</a>  
+            <a class="button">{{tips}}%</a> 
+            <a class="button button-positive" ng-click="setTipsPercent(+1)">+</a> -->
+         </div> 
+         <!-- ////////////////////// -->
+         <div class="row">
+                <div class="col">
+                    <p class="verticle-center">Tips: ${{tipsPercent}}</p>
+                </div>
+                <div class="col">
+                    <div class="button-bar">
+                      <a class="button button-positive" ng-click="setTipsPercent(-1)">-</a>  
+                        <a class="button">{{tips}}%</a> 
+                        <a class="button button-positive" ng-click="setTipsPercent(+1)">+</a>
+                    </div>
+                </div>
+            </div>
+         <!-- ///////////////////////   -->
+         <button class="button button-dark button-block button-large icon ion-cash" 
+        ng-click="checkout(.01,deliveryType,tips)" ng-disabled='disableCheckOut'>
+        Checkout</button>
+        <button class="button button-assertive button-block button-large" ng-click="closeModal()">
+        Cancel</button>
+        </div>
+      
+        
+<!-- 
+        <button class="button button-assertive button-block button-large" ng-click="shareBaal()">
+        Share</button> -->
+
+    </ion-content>
+</ion-modal-view>

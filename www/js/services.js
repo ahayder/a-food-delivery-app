@@ -3,9 +3,35 @@ angular.module('app.services', [])
 
 // Temporary using get for login
 .factory('UsersFactory', ['$http', function($http){
+	var result = [];
 	return {
-		getUser: function(email, password){
-			return $http.get("https://foood365.com/api/user?email=" + email + "&password"); // password will be added later on
+		login: function(email, password){
+			return $http.get("https://savor365.com/api/userLogin?email=" + email + "&password=" + password); // password will be added later on
+		},
+		// this is for to use after login
+		getUserInfo: function(email){
+			return $http.get("https://savor365.com/api/user?email="+ email);
+		},
+		getAddresses: function(cusId){
+			return $http.get("https://savor365.com/api/userAddresses?cusId=" + cusId);
+		},
+		addressSave: function(id, address){
+			return $http.get("https://savor365.com/api/saveAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode);
+		},
+		saveAddressForNextState: function(addrs){
+			result = addrs;
+		},
+		getAddress: function(){
+			return result;
+		},
+		makeThisAddressDefault: function(id){
+			return $http.get("https://savor365.com/api/makeAddressDefault?id="+id);
+		},
+		paymentInfoSave: function(payment, id){
+			return $http.get("https://savor365.com/api/savePaymentInfo?cusId="+id+"&holderName="+payment.name+"&cardNumber="+payment.cardNumber+"&expDate="+payment.expDate+"&cvv="+payment.cvv+"&zip="+payment.zip);
+		},
+		getPaymentInfo: function(id){
+		 	return $http.get("https://savor365.com/api/findPaymentInfo?cusId="+id);
 		}
 		
 	}
@@ -15,11 +41,8 @@ angular.module('app.services', [])
 .factory('SearchFactory', ['$http', function($http){
 	var result = [];
 	return {
-		getUser: function(email, password){
-			return $http.get("https://foood365.com/api/user?email=" + email + "&password"); // password will be added later on
-		},
 		searchByZipCode: function(zip){
-			return $http.get("https://foood365.com/api/searchByZipCode?zipcode="+zip);
+			return $http.get("https://savor365.com/api/searchByZipCode?zipcode="+zip);
 		},
 		saveSearchResult: function(rst){
 			result =  rst;
@@ -36,25 +59,25 @@ angular.module('app.services', [])
 
 	return {
 		getFoods: function(email, password){
-			return $http.get("https://foood365.com/api/foods");
+			return $http.get("https://savor365.com/api/foods");
 		},
 		getCuisines: function(){
-			return $http.get("https://foood365.com/api/cuisines");
+			return $http.get("https://savor365.com/api/cuisines");
 		},
 		getFoodSize: function(id){
-			return $http.get("https://foood365.com/api/foodSizeById?id="+ id);
+			return $http.get("https://savor365.com/api/foodSizeById?id="+ id);
 		},
 		getExtrasById: function(id){
-			return $http.get("https://foood365.com/api/extraFoodsById?id="+ id);
+			return $http.get("https://savor365.com/api/extraFoodsById?id="+ id);
 		},
 		getExtraFoodPrice: function(id){
-			return $http.get("https://foood365.com/api/extraFoodPrice?foodId="+ id);
+			return $http.get("https://savor365.com/api/extraFoodPrice?foodId="+ id);
 		},
 		getFoodsByRestaurantId: function(restaurantId){
-			return $http.get("https://foood365.com/api/foodsByRestaurantId?restaurantId="+ restaurantId);
+			return $http.get("https://savor365.com/api/foodsByRestaurantId?restaurantId="+ restaurantId);
 		},
 		getRestaurantsById: function(restaurantId){
-			return $http.get("https://foood365.com/api/findRestaurantsById?restaurantId="+ restaurantId);
+			return $http.get("https://savor365.com/api/findRestaurantsById?restaurantId="+ restaurantId);
 		}
 		
 	}
@@ -63,27 +86,42 @@ angular.module('app.services', [])
 
 .factory('CartFactory',['$http', function($http) {
 
-	
+	var storage=[];
 
 	return {
 		saveIntoCart: function(cartData){
-
-			if(window.localStorage['cartInfo'] != ""){
-				var storage = [];
-				storage = JSON.parse(window.localStorage['cartInfo']);
+			if(localStorage.getItem('cartInfo')==null){
+				localStorage.setItem('cartInfo',[]);
+				storage=[];
+			
+			}
+			if(localStorage.getItem('cartInfo').length>0){
+				storage = JSON.parse(localStorage.getItem('cartInfo'));
 				storage.push(cartData);
-				window.localStorage['cartInfo'] = JSON.stringify(storage);
+				localStorage.setItem('cartInfo',JSON.stringify(storage));
 			}
 			else{
-				var storage = [];
+				
 				storage.push(cartData);
-				window.localStorage['cartInfo'] = JSON.stringify(storage);
+				localStorage.setItem('cartInfo',JSON.stringify(storage));
 			}
 			
 			
 		},
 		getCartInfo: function(){
-			return JSON.parse(window.localStorage['cartInfo'] || false);
+			//return JSON.parse(window.localStorage['cartInfo'] || false);
+			if(localStorage.getItem('cartInfo')==""){
+				localStorage.setItem('cartInfo',[]);
+				return;
+			}
+			if(JSON.stringify(localStorage.getItem('cartInfo'))!=""){
+				storage=JSON.parse(localStorage.getItem('cartInfo'));
+			}
+			return storage;
+		},
+		makePayment: function(amnt, cardNum, cvv, expDate){
+			var invNum = 10001;
+			return $http.get("https://savor365.com/api/makePayment?amount="+amnt+"&cardNumber="+cardNum+"&cvv="+cvv+"&expDate="+expDate+"&invNumber="+invNum);
 		}
 	}
 }])
@@ -104,8 +142,20 @@ angular.module('app.services', [])
 .factory('SignUpFactory',['$http', function($http) {
   return {
     signup: function(data){
-    	return $http.post("https://foood365.com/api/cusInfoStore", data);
+    	return $http.get("https://savor365.com/api/cusInfoStore?name="+data.name+"&email="+data.email+"&password="+data.password+"&mobile="+data.mobile);
     }
   }
 }]);
+
+// .factory('ResId',function(){
+// 	var resId=-1;
+// 	return{
+// 		setResId:function(resId){
+// 			resId=resId;
+// 		},
+// 		getResId:function(){
+// 			resId=resId;
+// 		}
+// 	}
+// });
 

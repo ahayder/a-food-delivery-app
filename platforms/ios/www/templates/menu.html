@@ -14,9 +14,18 @@
         </ion-header-bar>
         <ion-content padding="false" class="side-menu-left has-header">
             <ion-list>
-                <ion-item href="#/tabs/search" menu-close="">Search</ion-item>
-                <ion-item href="#/side-menu/login" menu-close="">Login</ion-item>
-                <ion-item href="#/side-menu/signup" menu-close="">Sign Up</ion-item>
+                <ion-item href="#/app/tabs/search" ng-hide="login1" menu-close="">Home</ion-item>
+                <ion-item href="#/app/my-account" ng-hide="login1" menu-close="">My Account</ion-item>
+                <ion-item href="#/app/addresses" ng-hide="login1" menu-close="">Address</ion-item>
+                <ion-item href="#/app/current-order" ng-hide="login1" menu-close="">Current Order</ion-item>
+                <ion-item href="#/app/payment" ng-hide="login1" menu-close="">Payment Info</ion-item>
+                <ion-item href="#/app/invite-friends" ng-hide="login1" menu-close="">Invite Friends</ion-item>
+                <ion-item href="#/app/favourite" ng-hide="login1" menu-close="">Favourite</ion-item>
+                <ion-item href="#/app/order-history" ng-hide="login1" menu-close="">Order History</ion-item>
+                <ion-item href="#/app/reward" ng-hide="login1" menu-close="">Reward</ion-item>
+                <ion-item href="#/app/login" ng-hide="!login1" menu-close="">Login</ion-item>
+                <ion-item href="#/app/signup" ng-hide="!login1" menu-close="">Sign Up</ion-item>
+                <ion-item ng-click="logout()" ng-hide="login1" menu-close="">Logout</ion-item>
             </ion-list>
         </ion-content>
     </ion-side-menu>

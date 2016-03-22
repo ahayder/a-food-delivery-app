@@ -3,16 +3,22 @@
         <div class="card bar-positive">
         	<div class="item item-divider">Your info</div>
         	<div class="item">
-        		Name: {{user.name}}
+        		Name: {{user.cus_name}}
         	</div>
         	<div class="item">
-        		Email: {{user.email}} 
+        		Email: {{user.cus_email}} 
+        	</div>
+        	<div class="item">
+        		Address: {{user.cus_addrs}} 
+        	</div>
+        	<div class="item">
+        		Phone: {{user.cus_phone}} 
         	</div>
         </div>
 
 
 
-        <div class="card list">
+       <!--  <div class="card list">
 
         	<div class="item item-divider">Change Password</div>
 
@@ -28,12 +34,12 @@
 			  </label>
 			</div>
 			
-			<div class="item">
-				<button class="button button-block button-positive">
+
+			<button class="button button-block button-positive">
 				  Save
-				</button>
-			</div>
+			</button>
+
 			
-        </div>
+        </div> -->
     </ion-content>
 </ion-view>

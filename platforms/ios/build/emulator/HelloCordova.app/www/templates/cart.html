@@ -1,17 +1,20 @@
 <ion-view title="Cart">
-    <ion-content overflow-scroll="true" padding="true" scroll="false" class="has-header">
-        <ion-list>
-            <ion-item class="item-thumbnail-left">
-                <img src="img/1bwWjt4cTqOyBkZpdtb1_Hot_pizza.jpg">
-                <h2>Italian Pizza</h2>
-                <p>Has Sausage &amp; Pepperoni</p>
-            </ion-item>
-            <ion-item class="item-thumbnail-left">
-                <img src="img/1bwWjt4cTqOyBkZpdtb1_Hot_pizza.jpg">
-                <h2>Italian Pizza</h2>
-                <p>Has Sausage &amp; Pepperoni</p>
+    <ion-header-bar class="bar-subheader bar-dark">
+        <h1 class="title">Grand Total: ${{grandTotal | number:2}}</h1>
+    </ion-header-bar>
+    <ion-content overflow-scroll="true" padding="true" scroll="true" class="has-subheader">
+        <ion-list ng-hide="emptyCart">
+            <ion-item class="item" ng-repeat="food in foods">
+                <h2>{{food.name}}</h2>
+                <p>Size: {{food.size}}, Quantity: {{food.qty}}</p>
+                <p>Total Price: ${{food.price}}</p>
+                <p>Your Instruction: {{food.specialInstruction}}</p>
             </ion-item>
         </ion-list>
-        <button class="button button-balanced button-block button-large icon ion-cash">Checkout</button>
+        <!-- <button ng-hide="emptyCart" class="button button-balanced button-block button-large icon ion-cash">Checkout</button> -->
+
+        <button class="button button-balanced button-block button-large icon ion-cash" ng-click="checkout(.01)">Checkout</button>
+        <h4 class="text-center" ng-show="emptyCart">The Cart is Empty</h4>
     </ion-content>
 </ion-view>
+

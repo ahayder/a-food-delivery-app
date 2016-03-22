@@ -1,0 +1,32 @@
+<ion-view title="Payment Infos">
+    <ion-nav-buttons side="right">
+      <button class="button" ng-click="addNewCardModal()">
+        <i class="icon ion-ios-plus"></i>
+      </button>
+    </ion-nav-buttons>
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+        <div class="list">
+            <label class="item item-divider">Your Default Card</label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Name</span>
+                <input type="text" placeholder={{card.holder_name}}>
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Card Number</span>
+                <input type="Number" placeholder={{card.card_number}}>
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Expiration Date</span>
+                <input type="text" placeholder={{card.expiration_date}}>
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">CVV</span>
+                <input type="number" placeholder={{card.cvv}}>
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Billing Zip</span>
+                <input type="number" placeholder={{card.billing_zip}}>
+            </label>
+        </div>
+    </ion-content>
+</ion-view>
