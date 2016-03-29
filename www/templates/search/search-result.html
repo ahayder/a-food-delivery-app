@@ -1,16 +1,34 @@
-<ion-view title="Search Result">
+<ion-view title="Restaurants">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
+
+        <div class="list">
+           
+            <div class="item item-input-inset">
+                <label class="item-input-wrapper">
+                  <input type="text" placeholder="Enter Your Zip Code" ng-model="zipcode">
+                </label>
+                <button class="button button-dark" ng-click="searchByZipCode(zipcode)">
+                       <i class="icon ion-search placeholder-icon"></i>
+                    </button> 
+              </div>           
+           
+        </div>
+
+
         <ion-list>
-         <!--  -->
+
             <ion-item class="item-thumbnail-left" collection-repeat="restaurant in searchResult" ui-sref="app.tabs.foods({restaurantId: restaurant.res_id})">
+
                 <img ng-src="https://savor365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
                 <h2>{{restaurant.res_name}}</h2>
                 <p>Phone: <strong>{{restaurant.phone}}, {{restaurant.res_town}}</strong></p>
                 <p> {{restaurant.res_county}}, {{restaurant.res_zipcode}}</p>
-                <!-- <i class="icon ion-plane" style="float: left;"></i> -->
+
                 <h2>   Delivery Fee : $0.00 <br>  Min Delivery : $0.00    <br>  Delivery Time :45-60 min</h2>
                 
             </ion-item>
+
         </ion-list>
+
     </ion-content>
 </ion-view>

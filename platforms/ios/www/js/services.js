@@ -90,25 +90,32 @@ angular.module('app.services', [])
 
 	return {
 		saveIntoCart: function(cartData){
-
-			if(window.localStorage['cartInfo'] != ""){
-				//var storage = [];
-				storage = JSON.parse(window.localStorage['cartInfo']);
+			if(localStorage.getItem('cartInfo')==null){
+				localStorage.setItem('cartInfo',[]);
+				storage=[];
+			
+			}
+			if(localStorage.getItem('cartInfo').length>0){
+				storage = JSON.parse(localStorage.getItem('cartInfo'));
 				storage.push(cartData);
-				window.localStorage['cartInfo'] = JSON.stringify(storage);
+				localStorage.setItem('cartInfo',JSON.stringify(storage));
 			}
 			else{
-				//var storage = [];
+				
 				storage.push(cartData);
-				window.localStorage['cartInfo'] = JSON.stringify(storage);
+				localStorage.setItem('cartInfo',JSON.stringify(storage));
 			}
 			
 			
 		},
 		getCartInfo: function(){
 			//return JSON.parse(window.localStorage['cartInfo'] || false);
-			if(window.localStorage['cartInfo'] != ""){
-				storage=JSON.parse(window.localStorage['cartInfo']);
+			if(localStorage.getItem('cartInfo')==""){
+				localStorage.setItem('cartInfo',[]);
+				return;
+			}
+			if(JSON.stringify(localStorage.getItem('cartInfo'))!=""){
+				storage=JSON.parse(localStorage.getItem('cartInfo'));
 			}
 			return storage;
 		},
@@ -139,4 +146,16 @@ angular.module('app.services', [])
     }
   }
 }]);
+
+// .factory('ResId',function(){
+// 	var resId=-1;
+// 	return{
+// 		setResId:function(resId){
+// 			resId=resId;
+// 		},
+// 		getResId:function(){
+// 			resId=resId;
+// 		}
+// 	}
+// });
 

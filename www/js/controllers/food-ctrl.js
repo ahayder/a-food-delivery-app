@@ -1,7 +1,7 @@
 angular.module('app.foodCtrl', [])
 
-.controller("foodsCtrl", ['$scope', 'FoodFactory','$state' ,'$stateParams', '$ionicModal', '$ionicLoading', 'CartFactory','ngFB',
-	function($scope, FoodFactory, $state,$stateParams,$ionicModal, $ionicLoading, CartFactory,ngFB){
+.controller("foodsCtrl", ['$scope', 'FoodFactory','$state' ,'$stateParams', '$ionicModal', '$ionicLoading', 'CartFactory','$cordovaFacebook',
+	function($scope, FoodFactory, $state,$stateParams,$ionicModal, $ionicLoading, CartFactory,$cordovaFacebook){
         
 	var restaurantId = $stateParams.restaurantId;
     localStorage.setItem('resId',restaurantId);
@@ -106,35 +106,50 @@ angular.module('app.foodCtrl', [])
   	};
 
   	$scope.loginThenShare=function(foodName){
-  		ngFB.login().then(
-            function(response) {
-            	
-                if (response.status === 'connected') {
-                    (alert)('Facebook Signup succeeded');
-                    
-  				$scope.share(foodName);
-  		
+  	$cordovaFacebook.login(["public_profile", "email", "user_friends","publish_actions"])
+            .then(function(success) {
+               
+                $cordovaFacebook.api("me?fields=name,email")
+                    .then(function(success) {
+                      
+                      // **********Facebook Post**********
+                        var options = {
+                        method: 'feed',
+                        link: 'https://savor365.com/',
+                        caption: foodName,
+                        };
+                        $cordovaFacebook.showDialog(options)
+                        .then(function(success) {
+                        console.log(success);
+                        }, function (error) {
 
-                } else {
-                    (alert)('Facebook Signup failed');
-                }
+                        });                       
+                        // **********Facebook Post End**********
+                        },
+                         function (error) {
+
+                        });      
+                                            
+                //////////////////////                
+            }, function(error) {
+                // error
             });
   	}
   	$scope.share = function (foodName) {
   
-    ngFB.api({
-        method: 'POST',
-        path: '/me/feed',
-        params: {
-            message: foodName +':'+' By savor365.com'
-        }
-    }).then(
-        function () {
-            (alert)('The session was shared on Facebook');
-        },
-        function () {
-            (alert)('An error occurred while sharing this session on Facebook');
-        });
+    // ngFB.api({
+    //     method: 'POST',
+    //     path: '/me/feed',
+    //     params: {
+    //         message: foodName +':'+' By savor365.com'
+    //     }
+    // }).then(
+    //     function () {
+    //         (alert)('The session was shared on Facebook');
+    //     },
+    //     function () {
+    //         (alert)('An error occurred while sharing this session on Facebook');
+    //     });
 };
 
   	$scope.$on('$destroy', function() {

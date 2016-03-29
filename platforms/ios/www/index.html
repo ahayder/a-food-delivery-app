@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+       <meta http-equiv="Content-Security-Policy">
+
         <title></title>
 
         <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -13,9 +15,10 @@
 
         <!-- compiled css output -->
         <link href="css/ionic.app.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
         <!-- Facebook -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.creditCardValidator.js"></script>
         <script src="facebookApp/openfb.js"></script>
         <script src="facebookApp/ngopenfb.js"></script>
         <!-- Facebook -->
@@ -32,7 +35,7 @@
         <ion-nav-view></ion-nav-view>
 
         
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVJhGo6xXm-fOcerYCN7jCK1UgAG7L6eY">
-        </script>
+        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBVJhGo6xXm-fOcerYCN7jCK1UgAG7L6eY"></script>
+        
     </body>
 </html>

@@ -18,6 +18,11 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ionicframework.starter"
+        },
+        "phonegap-facebook-plugin": {
+            "APP_ID": "577646735745723",
+            "APP_NAME": "savor365",
+            "PACKAGE_NAME": "com.ionicframework.starter"
         }
     },
     "dependent_plugins": {}

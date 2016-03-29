@@ -49,7 +49,7 @@
       </dict>
     </dict>
     <key>CFBundleIdentifier</key>
-    <string>com.ionicframework.starter</string>
+    <string>com.savor365.www</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
@@ -59,9 +59,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
-    <string>0.0.1</string>
+    <string>0.0.9</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.0.1</string>
+    <string>0.0.9</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSMainNibFile</key>
@@ -173,10 +173,42 @@
     </array>
     <key>NSAppTransportSecurity</key>
     <dict>
+      <key>NSExceptionDomains</key>
+      <dict>
+        <key>m.facebook.com</key>
+        <dict/>
+        <key>graph.facebook.com</key>
+        <dict/>
+        <key>api.facebook.com</key>
+        <dict/>
+        <key>fbcdn.net</key>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
+        <key>akamaihd.net</key>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
+      </dict>
       <key>NSAllowsArbitraryLoads</key>
       <true/>
     </dict>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string/>
+    <key>FacebookAppID</key>
+    <string>577646735745723</string>
+    <key>FacebookDisplayName</key>
+    <string>savor365</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb577646735745723</string>
+        </array>
+      </dict>
+    </array>
   </dict>
 </plist>

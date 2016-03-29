@@ -1,6 +1,9 @@
 <ion-view title="Cart">
     <ion-header-bar class="bar-subheader bar-dark">
         <h1 class="title">Grand Total: ${{grandTotal | number:2}}</h1>
+        <button class="button" ui-sref="app.tabs.foods({restaurantId: resId})">
+        Add More
+      </button>
     </ion-header-bar>
     <ion-content overflow-scroll="true" padding="true" scroll="true" class="has-subheader">
     <!-- <button class="button button-balanced button-block button-large icon ion-cash">{{defaultAdrs}}</button> -->

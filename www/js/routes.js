@@ -135,15 +135,15 @@ angular.module('app.routes', [])
       }
     })
 
-    .state('app.tabs.search', {
-      url: '/search',
-      views: {
-        'search-tab': {
-          templateUrl: 'templates/search/search.html',
-          controller: 'searchCtrl'
-        }
-      }
-    })
+    // .state('app.tabs.search', {
+    //   url: '/search',
+    //   views: {
+    //     'search-tab': {
+    //       templateUrl: 'templates/search/search.html',
+    //       controller: 'searchCtrl'
+    //     }
+    //   }
+    // })
 
     .state('app.tabs.searchResult', {
       url: '/searchResult',
@@ -190,6 +190,6 @@ angular.module('app.routes', [])
     
 
   // if none of the above states are matched, use this as the fallback
-   $urlRouterProvider.otherwise('app/tabs/search');
+   $urlRouterProvider.otherwise('app/tabs/searchResult');
 
 });

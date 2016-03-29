@@ -11,11 +11,11 @@ angular.module('app.controllers', [])
 
     if (loggedIn === "true") {
         $rootScope.login = false;
-        $state.go("app.tabs.search"); //app.tabs.search
+        $state.go("app.tabs.searchResult"); //app.tabs.searchResult
     } else {
         window.localStorage['loggedIn'] = "false";
         // $state.go("app.login");
-        $state.go("app.tabs.search");
+        $state.go("app.tabs.searchResult");
         $scope.logoutMessage = false;
     }
 
@@ -44,16 +44,180 @@ angular.module('app.controllers', [])
 
 }])
 
-.controller('searchCtrl', ['$scope', '$ionicPopup', '$cordovaGeolocation', 'LocationFactory', 'SearchFactory', '$ionicLoading', 'FoodFactory', '$state', '$window', '$http',
+// .controller('searchCtrl', ['$scope', '$ionicPopup', '$cordovaGeolocation', 'LocationFactory', 'SearchFactory', '$ionicLoading', 'FoodFactory', '$state', '$window', '$http',
+//         function($scope, $ionicPopup, $cordovaGeolocation, LocationFactory, SearchFactory, $ionicLoading, FoodFactory, $state, $window, $http) {
+//             // A little refresher for(only one time) menu showing when login
+//             //$state.transitionTo($state.current, {}, { reload: true, inherit: false, notify: true });
+
+//             $ionicLoading.show({
+//                 template: 'Loading...'
+//             });
+//            // // Map Init
+//             $scope.initMap = function() {
+//                 // Getting current position
+//                 var posOptions = {
+//                     timeout: 10000,
+//                     enableHighAccuracy: false
+//                 };
+//                 $cordovaGeolocation
+//                     .getCurrentPosition(posOptions)
+//                     .then(function(position) {
+//                         var lat = position.coords.latitude;
+//                         var lng = position.coords.longitude;
+//                         var myLatLng = {lat,lng};
+
+//                         // Create a map object and specify the DOM element for display.
+//                         // var map = new google.maps.Map(document.getElementById('map'), {
+//                         //     center: myLatLng,
+//                         //     scrollwheel: false,
+//                         //     zoom: 15
+//                         // });
+
+//                         // // Create a marker and set its position.
+//                         // var marker = new google.maps.Marker({
+//                         //     map: map,
+//                         //     position: myLatLng,
+//                         //     title: 'You are here'
+//                         // });
+
+//                         // var infowindow = new google.maps.InfoWindow({
+//                         //     content: "You are here"
+//                         // });
+
+//                         // infowindow.open(map, marker);
+
+
+//                         // Getting the zip code using lat lng
+//                         LocationFactory.getZipCode(lat, lng).then(function(response) {
+//                             $scope.zipcode = response.data.postalCodes[0].postalCode;
+//                             console.log($scope.zipcode);
+//                             $ionicLoading.hide();
+//                         });
+
+//                     }, function(err) {
+//                         $ionicPopup.alert({
+//                             title: 'Error!',
+//                             template: 'Opps.. something wrong ' + err.message
+//                         });
+//                         console.log("Opps! something wrong here " + err.message);
+//                         $ionicLoading.hide();
+//                     });
+//             }
+//             $scope.initMap();
+
+//             //*****************Imrans Google Map*****************
+//             // $scope.initializeMap=function(){
+//             //      navigator.geolocation.getCurrentPosition(function(pos) {
+//             //     // map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+//             //     console.log('Lat: ' + pos.coords.latitude + "  Longi:  " + pos.coords.longitude);
+
+//             //     //////////////////////////////
+//             //     var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+
+//             //     var mapOptions = {
+//             //         center: myLatlng,
+//             //         zoom: 17,
+//             //         mapTypeId: google.maps.MapTypeId.ROADMAP
+//             //     };
+
+//             //     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+//             //     //////////////////////////////
+//             //     var myLocation = new google.maps.Marker({
+//             //         position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+//             //         map: map,
+//             //         title: "My Location"
+//             //     });
+//             //     // http://api.geonames.org/findNearbyPostalCodesJSON?lat=23.810332&lng=90.4125181&username=ahayder
+//             //     $http.get('http://api.geonames.org/findNearbyPostalCodesJSON?lat=' + pos.coords.latitude + '&lng=' + pos.coords.longitude + '&username=ahayder')
+//             //         .success(function(result) {
+//             //             console.log(result);
+//             //             $scope.zipcode = result.postalCodes[0].postalCode;
+//             //         });
+//             // });
+//             // }
+//             // google.maps.event.addDomListener(window, 'load',$scope.initializeMap());
+
+
+//             //*****************Imrans Google Map end*****************
+//             // Searching by location
+//             $scope.searchByLocation = function() {
+
+//                 $ionicLoading.show({
+//                     template: 'Loading...'
+//                 });
+
+//                 var searchResult = [];
+
+//                 // Getting the restaurants by zipcode //Should be in one query//
+
+//                 SearchFactory.searchByZipCode($scope.zipcode).then(function(response) {
+//                     var restaurants = response.data;
+//                     // Getting the restaurants
+
+//                     for (var i = 0; i < restaurants.length; i++) {
+//                         FoodFactory.getRestaurantsById(restaurants[i].res_id).then(function(res) {
+//                             searchResult.push(res.data[0]);
+//                         });
+//                     }
+
+
+//                     $ionicLoading.hide();
+//                     $state.go("app.tabs.searchResult");
+//                     SearchFactory.saveSearchResult(searchResult);
+
+//                 });
+//             }
+
+//             $scope.searchByZipCode = function(zipcode) {
+//                 //alert(zipcode);
+//                 $ionicLoading.show({
+//                     template: 'Loading...'
+//                 });
+
+//                 var searchResult = [];
+
+//                 // Getting the restaurants by zipcode //Should be in one query//
+
+//                 SearchFactory.searchByZipCode(zipcode).then(function(response) {
+//                     var restaurants = response.data;
+//                     // Getting the restaurants
+
+//                     for (var i = 0; i < restaurants.length; i++) {
+//                         FoodFactory.getRestaurantsById(restaurants[i].res_id).then(function(res) {
+//                             searchResult.push(res.data[0]);
+//                         });
+//                     }
+
+
+//                     $ionicLoading.hide();
+//                     $state.go("app.tabs.searchResult");
+//                     SearchFactory.saveSearchResult(searchResult);
+
+//                 });
+//             }
+
+//             // $scope.searchByZipCode=function(){
+
+//             // }
+
+
+//         }
+//     ])
+
+
+.controller("searchResultCtrl", ['$scope', '$ionicPopup', '$cordovaGeolocation', 'LocationFactory', 'SearchFactory', '$ionicLoading', 'FoodFactory', '$state', '$window', '$http',
         function($scope, $ionicPopup, $cordovaGeolocation, LocationFactory, SearchFactory, $ionicLoading, FoodFactory, $state, $window, $http) {
-            // A little refresher for(only one time) menu showing when login
-            //$state.transitionTo($state.current, {}, { reload: true, inherit: false, notify: true });
 
             $ionicLoading.show({
                 template: 'Loading...'
             });
-           // // Map Init
-            $scope.initMap = function() {
+
+            var initialization = function(zipcode) {
+                //alert(zipcode);
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
+
                 // Getting current position
                 var posOptions = {
                     timeout: 10000,
@@ -64,33 +228,34 @@ angular.module('app.controllers', [])
                     .then(function(position) {
                         var lat = position.coords.latitude;
                         var lng = position.coords.longitude;
-                        var myLatLng = {lat,lng};
-
-                        // Create a map object and specify the DOM element for display.
-                        // var map = new google.maps.Map(document.getElementById('map'), {
-                        //     center: myLatLng,
-                        //     scrollwheel: false,
-                        //     zoom: 15
-                        // });
-
-                        // // Create a marker and set its position.
-                        // var marker = new google.maps.Marker({
-                        //     map: map,
-                        //     position: myLatLng,
-                        //     title: 'You are here'
-                        // });
-
-                        // var infowindow = new google.maps.InfoWindow({
-                        //     content: "You are here"
-                        // });
-
-                        // infowindow.open(map, marker);
+                        var myLatLng = {
+                            lat,
+                            lng
+                        };
 
 
                         // Getting the zip code using lat lng
                         LocationFactory.getZipCode(lat, lng).then(function(response) {
                             $scope.zipcode = response.data.postalCodes[0].postalCode;
                             console.log($scope.zipcode);
+
+                            var searchResult = [];
+
+                            // Getting the restaurants by zipcode //Should be in one query//
+
+                            SearchFactory.searchByZipCode($scope.zipcode).then(function(response) {
+                                var restaurants = response.data;
+                                // Getting the restaurants
+
+                                for (var i = 0; i < restaurants.length; i++) {
+                                    FoodFactory.getRestaurantsById(restaurants[i].res_id).then(function(res) {
+                                        searchResult.push(res.data[0]);
+                                    });
+                                }
+
+                                SearchFactory.saveSearchResult(searchResult);
+                                $scope.searchResult = SearchFactory.getSearchResult();
+                            }); 
                             $ionicLoading.hide();
                         });
 
@@ -102,15 +267,71 @@ angular.module('app.controllers', [])
                         console.log("Opps! something wrong here " + err.message);
                         $ionicLoading.hide();
                     });
+                
             }
-            $scope.initMap();
+
+            initialization();
+            // // // Map Init
+            // $scope.initMap = function() {
+            //     // Getting current position
+            //     var posOptions = {
+            //         timeout: 10000,
+            //         enableHighAccuracy: false
+            //     };
+            //     $cordovaGeolocation
+            //         .getCurrentPosition(posOptions)
+            //         .then(function(position) {
+            //             var lat = position.coords.latitude;
+            //             var lng = position.coords.longitude;
+            //             var myLatLng = {
+            //                 lat,
+            //                 lng
+            //             };
+
+            //             // Create a map object and specify the DOM element for display.
+            //             // var map = new google.maps.Map(document.getElementById('map'), {
+            //             //     center: myLatLng,
+            //             //     scrollwheel: false,
+            //             //     zoom: 15
+            //             // });
+
+            //             // // Create a marker and set its position.
+            //             // var marker = new google.maps.Marker({
+            //             //     map: map,
+            //             //     position: myLatLng,
+            //             //     title: 'You are here'
+            //             // });
+
+            //             // var infowindow = new google.maps.InfoWindow({
+            //             //     content: "You are here"
+            //             // });
+
+            //             // infowindow.open(map, marker);
+
+
+            //             // Getting the zip code using lat lng
+            //             LocationFactory.getZipCode(lat, lng).then(function(response) {
+            //                 $scope.zipcode = response.data.postalCodes[0].postalCode;
+            //                 console.log($scope.zipcode);
+            //                 $ionicLoading.hide();
+            //             });
+
+            //         }, function(err) {
+            //             $ionicPopup.alert({
+            //                 title: 'Error!',
+            //                 template: 'Opps.. something wrong ' + err.message
+            //             });
+            //             console.log("Opps! something wrong here " + err.message);
+            //             $ionicLoading.hide();
+            //         });
+            // }
 
             //*****************Imrans Google Map*****************
             // $scope.initializeMap=function(){
             //      navigator.geolocation.getCurrentPosition(function(pos) {
             //     // map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
             //     console.log('Lat: ' + pos.coords.latitude + "  Longi:  " + pos.coords.longitude);
-                
+
             //     //////////////////////////////
             //     var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
 
@@ -137,7 +358,7 @@ angular.module('app.controllers', [])
             // }
             // google.maps.event.addDomListener(window, 'load',$scope.initializeMap());
 
-           
+
             //*****************Imrans Google Map end*****************
             // Searching by location
             $scope.searchByLocation = function() {
@@ -190,24 +411,16 @@ angular.module('app.controllers', [])
 
 
                     $ionicLoading.hide();
-                    $state.go("app.tabs.searchResult");
                     SearchFactory.saveSearchResult(searchResult);
-
-                });
+                    $scope.searchResult = SearchFactory.getSearchResult();
+                }); 
+                
             }
 
-            // $scope.searchByZipCode=function(){
-
-            // }
-
+            
 
         }
     ])
-    .controller("searchResultCtrl", ['$scope', 'SearchFactory', function($scope, SearchFactory) {
-
-        $scope.searchResult = SearchFactory.getSearchResult();
-
-    }])
     .controller('orderCtrl', ['$scope', 'FoodFactory', '$ionicModal', '$ionicLoading',
         function($scope, FoodFactory, $ionicModal, $ionicLoading) {
             // Getting Foods    
@@ -250,9 +463,9 @@ angular.module('app.controllers', [])
         $scope.emptyCart = true;
         var cartInfo = CartFactory.getCartInfo();
         $scope.resId = localStorage.getItem('resId');
-        if (cartInfo!=undefined) {
-            if(cartInfo.length>0)
-            $scope.emptyCart = false;
+        if (cartInfo != undefined) {
+            if (cartInfo.length > 0)
+                $scope.emptyCart = false;
         }
         //alert(JSON.stringify(cartInfo));
         var grandTotal = 0;
@@ -285,12 +498,12 @@ angular.module('app.controllers', [])
         //........................... For Delivery Starts......................
 
         $scope.disableCheckOut = false;
-        if(CartFactory.getCartInfo()!=undefined){
+        if (CartFactory.getCartInfo() != undefined) {
             if (CartFactory.getCartInfo().length < 1) {
-            $scope.disableCheckOut = true;
+                $scope.disableCheckOut = true;
+            }
         }
-        }
-        
+
         $scope.boolAddNewAddress = false;
         $scope.deliveryCharge = 1;
         $scope.deliveryType = 'delivery';
@@ -317,13 +530,13 @@ angular.module('app.controllers', [])
         });
 
         $scope.openDeliveryModal = function() {
-        //    if (localStorage.getItem('defaultAddress') != null) {
-                //alert(localStorage.getItem('defaultAddress'));
-                var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
-                $scope.defaultAdrs = defaultAddress;
-                $scope.deliveryModal.show();
+            //    if (localStorage.getItem('defaultAddress') != null) {
+            //alert(localStorage.getItem('defaultAddress'));
+            var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
+            $scope.defaultAdrs = defaultAddress;
+            $scope.deliveryModal.show();
 
-          //  }
+            //  }
         }
 
         $scope.addAddressDiv = function() {
@@ -338,8 +551,8 @@ angular.module('app.controllers', [])
                 template: 'Saving into savor365 database.'
             });
             var user = JSON.parse(localStorage.getItem('loggedInUserInofos'));
-                $scope.defaultAdrs = {};
-                
+            $scope.defaultAdrs = {};
+
             UsersFactory.addressSave(user[0].cus_id, address).then(function(response) {
                 //$scope.address = response.data;
                 $scope.boolAddNewAddress = false;
@@ -351,7 +564,7 @@ angular.module('app.controllers', [])
                     $scope.defaultAdrs.zip_code = $scope.address.zipcode;
                     $scope.defaultAdrs.phone = $scope.address.phone;
                     $scope.defaultAdrs.country = "USA";
-                    
+
                 }
                 $ionicLoading.hide();
 
@@ -433,7 +646,7 @@ angular.module('app.controllers', [])
                     $scope.checkOutInfo.userinfo = userInfo;
                     //alert(JSON.stringify($scope.checkOutInfo));
                     console.log($scope.checkOutInfo);
-                    
+
 
                     ////////////////////////////
                     $http({
@@ -448,7 +661,7 @@ angular.module('app.controllers', [])
                     }).then(function(data) {
                         //alert(JSON.stringify(data));
                         console.log(data);
-                         localStorage.removeItem('cartInfo');
+                        localStorage.removeItem('cartInfo');
                     });
                     /////////////////////////////
 
@@ -670,46 +883,46 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('inviteFriendsCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory, ngFB,$cordovaSocialSharing) {
+.controller('inviteFriendsCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory) {
 
-    $scope.invitationFB = function(link) {
-        ngFB.login().then(
-            function(response) {
+    // $scope.invitationFB = function(link) {
+    //     ngFB.login().then(
+    //         function(response) {
 
-                if (response.status === 'connected') {
-                    (alert)('Facebook Signup succeeded');
+    //             if (response.status === 'connected') {
+    //                 (alert)('Facebook Signup succeeded');
 
-                    $scope.shareFB(link);
-
-
-                } else {
-                    (alert)('Facebook Signup failed');
-                }
-            });
-    }
+    //                 $scope.shareFB(link);
 
 
-    $scope.shareFB = function(link) {
+    //             } else {
+    //                 (alert)('Facebook Signup failed');
+    //             }
+    //         });
+    // }
 
-        ngFB.api({
-            method: 'POST',
-            path: '/me/feed',
-            params: {
-                message: 'Welcome to food world',
-                link: link
-            }
-        }).then(
-            function() {
-                (alert)('The session was shared on Facebook');
-            },
-            function() {
-                (alert)('An error occurred while sharing this session on Facebook');
-            });
-    };
 
-    $scope.invitationTwitter=function(){
-        $cordovaSocialSharing.share("This is your message", "This is your subject", "www/imagefile.png", "http://blog.nraboy.com");
-    }
+    // $scope.shareFB = function(link) {
+
+    //     ngFB.api({
+    //         method: 'POST',
+    //         path: '/me/feed',
+    //         params: {
+    //             message: 'Welcome to food world',
+    //             link: link
+    //         }
+    //     }).then(
+    //         function() {
+    //             (alert)('The session was shared on Facebook');
+    //         },
+    //         function() {
+    //             (alert)('An error occurred while sharing this session on Facebook');
+    //         });
+    // };
+
+    // $scope.invitationTwitter = function() {
+    //     $cordovaSocialSharing.share("This is your message", "This is your subject", "www/imagefile.png", "http://blog.nraboy.com");
+    // }
 
 })
 
@@ -718,65 +931,76 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('orderHistoryCtrl', function($scope, $ionicLoading, $ionicModal,$http, FoodFactory) {
+.controller('orderHistoryCtrl', function($scope, $ionicLoading, $ionicModal, $http, FoodFactory) {
     // console.log(localStorage.getItem('loggedInUserInofos'));
     var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
     console.log(userInfo[0].cus_id);
-     $http.get('https://savor365.com/api/orderHistory?cusId='+Number(userInfo[0].cus_id)).success(function(data){
+    $http.get('https://savor365.com/api/orderHistory?cusId=' + Number(userInfo[0].cus_id)).success(function(data) {
         console.log(data);
-     });    
+    });
 
 })
 
 // Login/Signup     
-.controller('loginCtrl', ['$scope', 'UsersFactory', '$ionicPopup', '$state', '$rootScope', '$timeout', 'ngFB',
-    function($scope, UsersFactory, $ionicPopup, $state, $rootScope, $timeout, ngFB) {
+.controller('loginCtrl', ['$scope', 'UsersFactory', '$ionicPopup', '$state', '$rootScope', '$timeout',
+    function($scope, UsersFactory, $ionicPopup, $state, $rootScope, $timeout) {
 
         $scope.logoutMessage = false;
         $scope.login1 = true;
         $scope.login = function(user) {
-            UsersFactory.login(user.email, user.password).then(function(response) {
-                console.log(localStorage.getItem('storeUserId'));
-                var userInfo = response.data;
-                if(localStorage.getItem('storeUserId')!=userInfo[0].cus_id){
-                    console.log('no match');
-                    localStorage.removeItem('cartInfo');
-                    localStorage.removeItem('defaultAddress');
-                    console.log(localStorage.getItem('cartInfo'));
-                }
-                localStorage.setItem('storeUserId',userInfo[0].cus_id);
-                UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
-                    var addresses = response.data;
 
-                    for (var i = 0; i < addresses.length; i++) {
-                        if (addresses[i].adrs_type == 1) {
-                            //alert(addresses[i]);
-                            localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
-                            break;
-                        }
-                    }
-                });
+            UsersFactory.login(user.email, user.password).then(function(response) {
+                //console.log(localStorage.getItem('storeUserId'));
+                var userInfo = response.data;
+
                 if (userInfo.length == 0) {
                     $ionicPopup.alert({
                         title: 'Unsuccessful',
                         template: 'The email or password mismatched'
                     });
                 } else {
+
+                    if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
+                        
+                        console.log('no match');
+                        localStorage.removeItem('cartInfo');
+                        localStorage.removeItem('defaultAddress');
+                        console.log(localStorage.getItem('cartInfo'));
+                    
+                    }
+                    
+                    localStorage.setItem('storeUserId', userInfo[0].cus_id);
+                    
+                    UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
+                    
+                        var addresses = response.data;
+
+                        for (var i = 0; i < addresses.length; i++) {
+                            if (addresses[i].adrs_type == 1) {
+                                //alert(addresses[i]);
+                                localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
+                                break;
+                            }
+                        }
+
+                    });
+                    
                     //Saving variables to use later
                     //$rootScope.login = false;
                     $scope.login1 = false;
                     window.localStorage['loggedIn'] = "true";
                     window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
                     // without timeout menu ng-show doesn't work
-                    //$state.go("app.tabs.search");
-                    if(localStorage.getItem('resId')==null){
-                                 $state.go("app.tabs.search");
-                                 $rootScope.login = false;
-                            }
-                            else{
-                                $state.go("app.tabs.foods",{restaurantId:JSON.parse(localStorage.getItem('resId'))});    
-                                 $rootScope.login = false;
-                            }
+                    //$state.go("app.tabs.searchResult");
+                    if (localStorage.getItem('resId') == null) {
+                        $state.go("app.tabs.searchResult");
+                        $rootScope.login = false;
+                    } else {
+                        $state.go("app.tabs.searchResult", {
+                            restaurantId: JSON.parse(localStorage.getItem('resId'))
+                        });
+                        $rootScope.login = false;
+                    }
 
                 }
 
@@ -791,7 +1015,7 @@ angular.module('app.controllers', [])
     }
 ])
 
-.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory,$rootScope, ngFB) {
+.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory, $rootScope, $cordovaFacebook) {
     $scope.login1 = true;
     $scope.signUp = function(data) {
         $scope.user = data;
@@ -808,10 +1032,10 @@ angular.module('app.controllers', [])
                     UsersFactory.login($scope.user.email, $scope.user.password).then(function(response) {
                         var userInfo = response.data;
                         ////////////////////
-                        if(localStorage.getItem('storeUserId')!=userInfo[0].cus_id){
+                        if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
                             localStorage.removeItem('cartInfo');
                         }
-                        localStorage.setItem('storeUserId',userInfo[0].cus_id);
+                        localStorage.setItem('storeUserId', userInfo[0].cus_id);
                         ////////////////////////                        
                         UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
                             var addresses = response.data;
@@ -835,15 +1059,16 @@ angular.module('app.controllers', [])
                             window.localStorage['loggedIn'] = "true";
                             window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
                             // without timeout menu ng-show doesn't work
-                            if(localStorage.getItem('resId')==null){
-                                 $state.go("app.tabs.search");
-                                  $rootScope.login = false;
-                            }
-                            else{
-                                $state.go("app.tabs.foods",{restaurantId:JSON.parse(localStorage.getItem('resId'))});    
+                            if (localStorage.getItem('resId') == null) {
+                                $state.go("app.tabs.searchResult");
+                                $rootScope.login = false;
+                            } else {
+                                $state.go("app.tabs.foods", {
+                                    restaurantId: JSON.parse(localStorage.getItem('resId'))
+                                });
                                 $rootScope.login = false;
                             }
-                            
+
 
                         }
 
@@ -868,34 +1093,38 @@ angular.module('app.controllers', [])
     }
 
     $scope.fbSignUp = function() {
-        // {scope: 'email,user_friends,publish_actions,public_profile'}
-        ngFB.login().then(
-            function(response) {
-                if (response.status === 'connected') {
-                    // alert('Facebook Signup succeeded');
-                    ngFB.api({
-                        path: '/me',
-                        params: {
-                            fields: 'id,name,email'
-                        }
-                    }).then(
-                        function(user) {
-                            $scope.data = user;
+        $scope.data={};
+        $cordovaFacebook.login(["public_profile", "email", "user_friends","publish_actions"])
+            .then(function(success) {
+                // console.log(success);
+                ////////////////////
+                $cordovaFacebook.api("me?fields=name,email")
+                    .then(function(success) {
+                      console.log(success.name);
+                      $scope.data.name=success.name;
+                      $scope.data.email=success.email;
+                      // **********Facebook Post**********
+                        // var options = {
+                        // method: 'feed',
+                        // link: 'http://loookz.com:3000/',
+                        // caption: 'An example caption',
+                        // };
+                        // $cordovaFacebook.showDialog(options)
+                        // .then(function(success) {
+                        // console.log(success);
+                        // }, function (error) {
+
+                        // });                       
+                        // **********Facebook Post End**********
                         },
-                        function(error) {
-                            $ionicPopup.alert({
-                                title: 'Error',
-                                template: 'The login was not successful for this reason ' + error.error_description
-                            });
-                            //alert('Facebook error: ' + error.error_description);
-                        });
+                         function (error) {
 
-                } else {
-                    $cordovaToast.showLongBottom('Facebook Signup failed.');
-                    //alert('Facebook Signup failed');
-                }
+                        });      
+                                            
+                //////////////////////                
+            }, function(error) {
+                // error
             });
-
     }
 
 

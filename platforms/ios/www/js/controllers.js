@@ -11,10 +11,11 @@ angular.module('app.controllers', [])
 
     if (loggedIn === "true") {
         $rootScope.login = false;
-        $state.go("app.tabs.search"); //app.tabs.search
+        $state.go("app.tabs.searchResult"); //app.tabs.searchResult
     } else {
         window.localStorage['loggedIn'] = "false";
-        $state.go("app.login");
+        // $state.go("app.login");
+        $state.go("app.tabs.searchResult");
         $scope.logoutMessage = false;
     }
 
@@ -38,22 +39,185 @@ angular.module('app.controllers', [])
     // $rootScope.cc = response.data[0];
     // },
     // function(error){
-    // 	console.log(error.message);});
+    //  console.log(error.message);});
     // End of call
 
 }])
 
-.controller('searchCtrl', ['$scope', '$ionicPopup', '$cordovaGeolocation', 'LocationFactory', 'SearchFactory', '$ionicLoading', 'FoodFactory', '$state', '$window',
-        function($scope, $ionicPopup, $cordovaGeolocation, LocationFactory, SearchFactory, $ionicLoading, FoodFactory, $state, $window) {
-            // A little refresher for(only one time) menu showing when login
-            //$state.transitionTo($state.current, {}, { reload: true, inherit: false, notify: true });
+// .controller('searchCtrl', ['$scope', '$ionicPopup', '$cordovaGeolocation', 'LocationFactory', 'SearchFactory', '$ionicLoading', 'FoodFactory', '$state', '$window', '$http',
+//         function($scope, $ionicPopup, $cordovaGeolocation, LocationFactory, SearchFactory, $ionicLoading, FoodFactory, $state, $window, $http) {
+//             // A little refresher for(only one time) menu showing when login
+//             //$state.transitionTo($state.current, {}, { reload: true, inherit: false, notify: true });
+
+//             $ionicLoading.show({
+//                 template: 'Loading...'
+//             });
+//            // // Map Init
+//             $scope.initMap = function() {
+//                 // Getting current position
+//                 var posOptions = {
+//                     timeout: 10000,
+//                     enableHighAccuracy: false
+//                 };
+//                 $cordovaGeolocation
+//                     .getCurrentPosition(posOptions)
+//                     .then(function(position) {
+//                         var lat = position.coords.latitude;
+//                         var lng = position.coords.longitude;
+//                         var myLatLng = {lat,lng};
+
+//                         // Create a map object and specify the DOM element for display.
+//                         // var map = new google.maps.Map(document.getElementById('map'), {
+//                         //     center: myLatLng,
+//                         //     scrollwheel: false,
+//                         //     zoom: 15
+//                         // });
+
+//                         // // Create a marker and set its position.
+//                         // var marker = new google.maps.Marker({
+//                         //     map: map,
+//                         //     position: myLatLng,
+//                         //     title: 'You are here'
+//                         // });
+
+//                         // var infowindow = new google.maps.InfoWindow({
+//                         //     content: "You are here"
+//                         // });
+
+//                         // infowindow.open(map, marker);
+
+
+//                         // Getting the zip code using lat lng
+//                         LocationFactory.getZipCode(lat, lng).then(function(response) {
+//                             $scope.zipcode = response.data.postalCodes[0].postalCode;
+//                             console.log($scope.zipcode);
+//                             $ionicLoading.hide();
+//                         });
+
+//                     }, function(err) {
+//                         $ionicPopup.alert({
+//                             title: 'Error!',
+//                             template: 'Opps.. something wrong ' + err.message
+//                         });
+//                         console.log("Opps! something wrong here " + err.message);
+//                         $ionicLoading.hide();
+//                     });
+//             }
+//             $scope.initMap();
+
+//             //*****************Imrans Google Map*****************
+//             // $scope.initializeMap=function(){
+//             //      navigator.geolocation.getCurrentPosition(function(pos) {
+//             //     // map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+//             //     console.log('Lat: ' + pos.coords.latitude + "  Longi:  " + pos.coords.longitude);
+
+//             //     //////////////////////////////
+//             //     var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+
+//             //     var mapOptions = {
+//             //         center: myLatlng,
+//             //         zoom: 17,
+//             //         mapTypeId: google.maps.MapTypeId.ROADMAP
+//             //     };
+
+//             //     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+//             //     //////////////////////////////
+//             //     var myLocation = new google.maps.Marker({
+//             //         position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+//             //         map: map,
+//             //         title: "My Location"
+//             //     });
+//             //     // http://api.geonames.org/findNearbyPostalCodesJSON?lat=23.810332&lng=90.4125181&username=ahayder
+//             //     $http.get('http://api.geonames.org/findNearbyPostalCodesJSON?lat=' + pos.coords.latitude + '&lng=' + pos.coords.longitude + '&username=ahayder')
+//             //         .success(function(result) {
+//             //             console.log(result);
+//             //             $scope.zipcode = result.postalCodes[0].postalCode;
+//             //         });
+//             // });
+//             // }
+//             // google.maps.event.addDomListener(window, 'load',$scope.initializeMap());
+
+
+//             //*****************Imrans Google Map end*****************
+//             // Searching by location
+//             $scope.searchByLocation = function() {
+
+//                 $ionicLoading.show({
+//                     template: 'Loading...'
+//                 });
+
+//                 var searchResult = [];
+
+//                 // Getting the restaurants by zipcode //Should be in one query//
+
+//                 SearchFactory.searchByZipCode($scope.zipcode).then(function(response) {
+//                     var restaurants = response.data;
+//                     // Getting the restaurants
+
+//                     for (var i = 0; i < restaurants.length; i++) {
+//                         FoodFactory.getRestaurantsById(restaurants[i].res_id).then(function(res) {
+//                             searchResult.push(res.data[0]);
+//                         });
+//                     }
+
+
+//                     $ionicLoading.hide();
+//                     $state.go("app.tabs.searchResult");
+//                     SearchFactory.saveSearchResult(searchResult);
+
+//                 });
+//             }
+
+//             $scope.searchByZipCode = function(zipcode) {
+//                 //alert(zipcode);
+//                 $ionicLoading.show({
+//                     template: 'Loading...'
+//                 });
+
+//                 var searchResult = [];
+
+//                 // Getting the restaurants by zipcode //Should be in one query//
+
+//                 SearchFactory.searchByZipCode(zipcode).then(function(response) {
+//                     var restaurants = response.data;
+//                     // Getting the restaurants
+
+//                     for (var i = 0; i < restaurants.length; i++) {
+//                         FoodFactory.getRestaurantsById(restaurants[i].res_id).then(function(res) {
+//                             searchResult.push(res.data[0]);
+//                         });
+//                     }
+
+
+//                     $ionicLoading.hide();
+//                     $state.go("app.tabs.searchResult");
+//                     SearchFactory.saveSearchResult(searchResult);
+
+//                 });
+//             }
+
+//             // $scope.searchByZipCode=function(){
+
+//             // }
+
+
+//         }
+//     ])
+
+
+.controller("searchResultCtrl", ['$scope', '$ionicPopup', '$cordovaGeolocation', 'LocationFactory', 'SearchFactory', '$ionicLoading', 'FoodFactory', '$state', '$window', '$http',
+        function($scope, $ionicPopup, $cordovaGeolocation, LocationFactory, SearchFactory, $ionicLoading, FoodFactory, $state, $window, $http) {
 
             $ionicLoading.show({
                 template: 'Loading...'
             });
 
-            // Map Init
-            $scope.initMap = function() {
+            var initialization = function(zipcode) {
+                //alert(zipcode);
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
+
                 // Getting current position
                 var posOptions = {
                     timeout: 10000,
@@ -69,31 +233,29 @@ angular.module('app.controllers', [])
                             lng
                         };
 
-                        // Create a map object and specify the DOM element for display.
-                        var map = new google.maps.Map(document.getElementById('map'), {
-                            center: myLatLng,
-                            scrollwheel: false,
-                            zoom: 15
-                        });
-
-                        // Create a marker and set its position.
-                        var marker = new google.maps.Marker({
-                            map: map,
-                            position: myLatLng,
-                            title: 'You are here'
-                        });
-
-                        var infowindow = new google.maps.InfoWindow({
-                            content: "You are here"
-                        });
-
-                        infowindow.open(map, marker);
-
 
                         // Getting the zip code using lat lng
                         LocationFactory.getZipCode(lat, lng).then(function(response) {
                             $scope.zipcode = response.data.postalCodes[0].postalCode;
                             console.log($scope.zipcode);
+
+                            var searchResult = [];
+
+                            // Getting the restaurants by zipcode //Should be in one query//
+
+                            SearchFactory.searchByZipCode($scope.zipcode).then(function(response) {
+                                var restaurants = response.data;
+                                // Getting the restaurants
+
+                                for (var i = 0; i < restaurants.length; i++) {
+                                    FoodFactory.getRestaurantsById(restaurants[i].res_id).then(function(res) {
+                                        searchResult.push(res.data[0]);
+                                    });
+                                }
+
+                                SearchFactory.saveSearchResult(searchResult);
+                                $scope.searchResult = SearchFactory.getSearchResult();
+                            }); 
                             $ionicLoading.hide();
                         });
 
@@ -105,11 +267,102 @@ angular.module('app.controllers', [])
                         console.log("Opps! something wrong here " + err.message);
                         $ionicLoading.hide();
                     });
+                
             }
-            $scope.initMap();
+
+            initialization();
+            // // // Map Init
+            // $scope.initMap = function() {
+            //     // Getting current position
+            //     var posOptions = {
+            //         timeout: 10000,
+            //         enableHighAccuracy: false
+            //     };
+            //     $cordovaGeolocation
+            //         .getCurrentPosition(posOptions)
+            //         .then(function(position) {
+            //             var lat = position.coords.latitude;
+            //             var lng = position.coords.longitude;
+            //             var myLatLng = {
+            //                 lat,
+            //                 lng
+            //             };
+
+            //             // Create a map object and specify the DOM element for display.
+            //             // var map = new google.maps.Map(document.getElementById('map'), {
+            //             //     center: myLatLng,
+            //             //     scrollwheel: false,
+            //             //     zoom: 15
+            //             // });
+
+            //             // // Create a marker and set its position.
+            //             // var marker = new google.maps.Marker({
+            //             //     map: map,
+            //             //     position: myLatLng,
+            //             //     title: 'You are here'
+            //             // });
+
+            //             // var infowindow = new google.maps.InfoWindow({
+            //             //     content: "You are here"
+            //             // });
+
+            //             // infowindow.open(map, marker);
+
+
+            //             // Getting the zip code using lat lng
+            //             LocationFactory.getZipCode(lat, lng).then(function(response) {
+            //                 $scope.zipcode = response.data.postalCodes[0].postalCode;
+            //                 console.log($scope.zipcode);
+            //                 $ionicLoading.hide();
+            //             });
+
+            //         }, function(err) {
+            //             $ionicPopup.alert({
+            //                 title: 'Error!',
+            //                 template: 'Opps.. something wrong ' + err.message
+            //             });
+            //             console.log("Opps! something wrong here " + err.message);
+            //             $ionicLoading.hide();
+            //         });
+            // }
+
+            //*****************Imrans Google Map*****************
+            // $scope.initializeMap=function(){
+            //      navigator.geolocation.getCurrentPosition(function(pos) {
+            //     // map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+            //     console.log('Lat: ' + pos.coords.latitude + "  Longi:  " + pos.coords.longitude);
+
+            //     //////////////////////////////
+            //     var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+
+            //     var mapOptions = {
+            //         center: myLatlng,
+            //         zoom: 17,
+            //         mapTypeId: google.maps.MapTypeId.ROADMAP
+            //     };
+
+            //     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            //     //////////////////////////////
+            //     var myLocation = new google.maps.Marker({
+            //         position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+            //         map: map,
+            //         title: "My Location"
+            //     });
+            //     // http://api.geonames.org/findNearbyPostalCodesJSON?lat=23.810332&lng=90.4125181&username=ahayder
+            //     $http.get('http://api.geonames.org/findNearbyPostalCodesJSON?lat=' + pos.coords.latitude + '&lng=' + pos.coords.longitude + '&username=ahayder')
+            //         .success(function(result) {
+            //             console.log(result);
+            //             $scope.zipcode = result.postalCodes[0].postalCode;
+            //         });
+            // });
+            // }
+            // google.maps.event.addDomListener(window, 'load',$scope.initializeMap());
+
+
+            //*****************Imrans Google Map end*****************
             // Searching by location
             $scope.searchByLocation = function() {
-            	
+
                 $ionicLoading.show({
                     template: 'Loading...'
                 });
@@ -136,9 +389,9 @@ angular.module('app.controllers', [])
                 });
             }
 
-            $scope.searchByZipCode=function(zipcode){
-            	//alert(zipcode);
-            	$ionicLoading.show({
+            $scope.searchByZipCode = function(zipcode) {
+                //alert(zipcode);
+                $ionicLoading.show({
                     template: 'Loading...'
                 });
 
@@ -158,27 +411,19 @@ angular.module('app.controllers', [])
 
 
                     $ionicLoading.hide();
-                    $state.go("app.tabs.searchResult");
                     SearchFactory.saveSearchResult(searchResult);
-
-                });
+                    $scope.searchResult = SearchFactory.getSearchResult();
+                }); 
+                
             }
 
-            // $scope.searchByZipCode=function(){
-
-            // }
-
+            
 
         }
     ])
-    .controller("searchResultCtrl", ['$scope', 'SearchFactory', function($scope, SearchFactory) {
-
-        $scope.searchResult = SearchFactory.getSearchResult();
-
-    }])
     .controller('orderCtrl', ['$scope', 'FoodFactory', '$ionicModal', '$ionicLoading',
         function($scope, FoodFactory, $ionicModal, $ionicLoading) {
-            // Getting Foods	
+            // Getting Foods    
             var fetchFoods = function() {
                     // show loading
                     $ionicLoading.show({
@@ -210,16 +455,17 @@ angular.module('app.controllers', [])
         }
     ])
     // Cart Controller
-    .controller('cartCtrl', function($scope,$http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal,$ionicPopup) {
+    .controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $cordovaSocialSharing) {
 
-        $ionicLoading.show({
-            template: 'Loading...'
-        });
+        // $ionicLoading.show({
+        //     template: 'Loading...'
+        // });
         $scope.emptyCart = true;
         var cartInfo = CartFactory.getCartInfo();
-
-        if (cartInfo.length < 1) {
-            $scope.emptyCart = false;
+        $scope.resId = localStorage.getItem('resId');
+        if (cartInfo != undefined) {
+            if (cartInfo.length > 0)
+                $scope.emptyCart = false;
         }
         //alert(JSON.stringify(cartInfo));
         var grandTotal = 0;
@@ -250,18 +496,22 @@ angular.module('app.controllers', [])
 
 
         //........................... For Delivery Starts......................
-        $scope.disableCheckOut=false;
-        if(CartFactory.getCartInfo().length<1){
-        	$scope.disableCheckOut=true;
+
+        $scope.disableCheckOut = false;
+        if (CartFactory.getCartInfo() != undefined) {
+            if (CartFactory.getCartInfo().length < 1) {
+                $scope.disableCheckOut = true;
+            }
         }
+
         $scope.boolAddNewAddress = false;
-        $scope.deliveryCharge=1;
-        $scope.deliveryType='delivery';
-        $scope.tips=1;
-        $scope.tipsPercent=0;
-        $scope.foodTotal=$scope.grandTotal;
-        $scope.tipsPercent=$scope.foodTotal*($scope.tips/100);
-        $scope.tipsPercent=$scope.tipsPercent.toFixed(2);
+        $scope.deliveryCharge = 1;
+        $scope.deliveryType = 'delivery';
+        $scope.tips = 1;
+        $scope.tipsPercent = 0;
+        $scope.foodTotal = $scope.grandTotal;
+        $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
+        $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
 
         $ionicModal.fromTemplateUrl('templates/deliveryModal.html', {
             scope: $scope,
@@ -280,13 +530,13 @@ angular.module('app.controllers', [])
         });
 
         $scope.openDeliveryModal = function() {
-        	if(localStorage.getItem('defaultAddress')!=null){
-        		//alert(localStorage.getItem('defaultAddress'));
+            //    if (localStorage.getItem('defaultAddress') != null) {
+            //alert(localStorage.getItem('defaultAddress'));
             var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
             $scope.defaultAdrs = defaultAddress;
             $scope.deliveryModal.show();
 
-        	}
+            //  }
         }
 
         $scope.addAddressDiv = function() {
@@ -295,23 +545,26 @@ angular.module('app.controllers', [])
 
         $scope.saveAddress = function(address) {
             $scope.address = address;
-           // JSON.stringify($scope.address);
+            // JSON.stringify($scope.address);
+            // return;
             $ionicLoading.show({
                 template: 'Saving into savor365 database.'
             });
             var user = JSON.parse(localStorage.getItem('loggedInUserInofos'));
+            $scope.defaultAdrs = {};
+
             UsersFactory.addressSave(user[0].cus_id, address).then(function(response) {
                 //$scope.address = response.data;
                 $scope.boolAddNewAddress = false;
                 //alert(JSON.stringify(response.data));
                 if (response.data == "Address Saved") {
-
                     $scope.defaultAdrs.addrs = $scope.address.line1 + ' ' + $scope.address.line2;
                     $scope.defaultAdrs.state = $scope.address.state;
                     $scope.defaultAdrs.town = $scope.address.city;
                     $scope.defaultAdrs.zip_code = $scope.address.zipcode;
                     $scope.defaultAdrs.phone = $scope.address.phone;
                     $scope.defaultAdrs.country = "USA";
+
                 }
                 $ionicLoading.hide();
 
@@ -326,23 +579,23 @@ angular.module('app.controllers', [])
             });
 
         }
-        $scope.close=function(){
-        	$scope.boolAddNewAddress = false;
+        $scope.close = function() {
+            $scope.boolAddNewAddress = false;
         }
-        $scope.setTipsPercent=function(val){
-        	$scope.tips+=val;
-        	if($scope.tips<0){
-        		$scope.tips=0;
-        		return;
-        	}
-        	$scope.tipsPercent=$scope.foodTotal*($scope.tips/100);
-        	$scope.tipsPercent=$scope.tipsPercent.toFixed(2);
+        $scope.setTipsPercent = function(val) {
+            $scope.tips += val;
+            if ($scope.tips < 0) {
+                $scope.tips = 0;
+                return;
+            }
+            $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
+            $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
         }
-        $scope.setDeliveryCharge=function(val){
-        	$scope.deliveryCharge=Number(val);
+        $scope.setDeliveryCharge = function(val) {
+            $scope.deliveryCharge = Number(val);
         }
-        $scope.checkout = function(amnt,deliveryType,tips) {
-        	//alert(deliveryType);
+        $scope.checkout = function(amnt, deliveryType, tips) {
+                //alert(deliveryType);
                 var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
                 // UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
                 //         $scope.cc = response.data[0];
@@ -377,38 +630,39 @@ angular.module('app.controllers', [])
                     //alert(time);
                     var orderNo = time.toString();
                     orderNo = Number(orderNo.substring(4));
-                    $scope.confirmationCode=time.toString().substring(9);
+                    $scope.confirmationCode = time.toString().substring(9);
                     $scope.checkOutInfo.orderNo = orderNo;
                     // $scope.checkOutInfo.address = JSON.parse(localStorage.getItem('defaultAddress'));
                     $scope.checkOutInfo.address = $scope.defaultAdrs;
-                    $scope.checkOutInfo.deliveryType=deliveryType;
-                    $scope.foodTotal=$scope.grandTotal;
-                    $scope.grandTotal+=$scope.deliveryCharge;
-                    $scope.checkOutInfo.foodTotal=$scope.foodTotal;
-                    $scope.checkOutInfo.grandTotal=$scope.grandTotal;
+                    $scope.checkOutInfo.deliveryType = deliveryType;
+                    $scope.foodTotal = $scope.grandTotal;
+                    $scope.grandTotal += $scope.deliveryCharge;
+                    $scope.checkOutInfo.foodTotal = $scope.foodTotal;
+                    $scope.checkOutInfo.grandTotal = $scope.grandTotal;
                     //$scope.checkOutInfo.tips=tips;
-                    $scope.checkOutInfo.deliveryCharge=$scope.deliveryCharge;
-                    $scope.checkOutInfo.tips=$scope.tipsPercent;
-                    $scope.checkOutInfo.confirmationCode=$scope.confirmationCode;
+                    $scope.checkOutInfo.deliveryCharge = $scope.deliveryCharge;
+                    $scope.checkOutInfo.tips = $scope.tipsPercent;
+                    $scope.checkOutInfo.confirmationCode = $scope.confirmationCode;
+                    $scope.checkOutInfo.userinfo = userInfo;
                     //alert(JSON.stringify($scope.checkOutInfo));
                     console.log($scope.checkOutInfo);
-                    // $http.post("https://savor365.com/api/orderInfo",$scope.checkOutInfo).then(function(response){
-                    // 	alert(JSON.stringify(response));
-                    // });
+
 
                     ////////////////////////////
-						$http({
-						method: 'POST',
-						url: 'https://savor365.com/api/orderInfo',
-						headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-						data:$scope.checkOutInfo
+                    $http({
+                        method: 'POST',
+                        url: 'https://savor365.com/api/orderInfo',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        data: $scope.checkOutInfo
 
 
-						}).then(function (data) 
-						{
-						//alert(JSON.stringify(data));
-						console.log(data);
-						});
+                    }).then(function(data) {
+                        //alert(JSON.stringify(data));
+                        console.log(data);
+                        localStorage.removeItem('cartInfo');
+                    });
                     /////////////////////////////
 
                 }
@@ -419,11 +673,13 @@ angular.module('app.controllers', [])
 
 .controller('myProfileCtrl', function($scope) {
 
-    })
+})
 
 .controller('myAccountCtrl', function($scope, $ionicLoading, $ionicModal, UsersFactory) {
     //alert('holaa');
     var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
+
+    console.log(userInfo);
 
     UsersFactory.getUserInfo(userInfo[0].cus_email).then(function(response) {
         $scope.user = response.data[0];
@@ -433,7 +689,7 @@ angular.module('app.controllers', [])
 })
 
 .controller('addressesCtrl', function($scope, $ionicLoading, $ionicModal, UsersFactory, $ionicPopup, $state) {
-//alert('holaaa');
+    //alert('holaaa');
     var user = JSON.parse(window.localStorage['loggedInUserInofos']);
 
     UsersFactory.getAddresses(user[0].cus_id).then(function(response) {
@@ -442,29 +698,30 @@ angular.module('app.controllers', [])
 
 
     $scope.saveAddress = function(address) {
-    	//alert(JSON.stringify(address));
+        //alert(JSON.stringify(address));
 
+        return;
         $ionicLoading.show({
             template: 'Saving into savor365 database.'
         });
 
         UsersFactory.addressSave(user[0].cus_id, address).then(function(response) {
             $scope.address = response.data;
-         //    var newAddress={addrs:address.line1+' '+address.line2,
-    					// country:'USA',
-    					// cus_id:user[0].cus_id,
-    					// id:-1,
-    					// phone:address.phone,
-    					// state:address.state,
-    					// town:address.city,
-    					// zip_code:address.zipcode};
-           // alert(JSON.stringify($scope.address));
+            //    var newAddress={addrs:address.line1+' '+address.line2,
+            // country:'USA',
+            // cus_id:user[0].cus_id,
+            // id:-1,
+            // phone:address.phone,
+            // state:address.state,
+            // town:address.city,
+            // zip_code:address.zipcode};
+            // alert(JSON.stringify($scope.address));
             //$scope.addresses.push(newAddress);
             $ionicLoading.hide();
             $scope.closeModal();
-    	 UsersFactory.getAddresses(user[0].cus_id).then(function(response) {
-	        $scope.addresses = response.data;
-	    });
+            UsersFactory.getAddresses(user[0].cus_id).then(function(response) {
+                $scope.addresses = response.data;
+            });
             $ionicPopup.alert({
                 title: 'Success!',
                 template: 'Successfully saved'
@@ -527,12 +784,8 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('currentOrderCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory) {
-
-
-})
-
 .controller('paymentCtrl', function($scope, $ionicLoading, $ionicModal, $ionicPopup, $state, UsersFactory) {
+
 
     var user = JSON.parse(window.localStorage['loggedInUserInofos']);
 
@@ -546,29 +799,51 @@ angular.module('app.controllers', [])
     // End of call
 
     $scope.savePaymentInfos = function(payment) {
-            $ionicLoading.show({
-                template: 'Saving into savor365 database.'
-            });
+            if (!$scope.invalidNumber) {
+                /////////////////////////
+                // $(function() {
+                //$('#ccnum').validateCreditCard(function(result) {
+                // alert(JSON.stringify(result.valid));
+                //  if(!result.valid){
+                // alert("Please insert valid card number");
+                //  $scope.invalidNumber=true;
+                //   return;
+                //   }
+                //   else{
+                //  alert(JSON.stringify(payment));
+                //////////////////////////
+                $ionicLoading.show({
+                    template: 'Saving into savor365 database.'
+                });
 
-            UsersFactory.paymentInfoSave(payment, user[0].cus_id).then(function(response) {
-                $scope.payment = response.data;
-                console.log($scope.payment);
-                $ionicLoading.hide();
-                $scope.closeModal();
-                $ionicPopup.alert({
-                    title: 'Success!',
-                    template: 'Successfully saved'
+                UsersFactory.paymentInfoSave(payment, user[0].cus_id).then(function(response) {
+                    $scope.payment = response.data;
+                    console.log($scope.payment);
+                    $ionicLoading.hide();
+                    $scope.closeModal();
+                    $ionicPopup.alert({
+                        title: 'Success!',
+                        template: 'Successfully saved'
+                    });
+                    $state.go("app.payment");
+                }, function(error) {
+                    $ionicLoading.hide();
+                    $scope.closeModal();
+                    $ionicPopup.alert({
+                        title: 'Error!',
+                        template: 'Opps.. something wrong'
+                    });
+                    console.log("eror in payment saving" + error);
                 });
-                $state.go("app.payment");
-            }, function(error) {
-                $ionicLoading.hide();
-                $scope.closeModal();
-                $ionicPopup.alert({
-                    title: 'Error!',
-                    template: 'Opps.. something wrong'
-                });
-                console.log("eror in payment saving" + error);
-            });
+                //////////////////////////
+                //}
+
+
+                // });
+                // });
+            }
+
+
         }
         // Ionic Modal Configuration
     $ionicModal.fromTemplateUrl('templates/payment/payment-add-modal.html', {
@@ -579,12 +854,26 @@ angular.module('app.controllers', [])
     });
     // Order Modal
     $scope.addNewCardModal = function() {
+
         $scope.modal.show();
+        $('#ccnum').validateCreditCard(function(result) {
+            if (!result.valid) {
+
+                $scope.invalidNumber = true;
+                //alert($scope.invalidNumber);
+            } else {
+
+                $scope.invalidNumber = false;
+                //alert($scope.invalidNumber);
+            }
+        });
+
     };
 
     // Order modal closing function
     $scope.closeModal = function() {
         $scope.modal.hide();
+        $scope.invalidNumber = false;
     };
 
     $scope.$on('$destroy', function() {
@@ -594,8 +883,46 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('inviteFriendsCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory) {
+.controller('inviteFriendsCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory, ngFB, $cordovaSocialSharing) {
 
+    $scope.invitationFB = function(link) {
+        ngFB.login().then(
+            function(response) {
+
+                if (response.status === 'connected') {
+                    (alert)('Facebook Signup succeeded');
+
+                    $scope.shareFB(link);
+
+
+                } else {
+                    (alert)('Facebook Signup failed');
+                }
+            });
+    }
+
+
+    $scope.shareFB = function(link) {
+
+        ngFB.api({
+            method: 'POST',
+            path: '/me/feed',
+            params: {
+                message: 'Welcome to food world',
+                link: link
+            }
+        }).then(
+            function() {
+                (alert)('The session was shared on Facebook');
+            },
+            function() {
+                (alert)('An error occurred while sharing this session on Facebook');
+            });
+    };
+
+    $scope.invitationTwitter = function() {
+        $cordovaSocialSharing.share("This is your message", "This is your subject", "www/imagefile.png", "http://blog.nraboy.com");
+    }
 
 })
 
@@ -604,13 +931,13 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('orderHistoryCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory) {
-
-
-})
-
-.controller('rewardCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory) {
-
+.controller('orderHistoryCtrl', function($scope, $ionicLoading, $ionicModal, $http, FoodFactory) {
+    // console.log(localStorage.getItem('loggedInUserInofos'));
+    var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
+    console.log(userInfo[0].cus_id);
+    $http.get('https://savor365.com/api/orderHistory?cusId=' + Number(userInfo[0].cus_id)).success(function(data) {
+        console.log(data);
+    });
 
 })
 
@@ -619,12 +946,21 @@ angular.module('app.controllers', [])
     function($scope, UsersFactory, $ionicPopup, $state, $rootScope, $timeout, ngFB) {
 
         $scope.logoutMessage = false;
-        $scope.login1=true;
+        $scope.login1 = true;
         $scope.login = function(user) {
             UsersFactory.login(user.email, user.password).then(function(response) {
+                console.log(localStorage.getItem('storeUserId'));
                 var userInfo = response.data;
+                if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
+                    console.log('no match');
+                    localStorage.removeItem('cartInfo');
+                    localStorage.removeItem('defaultAddress');
+                    console.log(localStorage.getItem('cartInfo'));
+                }
+                localStorage.setItem('storeUserId', userInfo[0].cus_id);
                 UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
                     var addresses = response.data;
+
                     for (var i = 0; i < addresses.length; i++) {
                         if (addresses[i].adrs_type == 1) {
                             //alert(addresses[i]);
@@ -641,11 +977,20 @@ angular.module('app.controllers', [])
                 } else {
                     //Saving variables to use later
                     //$rootScope.login = false;
-                    $scope.login1=false;
+                    $scope.login1 = false;
                     window.localStorage['loggedIn'] = "true";
                     window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
                     // without timeout menu ng-show doesn't work
-                    $state.go("app.tabs.search");
+                    //$state.go("app.tabs.searchResult");
+                    if (localStorage.getItem('resId') == null) {
+                        $state.go("app.tabs.searchResult");
+                        $rootScope.login = false;
+                    } else {
+                        $state.go("app.tabs.foods", {
+                            restaurantId: JSON.parse(localStorage.getItem('resId'))
+                        });
+                        $rootScope.login = false;
+                    }
 
                 }
 
@@ -660,10 +1005,10 @@ angular.module('app.controllers', [])
     }
 ])
 
-.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state,UsersFactory, ngFB) {
-	$scope.login1=true;
+.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory, $rootScope, ngFB) {
+    $scope.login1 = true;
     $scope.signUp = function(data) {
-    	$scope.user=data;
+        $scope.user = data;
         SignUpFactory.signup(data).then(function(response) {
             var popup = $ionicPopup.alert({
                 title: 'Success!',
@@ -675,39 +1020,54 @@ angular.module('app.controllers', [])
                     //$state.go("app.login");
                     //////////////////////////////
                     UsersFactory.login($scope.user.email, $scope.user.password).then(function(response) {
-                var userInfo = response.data;
-                UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
-                    var addresses = response.data;
-                    for (var i = 0; i < addresses.length; i++) {
-                        if (addresses[i].adrs_type == 1) {
-                            //alert(addresses[i]);
-                            localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
-                            break;
+                        var userInfo = response.data;
+                        ////////////////////
+                        if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
+                            localStorage.removeItem('cartInfo');
                         }
-                    }
-                });
-                if (userInfo.length == 0) {
-                    $ionicPopup.alert({
-                        title: 'Unsuccessful',
-                        template: 'The email or password mismatched'
+                        localStorage.setItem('storeUserId', userInfo[0].cus_id);
+                        ////////////////////////                        
+                        UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
+                            var addresses = response.data;
+                            for (var i = 0; i < addresses.length; i++) {
+                                if (addresses[i].adrs_type == 1) {
+                                    //alert(addresses[i]);
+                                    localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
+                                    break;
+                                }
+                            }
+                        });
+                        if (userInfo.length == 0) {
+                            $ionicPopup.alert({
+                                title: 'Unsuccessful',
+                                template: 'The email or password mismatched'
+                            });
+                        } else {
+                            //Saving variables to use later
+                            //$rootScope.login = false;
+                            $scope.login1 = false;
+                            window.localStorage['loggedIn'] = "true";
+                            window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
+                            // without timeout menu ng-show doesn't work
+                            if (localStorage.getItem('resId') == null) {
+                                $state.go("app.tabs.searchResult");
+                                $rootScope.login = false;
+                            } else {
+                                $state.go("app.tabs.foods", {
+                                    restaurantId: JSON.parse(localStorage.getItem('resId'))
+                                });
+                                $rootScope.login = false;
+                            }
+
+
+                        }
+
+                    }, function(error) {
+                        $ionicPopup.alert({
+                            title: 'Unsuccessful',
+                            template: 'Opps! there was a problem' + JSON.parse(error)
+                        });
                     });
-                } else {
-                    //Saving variables to use later
-                    //$rootScope.login = false;
-                    $scope.login1=false;
-                    window.localStorage['loggedIn'] = "true";
-                    window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
-                    // without timeout menu ng-show doesn't work
-                    $state.go("app.tabs.search");
-
-                }
-
-            }, function(error) {
-                $ionicPopup.alert({
-                    title: 'Unsuccessful',
-                    template: 'Opps! there was a problem' + JSON.parse(error)
-                });
-            });
                     //////////////////////////////
                 } else {
                     console.log("Do nothing");
