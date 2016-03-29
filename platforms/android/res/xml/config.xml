@@ -25,6 +25,7 @@
     <feature name="Toast">
         <param name="android-package" value="nl.xservices.plugins.Toast" />
     </feature>
+<<<<<<< HEAD
     <preference name="loglevel" value="DEBUG" />
     <feature name="FacebookConnectPlugin">
         <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
@@ -34,6 +35,17 @@
     <access origin="https://api.facebook.com" />
     <access origin="https://*.fbcdn.net" />
     <access origin="https://*.akamaihd.net" />
+=======
+    <name>Savor 365</name>
+    <description>
+        An express food delivery network.
+    </description>
+    <author email="alihayder19@gmail.com" href="http://ahayder.me/">
+      Ali Hayder and Imranul Hasan
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+>>>>>>> 1efb8e20e9043bc63262bf1a344915c169c3f59f
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -52,15 +64,7 @@
     <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
     <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
     <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
-    <name>Savor 365</name>
-    <description>
-        An express food delivery network.
-    </description>
-    <author email="alihayder19@gmail.com" href="http://ahayder.me/">
-      Ali Hayder and Imranul Hasan
-    </author>
-    <content src="index.html" />
-    <access origin="*" />
+    <preference name="loglevel" value="DEBUG" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
