@@ -885,44 +885,51 @@ angular.module('app.controllers', [])
 
 .controller('inviteFriendsCtrl', function($scope, $ionicLoading, $ionicModal, FoodFactory, ngFB, $cordovaSocialSharing) {
 
-    $scope.invitationFB = function(link) {
-        ngFB.login().then(
-            function(response) {
 
-                if (response.status === 'connected') {
-                    (alert)('Facebook Signup succeeded');
+    // $scope.invitationFB = function(link) {
+    //     ngFB.login().then(
+    //         function(response) {
 
-                    $scope.shareFB(link);
+    //             if (response.status === 'connected') {
+    //                 (alert)('Facebook Signup succeeded');
 
-
-                } else {
-                    (alert)('Facebook Signup failed');
-                }
-            });
-    }
+    //                 $scope.shareFB(link);
 
 
-    $scope.shareFB = function(link) {
+    //             } else {
+    //                 (alert)('Facebook Signup failed');
+    //             }
+    //         });
+    // }
 
-        ngFB.api({
-            method: 'POST',
-            path: '/me/feed',
-            params: {
-                message: 'Welcome to food world',
-                link: link
-            }
-        }).then(
-            function() {
-                (alert)('The session was shared on Facebook');
-            },
-            function() {
-                (alert)('An error occurred while sharing this session on Facebook');
-            });
-    };
+
+    // $scope.shareFB = function(link) {
+
+    //     ngFB.api({
+    //         method: 'POST',
+    //         path: '/me/feed',
+    //         params: {
+    //             message: 'Welcome to food world',
+    //             link: link
+    //         }
+    //     }).then(
+    //         function() {
+    //             (alert)('The session was shared on Facebook');
+    //         },
+    //         function() {
+    //             (alert)('An error occurred while sharing this session on Facebook');
+    //         });
+    // };
+
+
+    // $scope.invitationTwitter = function() {
+    //     $cordovaSocialSharing.share("This is your message", "This is your subject", "www/imagefile.png", "http://blog.nraboy.com");
+    // }
 
     $scope.invitationTwitter = function() {
         $cordovaSocialSharing.share("This is your message", "This is your subject", "www/imagefile.png", "http://blog.nraboy.com");
     }
+
 
 })
 
@@ -942,39 +949,49 @@ angular.module('app.controllers', [])
 })
 
 // Login/Signup     
-.controller('loginCtrl', ['$scope', 'UsersFactory', '$ionicPopup', '$state', '$rootScope', '$timeout', 'ngFB',
-    function($scope, UsersFactory, $ionicPopup, $state, $rootScope, $timeout, ngFB) {
+.controller('loginCtrl', ['$scope', 'UsersFactory', '$ionicPopup', '$state', '$rootScope', '$timeout',
+    function($scope, UsersFactory, $ionicPopup, $state, $rootScope, $timeout) {
 
         $scope.logoutMessage = false;
         $scope.login1 = true;
         $scope.login = function(user) {
-            UsersFactory.login(user.email, user.password).then(function(response) {
-                console.log(localStorage.getItem('storeUserId'));
-                var userInfo = response.data;
-                if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
-                    console.log('no match');
-                    localStorage.removeItem('cartInfo');
-                    localStorage.removeItem('defaultAddress');
-                    console.log(localStorage.getItem('cartInfo'));
-                }
-                localStorage.setItem('storeUserId', userInfo[0].cus_id);
-                UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
-                    var addresses = response.data;
 
-                    for (var i = 0; i < addresses.length; i++) {
-                        if (addresses[i].adrs_type == 1) {
-                            //alert(addresses[i]);
-                            localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
-                            break;
-                        }
-                    }
-                });
+            UsersFactory.login(user.email, user.password).then(function(response) {
+                //console.log(localStorage.getItem('storeUserId'));
+                var userInfo = response.data;
+
                 if (userInfo.length == 0) {
                     $ionicPopup.alert({
                         title: 'Unsuccessful',
                         template: 'The email or password mismatched'
                     });
                 } else {
+
+                    if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
+                        
+                        console.log('no match');
+                        localStorage.removeItem('cartInfo');
+                        localStorage.removeItem('defaultAddress');
+                        console.log(localStorage.getItem('cartInfo'));
+                    
+                    }
+                    
+                    localStorage.setItem('storeUserId', userInfo[0].cus_id);
+                    
+                    UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
+                    
+                        var addresses = response.data;
+
+                        for (var i = 0; i < addresses.length; i++) {
+                            if (addresses[i].adrs_type == 1) {
+                                //alert(addresses[i]);
+                                localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
+                                break;
+                            }
+                        }
+
+                    });
+                    
                     //Saving variables to use later
                     //$rootScope.login = false;
                     $scope.login1 = false;
@@ -986,7 +1003,9 @@ angular.module('app.controllers', [])
                         $state.go("app.tabs.searchResult");
                         $rootScope.login = false;
                     } else {
-                        $state.go("app.tabs.foods", {
+
+                        $state.go("app.tabs.searchResult", {
+
                             restaurantId: JSON.parse(localStorage.getItem('resId'))
                         });
                         $rootScope.login = false;
@@ -1005,7 +1024,8 @@ angular.module('app.controllers', [])
     }
 ])
 
-.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory, $rootScope, ngFB) {
+.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory, $rootScope, $cordovaFacebook) {
+
     $scope.login1 = true;
     $scope.signUp = function(data) {
         $scope.user = data;
@@ -1083,34 +1103,38 @@ angular.module('app.controllers', [])
     }
 
     $scope.fbSignUp = function() {
-        // {scope: 'email,user_friends,publish_actions,public_profile'}
-        ngFB.login().then(
-            function(response) {
-                if (response.status === 'connected') {
-                    // alert('Facebook Signup succeeded');
-                    ngFB.api({
-                        path: '/me',
-                        params: {
-                            fields: 'id,name,email'
-                        }
-                    }).then(
-                        function(user) {
-                            $scope.data = user;
+        $scope.data={};
+        $cordovaFacebook.login(["public_profile", "email", "user_friends","publish_actions"])
+            .then(function(success) {
+                // console.log(success);
+                ////////////////////
+                $cordovaFacebook.api("me?fields=name,email")
+                    .then(function(success) {
+                      console.log(success.name);
+                      $scope.data.name=success.name;
+                      $scope.data.email=success.email;
+                      // **********Facebook Post**********
+                        // var options = {
+                        // method: 'feed',
+                        // link: 'http://loookz.com:3000/',
+                        // caption: 'An example caption',
+                        // };
+                        // $cordovaFacebook.showDialog(options)
+                        // .then(function(success) {
+                        // console.log(success);
+                        // }, function (error) {
+
+                        // });                       
+                        // **********Facebook Post End**********
                         },
-                        function(error) {
-                            $ionicPopup.alert({
-                                title: 'Error',
-                                template: 'The login was not successful for this reason ' + error.error_description
-                            });
-                            //alert('Facebook error: ' + error.error_description);
-                        });
+                         function (error) {
 
-                } else {
-                    $cordovaToast.showLongBottom('Facebook Signup failed.');
-                    //alert('Facebook Signup failed');
-                }
+                        });      
+                                            
+                //////////////////////                
+            }, function(error) {
+                // error
             });
-
     }
 
 

@@ -184,13 +184,13 @@ android {
     if (Boolean.valueOf(cdvBuildMultipleApks)) {
         productFlavors {
             armv7 {
-                versionCode cdvVersionCode ?: defaultConfig.versionCode + 2
+                versionCode defaultConfig.versionCode + 2
                 ndk {
                     abiFilters "armeabi-v7a", ""
                 }
             }
             x86 {
-                versionCode cdvVersionCode ?: defaultConfig.versionCode + 4
+                versionCode defaultConfig.versionCode + 4
                 ndk {
                     abiFilters "x86", ""
                 }
@@ -245,6 +245,8 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     debugCompile project(path: "CordovaLib", configuration: "debug")
     releaseCompile project(path: "CordovaLib", configuration: "release")
+    debugCompile project(path: "phonegap-facebook-plugin:FacebookLib", configuration: "debug")
+    releaseCompile project(path: "phonegap-facebook-plugin:FacebookLib", configuration: "release")
     // SUB-PROJECT DEPENDENCIES END
 }
 

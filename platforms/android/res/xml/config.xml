@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.savor365.www" version="0.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.savor365.www" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
@@ -25,8 +26,6 @@
     <feature name="Toast">
         <param name="android-package" value="nl.xservices.plugins.Toast" />
     </feature>
-<<<<<<< HEAD
-    <preference name="loglevel" value="DEBUG" />
     <feature name="FacebookConnectPlugin">
         <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
     </feature>
@@ -35,17 +34,6 @@
     <access origin="https://api.facebook.com" />
     <access origin="https://*.fbcdn.net" />
     <access origin="https://*.akamaihd.net" />
-=======
-    <name>Savor 365</name>
-    <description>
-        An express food delivery network.
-    </description>
-    <author email="alihayder19@gmail.com" href="http://ahayder.me/">
-      Ali Hayder and Imranul Hasan
-    </author>
-    <content src="index.html" />
-    <access origin="*" />
->>>>>>> 1efb8e20e9043bc63262bf1a344915c169c3f59f
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -64,7 +52,15 @@
     <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
     <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
     <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
-    <preference name="loglevel" value="DEBUG" />
+    <name>Savor 365</name>
+    <description>
+        An express food delivery network.
+    </description>
+    <author email="alihayder19@gmail.com" href="http://ahayder.me/">
+      Ali Hayder and Imranul Hasan
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
@@ -72,4 +68,5 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
+    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
 </widget>
