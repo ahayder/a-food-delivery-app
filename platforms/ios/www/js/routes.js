@@ -135,16 +135,6 @@ angular.module('app.routes', [])
       }
     })
 
-    // .state('app.tabs.search', {
-    //   url: '/search',
-    //   views: {
-    //     'search-tab': {
-    //       templateUrl: 'templates/search/search.html',
-    //       controller: 'searchCtrl'
-    //     }
-    //   }
-    // })
-
     .state('app.tabs.searchResult', {
       url: '/searchResult',
       views: {

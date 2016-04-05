@@ -17,11 +17,6 @@ angular.module('app', ['ionic', 'app.foodCtrl', 'app.controllers', 'app.routes',
   });
 })
 
-.config(function($cordovaFacebookProvider) {
-    var appID = 577646735745723;
-    var version = "v2.5"; // or leave blank and default is v2.0
-    $cordovaFacebookProvider.browserInit(appID, version);
-})
 // Capitalize the first character
 .filter('capitalize', function() {
   return function(input, scope) {

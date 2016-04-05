@@ -7,16 +7,10 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.ionicframework.starter"
+        },
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "com.ionicframework.starter"
         },
         "cordova-plugin-whitelist": {
@@ -25,16 +19,8 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.starter"
         },
-        "cordova-plugin-inappbrowser": {
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "cordova-plugin-x-toast": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "phonegap-facebook-plugin": {
-            "APP_ID": "577646735745723",
-            "APP_NAME": "savor365",
-            "PACKAGE_NAME": "com.savor365.www"
         }
     },
     "dependent_plugins": {}

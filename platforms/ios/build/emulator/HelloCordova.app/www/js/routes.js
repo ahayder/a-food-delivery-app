@@ -27,6 +27,7 @@ angular.module('app.routes', [])
 
     .state('app.addresses', {
       url: '/addresses',
+      cache:false,
       views: {
         'side-menu': {
           templateUrl: 'templates/address/addresses.html',
@@ -43,16 +44,6 @@ angular.module('app.routes', [])
         'side-menu': {
           templateUrl: 'templates/address/address.html',
           controller: 'addressCtrl'
-        }
-      }
-    })
-
-    .state('app.current-order', {
-      url: '/current-order',
-      views: {
-        'side-menu': {
-          templateUrl: 'templates/current-order.html',
-          controller: 'currentOrderCtrl'
         }
       }
     })
@@ -99,20 +90,11 @@ angular.module('app.routes', [])
 
     .state('app.order-history', {
       url: '/order-history',
+      cache:false,
       views: {
         'side-menu': {
           templateUrl: 'templates/order-history.html',
           controller: 'orderHistoryCtrl'
-        }
-      }
-    })
-
-    .state('app.reward', {
-      url: '/reward',
-      views: {
-        'side-menu': {
-          templateUrl: 'templates/reward.html',
-          controller: 'rewardCtrl'
         }
       }
     })
@@ -153,16 +135,6 @@ angular.module('app.routes', [])
       }
     })
 
-    .state('app.tabs.search', {
-      url: '/search',
-      views: {
-        'search-tab': {
-          templateUrl: 'templates/search/search.html',
-          controller: 'searchCtrl'
-        }
-      }
-    })
-
     .state('app.tabs.searchResult', {
       url: '/searchResult',
       views: {
@@ -185,24 +157,22 @@ angular.module('app.routes', [])
     })
 
 
-    .state('app.tabs.order', {
-      url: '/order',
-      views: {
-        'order-tab': {
-          templateUrl: 'templates/order.html',
-          controller: 'orderCtrl'
-        }
-      }
-    })
-        
-      
-        
+    // .state('app.tabs.order', {
+    //   url: '/order',
+    //   views: {
+    //     'order-tab': {
+    //       templateUrl: 'templates/order.html',
+    //       controller: 'orderCtrl'
+    //     }
+    //   }
+    // })
     .state('app.tabs.cart', {
       url: '/cart',
+      cache: false,
       views: {
         'cart-tab': {
           templateUrl: 'templates/cart.html',
-          controller: 'cartCtrl'
+           controller: 'cartCtrl'
         }
       }
     });
@@ -210,6 +180,6 @@ angular.module('app.routes', [])
     
 
   // if none of the above states are matched, use this as the fallback
-   $urlRouterProvider.otherwise('/app/login');
+   $urlRouterProvider.otherwise('app/tabs/searchResult');
 
 });

@@ -15,3 +15,28 @@
 .scroll {
     height: 100%;
 }
+
+.search-card {
+	margin: -11px -11px 10px -11px !important;
+}
+
+.search-input-box {
+	background-color: white !important;
+	border-radius: 3px;
+}
+
+.ion-search {
+	color: white !important;
+}
+
+/*.res-logo {
+	border: 1px dashed #ed143d;
+	padding: 2px !important;
+	border-radius: 3px;
+
+}*/
+
+.res-info-box {
+	border: 2px dashed #ed143d;
+
+}

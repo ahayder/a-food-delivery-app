@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.savor365.www" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Savor 365</name>
+<widget id="com.savor365.www" version="0.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Savor365</name>
   <description>
-        An express food delivery network.
+      Savor365 User App
     </description>
-  <author email="alihayder19@gmail.com" href="http://ahayder.me/">
-      Ali Hayder and Imranul Hasan
+  <author email="alihayder@gmailcom" href="http://ahayder.me/">
+      N. M. Ali Hayder and Imranul Hasan
     </author>
   <content src="index.html"/>
   <access origin="*"/>

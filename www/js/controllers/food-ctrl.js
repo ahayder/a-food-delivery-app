@@ -114,9 +114,9 @@ angular.module('app.foodCtrl', [])
                       
                       // **********Facebook Post**********
                         var options = {
-                        method: 'feed',
-                        link: 'https://savor365.com/',
-                        caption: foodName,
+                            method: 'feed',
+                            link: 'https://savor365.com/',
+                            caption: foodName
                         };
                         $cordovaFacebook.showDialog(options)
                         .then(function(success) {
@@ -134,7 +134,8 @@ angular.module('app.foodCtrl', [])
             }, function(error) {
                 // error
             });
-  	}
+  	};
+
   	$scope.share = function (foodName) {
   
     // ngFB.api({
@@ -150,7 +151,7 @@ angular.module('app.foodCtrl', [])
     //     function () {
     //         (alert)('An error occurred while sharing this session on Facebook');
     //     });
-};
+    };
 
   	$scope.$on('$destroy', function() {
   		$scope.disableCartButton=true;
@@ -183,7 +184,7 @@ angular.module('app.foodCtrl', [])
 			}
 		}
     	
-	}
+	};
 
 
 	// for Increasing and Decreasing Qty

@@ -16,7 +16,7 @@ angular.module('app.services', [])
 			return $http.get("https://savor365.com/api/userAddresses?cusId=" + cusId);
 		},
 		addressSave: function(id, address){
-			return $http.get("https://savor365.com/api/saveAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&zipcode="+address.zipcode);
+			return $http.get("https://savor365.com/api/saveAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode);
 		},
 		saveAddressForNextState: function(addrs){
 			result = addrs;
@@ -86,27 +86,38 @@ angular.module('app.services', [])
 
 .factory('CartFactory',['$http', function($http) {
 
-	
+	var storage=[];
 
 	return {
 		saveIntoCart: function(cartData){
-
-			if(window.localStorage['cartInfo'] != ""){
-				var storage = [];
-				storage = JSON.parse(window.localStorage['cartInfo']);
+			if(localStorage.getItem('cartInfo')==null){
+				localStorage.setItem('cartInfo',[]);
+				storage=[];
+			
+			}
+			if(localStorage.getItem('cartInfo').length>0){
+				storage = JSON.parse(localStorage.getItem('cartInfo'));
 				storage.push(cartData);
-				window.localStorage['cartInfo'] = JSON.stringify(storage);
+				localStorage.setItem('cartInfo',JSON.stringify(storage));
 			}
 			else{
-				var storage = [];
+				
 				storage.push(cartData);
-				window.localStorage['cartInfo'] = JSON.stringify(storage);
+				localStorage.setItem('cartInfo',JSON.stringify(storage));
 			}
 			
 			
 		},
 		getCartInfo: function(){
-			return JSON.parse(window.localStorage['cartInfo'] || false);
+			//return JSON.parse(window.localStorage['cartInfo'] || false);
+			if(localStorage.getItem('cartInfo')==""){
+				localStorage.setItem('cartInfo',[]);
+				return;
+			}
+			if(JSON.stringify(localStorage.getItem('cartInfo'))!=""){
+				storage=JSON.parse(localStorage.getItem('cartInfo'));
+			}
+			return storage;
 		},
 		makePayment: function(amnt, cardNum, cvv, expDate){
 			var invNum = 10001;
@@ -135,4 +146,16 @@ angular.module('app.services', [])
     }
   }
 }]);
+
+// .factory('ResId',function(){
+// 	var resId=-1;
+// 	return{
+// 		setResId:function(resId){
+// 			resId=resId;
+// 		},
+// 		getResId:function(){
+// 			resId=resId;
+// 		}
+// 	}
+// });
 
