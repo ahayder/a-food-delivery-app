@@ -29,7 +29,7 @@
 	color: white !important;
 }
 
-.ion-levels {
+.ion-fork {
 	color: white !important;
 }
 
@@ -87,4 +87,14 @@ img.savorLogo
     -webkit-animation-duration:         10s; 
     -webkit-animation-iteration-count:  infinite;
     -webkit-animation-timing-function: linear;
+}
+
+.sort-title{
+	margin-top: -25px;
+	color: white !important;
+	font-size: xx-small !important;
+}
+
+.sort-button{
+	border-left: 2px solid #FF8C00 !important;
 }

@@ -1,0 +1,10 @@
+<ion-popover-view>
+    <ion-header-bar>
+		<h1 class="title">Cuisines</h1>
+    </ion-header-bar>
+    <ion-content>
+		<ion-list ng-repeat="cuisine in cuisines">
+			<ion-item ng-click="closePopover()">{{cuisine.cuisine_name}}</ion-item>
+		</ion-list>
+    </ion-content>
+</ion-popover-view>
