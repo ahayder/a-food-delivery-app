@@ -1,5 +1,5 @@
 
-angular.module('app', ['ionic', 'app.foodCtrl', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova','ngOpenFB'])
+angular.module('app', ['ionic', 'app.foodCtrl', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova','ngOpenFB','google.places'])
 
 .run(function($ionicPlatform,ngFB) {
    ngFB.init({appId: '577646735745723'});
