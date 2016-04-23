@@ -1,7 +1,8 @@
 
-angular.module('app', ['ionic', 'app.foodCtrl', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova'])
+angular.module('app', ['ionic', 'app.foodCtrl', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova','ngOpenFB'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,ngFB) {
+   ngFB.init({appId: '577646735745723'});
   $ionicPlatform.ready(function(LocalStorageFactory) {
 
     if(window.cordova && window.cordova.plugins.Keyboard) {

@@ -1,8 +1,9 @@
 <ion-view title="Search Result">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list>
-            <ion-item class="item" ng-repeat="food in foods" ng-click="orderModal(food)">
-                <h2>{{food.food_name}}</h2>
+            <ion-item class="item item-icon-left" ng-repeat="food in foods" ng-click="orderModal(food)">
+                <i class="icon ion-chevron-right assertive"></i>
+                {{food.food_name}}
             </ion-item>
         </ion-list>
     </ion-content>

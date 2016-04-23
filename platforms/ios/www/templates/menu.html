@@ -13,17 +13,32 @@
             <div class="title">Menu</div>
         </ion-header-bar>
         <ion-content padding="false" class="side-menu-left has-header">
+            <div id="menu-layer-two">
+                <img src="img/icon.png" width="100" height="100">
+                <h3>Savor 365</h3>
+                <!-- <h6>proshonna.nabila@gmail.com</h6> -->
+            </div>
             <ion-list>
-                <ion-item href="#/app/tabs/search" ng-hide="login" menu-close="">Home</ion-item>
-                <ion-item href="#/app/my-account" ng-hide="login" menu-close="">My Account</ion-item>
-                <ion-item href="#/app/addresses" ng-hide="login" menu-close="">Address</ion-item>
-                <ion-item href="#/app/payment" ng-hide="login" menu-close="">Payment Info</ion-item>
-                <ion-item href="#/app/order-history" ng-hide="login" menu-close="">Order History</ion-item>
-                <ion-item href="#/app/invite-friends" ng-hide="login" menu-close="">Invite Friends</ion-item>
-                <ion-item href="#/app/favourite" ng-hide="login" menu-close="">Favourite</ion-item>
-                <ion-item href="#/app/login" ng-hide="!login" menu-close="">Login</ion-item>
-                <ion-item href="#/app/signup" ng-hide="!login" menu-close="">Sign Up</ion-item>
-                <ion-item ng-click="logout()" ng-hide="login" menu-close="">Logout</ion-item>
+                <ion-item class="main-menu" href="#/app/tabs/search" ng-hide="login" menu-close=""><i class="icon ion-ios-home-outline"> Home</i></ion-item>
+
+                <ion-item class="main-menu" href="#/app/my-account" ng-hide="login" menu-close=""><i class="icon ion-ios-information-outline"> My Account</i></ion-item>
+
+                <ion-item class="main-menu" href="#/app/addresses" ng-hide="login" menu-close=""><i class="icon ion-ios-location-outline"> Address</i></ion-item>
+
+                <ion-item class="main-menu" href="#/app/payment" ng-hide="login" menu-close=""><i class="icon ion-card"> Payment Info</i></ion-item>
+
+                <ion-item class="main-menu" href="#/app/order-history" ng-hide="login" menu-close=""><i class="icon ion-ios-list-outline"> Order History</i></ion-item>
+
+                <ion-item class="main-menu" href="#/app/invite-friends" ng-hide="login" menu-close=""><i class="icon ion-speakerphone"> Invite Friends</i></ion-item>
+
+                <ion-item class="main-menu" href="#/app/favourite" ng-hide="login" menu-close=""><i class="icon ion-android-favorite-outline"> Favourite</i></ion-item>
+
+                <ion-item class="main-menu" href="#/app/login" ng-hide="!login" menu-close=""><i class="icon ion-log-in"> Login</i></ion-item>
+
+                <ion-item class="main-menu" href="#/app/signup" ng-hide="!login" menu-close=""><i class="icon ion-person-add"> Sign Up</i></ion-item>
+
+                <ion-item class="main-menu" ng-click="logout()" ng-hide="login" menu-close=""><i class="icon ion-log-out"> Logout</i></ion-item>
+
             </ion-list>
         </ion-content>
     </ion-side-menu>

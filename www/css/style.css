@@ -29,6 +29,10 @@
 	color: white !important;
 }
 
+.ion-levels {
+	color: white !important;
+}
+
 /*.res-logo {
 	border: 1px dashed #ed143d;
 	padding: 2px !important;
@@ -39,4 +43,48 @@
 .res-info-box {
 	border: 2px dashed #ed143d;
 
+}
+
+#menu-layer-two{
+	margin-top: -12px;
+	text-align: center;
+	padding: 20px 0;
+	color: white;
+}
+
+.bg{
+	background: url("../img/bg.png");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+
+}
+
+.main-menu{
+	color: #FC516B;
+}
+
+.logo-image{
+	text-align: center;
+}
+
+/* Logo Rotating */
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to { 
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+img.savorLogo
+{
+	max-height: 100px;
+    -webkit-animation-name:             rotate; 
+    -webkit-animation-duration:         10s; 
+    -webkit-animation-iteration-count:  infinite;
+    -webkit-animation-timing-function: linear;
 }

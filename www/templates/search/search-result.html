@@ -3,14 +3,20 @@
 
         <div class="card search-card">
            
-            <div class="item item-input-inset item-assertive">
+            <div class="item item-input-inset item-dark">
                 <label class="item-input-wrapper search-input-box">
                   <input type="text" placeholder="Enter Your Zip Code" ng-model="zipcode">
                 </label>
                 <button class="button button-clear" ng-click="searchByZipCode(zipcode)">
                        <i class="icon ion-search"></i>
-                    </button> 
-              </div>           
+                </button>
+                <button class="button button-clear">
+                       <i class="icon ion-levels"></i>
+                </button>
+                <button class="button button-clear">
+                       <i class="icon ion-search"></i>
+                </button> 
+            </div>           
            
         </div>
 
@@ -19,13 +25,13 @@
 
             <ion-item class="item-thumbnail-left res-info-box" collection-repeat="restaurant in searchResult" ui-sref="app.tabs.foods({restaurantId: restaurant.res_id})">
                     <img class="res-logo" ng-src="https://savor365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
-                    <h2>{{restaurant.res_name}}</h2>
+                    <h2 class="assertive">{{restaurant.res_name}}</h2>
                     <ul>
-                        <li><i class="ion ion-ios-telephone"></i> {{restaurant.phone}}</li>
-                        <li><i class="ion ion-ios-location"></i> {{restaurant.res_town}}, {{restaurant.res_county}}, {{restaurant.res_zipcode}}</li>
-                        <li>Delivery Fee : $0.00</li>
-                        <li>Min Delivery : $0.00</li>
-                        <li>Delivery Time :45-60 min</li>
+                        <li><i class="icon ion-ios-telephone assertive"></i> {{restaurant.phone}}</li>
+                        <li><i class="icon ion-ios-location assertive"></i> {{restaurant.res_town}}, {{restaurant.res_county}}, {{restaurant.res_zipcode}}</li>
+                        <li><i class="icon ion-bag assertive"></i> Delivery Fee : $0.00</li>
+                        <li><i class="icon ion-bag assertive"></i> Min Delivery : $0.00</li>
+                        <li><i class="icon ion-clock assertive"></i> Delivery Time :45-60 min</li>
                     </ul>
 
                 

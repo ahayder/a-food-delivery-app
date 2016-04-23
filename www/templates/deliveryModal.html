@@ -1,11 +1,11 @@
 <ion-modal-view>
-    <ion-header-bar class="bar bar-positive">
+    <ion-header-bar class="bar bar-assertive">
         <h1 class="title">Delivery</h1>
     </ion-header-bar>
 
     <ion-content class="padding">
     <div class="card" ng-show='boolAddNewAddress'>
-            <div class="item item-divider">Add New Address</div>
+            <div class="item item-divider item-assertive">Add New Address</div>
             <div class="item item-text-wrap">
                 <div class="card list">
                 <form name="myform">
@@ -42,7 +42,7 @@
         <button class="button button-dark button-block button-large" ng-click="addAddressDiv()">
         Change Shipping Address</button>
         <div class="card">
-            <div class="item item-divider">Your Default Shipping Address</div>
+            <div class="item item-divider item-assertive">Your Default Shipping Address</div>
             <div class="item item-text-wrap">
                 <p>Address: {{defaultAdrs.addrs}}</p>
                 <p>State: {{defaultAdrs.state}}</p>
@@ -55,7 +55,7 @@
         </div>
 
         <div class="card">
-            <div class="item item-divider">Your Shipping Type</div>
+            <div class="item item-divider item-assertive">Your Shipping Type</div>
             <div class="item item-text-wrap">
             
             <ion-list>
@@ -70,14 +70,6 @@
         <div class="item item-text-wrap">
            <h2>Delivery Charge ${{deliveryCharge}}</h2>
            <br>
-           <!-- <h2>Tips</h2> -->
-            <!-- <label class="item item-input">
-                <input type="number" ng-model="tips" placeholder="Tips">%
-            </label> -->
-           <!--  Tips: ${{tipsPercent}}<br>
-            <a class="button button-positive" ng-click="setTipsPercent(-1)">-</a>  
-            <a class="button">{{tips}}%</a> 
-            <a class="button button-positive" ng-click="setTipsPercent(+1)">+</a> -->
          </div> 
          <!-- ////////////////////// -->
          <div class="row">
@@ -86,17 +78,17 @@
                 </div>
                 <div class="col">
                     <div class="button-bar">
-                      <a class="button button-positive" ng-click="setTipsPercent(-1)">-</a>  
+                      <a class="button button-dark" ng-click="setTipsPercent(-1)">-</a>  
                         <a class="button">{{tips}}%</a> 
-                        <a class="button button-positive" ng-click="setTipsPercent(+1)">+</a>
+                        <a class="button button-assertive" ng-click="setTipsPercent(+1)">+</a>
                     </div>
                 </div>
             </div>
          <!-- ///////////////////////   -->
-         <button class="button button-dark button-block button-large icon ion-cash" 
+         <button class="button button-assertive button-block button-large" 
         ng-click="checkout(.01,deliveryType,tips)" ng-disabled='disableCheckOut'>
         Checkout</button>
-        <button class="button button-assertive button-block button-large" ng-click="closeModal()">
+        <button class="button button-calm button-block button-large" ng-click="closeModal()">
         Cancel</button>
         </div>
       

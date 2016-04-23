@@ -3,7 +3,7 @@
 // user infos into this locastorage window.localStorage['loggedInUserInofos']
 angular.module('app.controllers', [])
 
-.controller('appCtrl', ['$scope', '$state', '$rootScope', 'UsersFactory' , function($scope, $state, $rootScope, UsersFactory) {
+.controller('appCtrl', ['$scope', '$state', '$rootScope', 'UsersFactory', function($scope, $state, $rootScope, UsersFactory) {
 
     // $cordovaStatusbar.overlaysWebView(true);
 
@@ -111,9 +111,9 @@ angular.module('app.controllers', [])
 
                             SearchFactory.saveSearchResult(searchResult);
                             $scope.searchResult = SearchFactory.getSearchResult();
-                        }); 
+                        });
                         $ionicLoading.hide();
-                        
+
                     });
 
                 }, function(err) {
@@ -124,7 +124,7 @@ angular.module('app.controllers', [])
                     console.log("Opps! something wrong here " + err.message);
                     $ionicLoading.hide();
                 });
-            
+
         }
 
         initialization();
@@ -270,261 +270,276 @@ angular.module('app.controllers', [])
                 $ionicLoading.hide();
                 SearchFactory.saveSearchResult(searchResult);
                 $scope.searchResult = SearchFactory.getSearchResult();
-            }); 
-            
+            });
+
         }
 
-            
-}])
+
+    }
+])
 
 
 .controller('orderCtrl', ['$scope', 'FoodFactory', '$ionicModal', '$ionicLoading',
-    function($scope, FoodFactory, $ionicModal, $ionicLoading) {
-        // Getting Foods    
-        var fetchFoods = function() {
-                // show loading
-                $ionicLoading.show({
-                    template: 'Loading...'
-                });
-
-                FoodFactory.getFoods().then(function(foodsResponse) {
-                    var fooods = foodsResponse.data;
-
-                    // For getting the name of the cuisine
-                    FoodFactory.getCuisines().then(function(cuisineResponse) {
-                        var allCuisines = cuisineResponse.data;
-                        for (var i = 0; i < fooods.length; i++) {
-                            for (var j = 0; j < allCuisines.length; j++) {
-                                if (+fooods[i].cuisine_id == +allCuisines[j].id) {
-                                    fooods[i].cuisine_id = allCuisines[j].cuisine_name;
-                                }
-                            }
-                        }
-                        $scope.foods = fooods;
-                        $ionicLoading.hide();
+        function($scope, FoodFactory, $ionicModal, $ionicLoading) {
+            // Getting Foods    
+            var fetchFoods = function() {
+                    // show loading
+                    $ionicLoading.show({
+                        template: 'Loading...'
                     });
 
+                    FoodFactory.getFoods().then(function(foodsResponse) {
+                        var fooods = foodsResponse.data;
 
-                });
+                        // For getting the name of the cuisine
+                        FoodFactory.getCuisines().then(function(cuisineResponse) {
+                            var allCuisines = cuisineResponse.data;
+                            for (var i = 0; i < fooods.length; i++) {
+                                for (var j = 0; j < allCuisines.length; j++) {
+                                    if (+fooods[i].cuisine_id == +allCuisines[j].id) {
+                                        fooods[i].cuisine_id = allCuisines[j].cuisine_name;
+                                    }
+                                }
+                            }
+                            $scope.foods = fooods;
+                            $ionicLoading.hide();
+                        });
+
+
+                    });
+                }
+                // Calling the fetch function when order page loads
+            fetchFoods();
+        }
+    ])
+    // Cart Controller
+    .controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup) {
+
+        // $ionicLoading.show({
+        //     template: 'Loading...'
+        // });
+        $scope.emptyCart = true;
+        var cartInfo = CartFactory.getCartInfo();
+        $scope.resId = localStorage.getItem('resId');
+        if (cartInfo != undefined) {
+            if (cartInfo.length > 0)
+                $scope.emptyCart = false;
+        }
+        //alert(JSON.stringify(cartInfo));
+        var grandTotal = 0;
+
+        if (cartInfo) {
+            $scope.emptyCart = false;
+            var temp = [];
+
+            for (var i = 0; i < cartInfo.length; i++) {
+
+                var food = {
+                    name: cartInfo[i].mainFood.food_name,
+                    size: cartInfo[i].sizeInfo.sizeName,
+                    qty: cartInfo[i].qty,
+                    price: cartInfo[i].totalPrice,
+                    specialInstruction: cartInfo[i].specialInstruction
+                }
+
+                temp.push(food);
+                grandTotal += cartInfo[i].totalPrice;
             }
-            // Calling the fetch function when order page loads
-        fetchFoods();
-    }
-])
-// Cart Controller
-.controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup) {
+            $scope.grandTotal = grandTotal;
+            $scope.foods = temp;
+        } else {}
+        $scope.emptyCart = true;
 
-// $ionicLoading.show({
-//     template: 'Loading...'
-// });
-$scope.emptyCart = true;
-var cartInfo = CartFactory.getCartInfo();
-$scope.resId = localStorage.getItem('resId');
-if (cartInfo != undefined) {
-    if (cartInfo.length > 0)
-        $scope.emptyCart = false;
-}
-//alert(JSON.stringify(cartInfo));
-var grandTotal = 0;
+        $ionicLoading.hide();
 
-if (cartInfo) {
-    $scope.emptyCart = false;
-    var temp = [];
 
-    for (var i = 0; i < cartInfo.length; i++) {
+        //........................... For Delivery Starts......................
 
-        var food = {
-            name: cartInfo[i].mainFood.food_name,
-            size: cartInfo[i].sizeInfo.sizeName,
-            qty: cartInfo[i].qty,
-            price: cartInfo[i].totalPrice,
-            specialInstruction: cartInfo[i].specialInstruction
+        $scope.disableCheckOut = false;
+        if (CartFactory.getCartInfo() != undefined) {
+            if (CartFactory.getCartInfo().length < 1) {
+                $scope.disableCheckOut = true;
+            }
         }
 
-        temp.push(food);
-        grandTotal += cartInfo[i].totalPrice;
-    }
-    $scope.grandTotal = grandTotal;
-    $scope.foods = temp;
-} else {}
-$scope.emptyCart = true;
-
-$ionicLoading.hide();
-
-
-//........................... For Delivery Starts......................
-
-$scope.disableCheckOut = false;
-if (CartFactory.getCartInfo() != undefined) {
-    if (CartFactory.getCartInfo().length < 1) {
-        $scope.disableCheckOut = true;
-    }
-}
-
-$scope.boolAddNewAddress = false;
-$scope.deliveryCharge = 1;
-$scope.deliveryType = 'delivery';
-$scope.tips = 1;
-$scope.tipsPercent = 0;
-$scope.foodTotal = $scope.grandTotal;
-$scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
-$scope.tipsPercent = $scope.tipsPercent.toFixed(2);
-
-$ionicModal.fromTemplateUrl('templates/deliveryModal.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-}).then(function(deliveryModal) {
-    $scope.deliveryModal = deliveryModal;
-});
-// Order Modal
-
-$scope.closeModal = function() {
-    $scope.deliveryModal.hide();
-};
-
-$scope.$on('$destroy', function() {
-    $scope.deliveryModal.remove();
-});
-
-$scope.openDeliveryModal = function() {
-    //    if (localStorage.getItem('defaultAddress') != null) {
-    //alert(localStorage.getItem('defaultAddress'));
-    var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
-    $scope.defaultAdrs = defaultAddress;
-    $scope.deliveryModal.show();
-
-    //  }
-}
-
-$scope.addAddressDiv = function() {
-    $scope.boolAddNewAddress = true;
-}
-
-$scope.saveAddress = function(address) {
-    $scope.address = address;
-    // JSON.stringify($scope.address);
-    // return;
-    $ionicLoading.show({
-        template: 'Saving into savor365 database.'
-    });
-    var user = JSON.parse(localStorage.getItem('loggedInUserInofos'));
-    $scope.defaultAdrs = {};
-
-    UsersFactory.addressSave(user[0].cus_id, address).then(function(response) {
-        //$scope.address = response.data;
         $scope.boolAddNewAddress = false;
-        //alert(JSON.stringify(response.data));
-        if (response.data == "Address Saved") {
-            $scope.defaultAdrs.addrs = $scope.address.line1 + ' ' + $scope.address.line2;
-            $scope.defaultAdrs.state = $scope.address.state;
-            $scope.defaultAdrs.town = $scope.address.city;
-            $scope.defaultAdrs.zip_code = $scope.address.zipcode;
-            $scope.defaultAdrs.phone = $scope.address.phone;
-            $scope.defaultAdrs.country = "USA";
+        $scope.deliveryCharge = 1;
+        $scope.deliveryType = 'delivery';
+        $scope.tips = 1;
+        $scope.tipsPercent = 0;
+        $scope.foodTotal = $scope.grandTotal;
+        $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
+        $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
 
-        }
-        $ionicLoading.hide();
-
-    }, function(error) {
-        $ionicLoading.hide();
-
-        $ionicPopup.alert({
-            title: 'Error!',
-            template: 'Opps.. something wrong'
+        $ionicModal.fromTemplateUrl('templates/deliveryModal.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(deliveryModal) {
+            $scope.deliveryModal = deliveryModal;
         });
-        console.log("eror is address saving" + error);
-    });
+        // Order Modal
 
-}
-$scope.close = function() {
-    $scope.boolAddNewAddress = false;
-}
-$scope.setTipsPercent = function(val) {
-    $scope.tips += val;
-    if ($scope.tips < 0) {
-        $scope.tips = 0;
-        return;
-    }
-    $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
-    $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
-}
-$scope.setDeliveryCharge = function(val) {
-    $scope.deliveryCharge = Number(val);
-}
-$scope.checkout = function(amnt, deliveryType, tips) {
-        //alert(deliveryType);
-        var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
-        // UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
-        //         $scope.cc = response.data[0];
-        //         window.open("https://savor365.com/api/makePayment?amount=" + amnt + "&cardNumber=" + $scope.cc.card_number + "&cvv=" + $scope.cc.cvv + "&expDate=" + $scope.cc.expiration_date + "&invNumber=102", "_blank", "location=no");
-        //         $scope.checkOutInfo = {};
-        //         $scope.boolPayment = true;
-        //         if ($scope.boolPayment) {
-        //             $scope.checkOutInfo.cartItem = CartFactory.getCartInfo();
-        //             var d = new Date();
-        //             var time = d.getTime();
-        //             var orderNo = time.toString();
-        //             orderNo = Number(orderNo.substring(2));
-        //             $scope.checkOutInfo.orderNo = orderNo;
-        //             $scope.checkOutInfo.address = JSON.parse(localStorage.getItem('defaultAddress'));
-        //             alert(JSON.stringify($scope.checkOutInfo));
+        $scope.closeModal = function() {
+            $scope.deliveryModal.hide();
+        };
 
-        //         }
-        //         CartFactory.makePayment(amnt, cc.card_number, cc.cvv, cc.expiration_date).then(
-        //             function(res) {
-        //                 console.log("done");
-        //             });
-        //     },
-        //     function(error) {
-        //         console.log(error.message);
-        //     });
-        $scope.checkOutInfo = {};
-        $scope.boolPayment = true;
-        if ($scope.boolPayment) {
-            $scope.checkOutInfo.cartItem = CartFactory.getCartInfo();
-            var d = new Date();
-            var time = d.getTime();
-            //alert(time);
-            var orderNo = time.toString();
-            orderNo = Number(orderNo.substring(4));
-            $scope.confirmationCode = time.toString().substring(9);
-            $scope.checkOutInfo.orderNo = orderNo;
-            // $scope.checkOutInfo.address = JSON.parse(localStorage.getItem('defaultAddress'));
-            $scope.checkOutInfo.address = $scope.defaultAdrs;
-            $scope.checkOutInfo.deliveryType = deliveryType;
-            $scope.foodTotal = $scope.grandTotal;
-            $scope.grandTotal += $scope.deliveryCharge;
-            $scope.checkOutInfo.foodTotal = $scope.foodTotal;
-            $scope.checkOutInfo.grandTotal = $scope.grandTotal;
-            //$scope.checkOutInfo.tips=tips;
-            $scope.checkOutInfo.deliveryCharge = $scope.deliveryCharge;
-            $scope.checkOutInfo.tips = $scope.tipsPercent;
-            $scope.checkOutInfo.confirmationCode = $scope.confirmationCode;
-            $scope.checkOutInfo.userinfo = userInfo;
-            //alert(JSON.stringify($scope.checkOutInfo));
-            console.log($scope.checkOutInfo);
+        $scope.$on('$destroy', function() {
+            $scope.deliveryModal.remove();
+        });
 
+        $scope.openDeliveryModal = function() {
+            //    if (localStorage.getItem('defaultAddress') != null) {
+            //alert(localStorage.getItem('defaultAddress'));
+            var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
+            $scope.defaultAdrs = defaultAddress;
+            $scope.deliveryModal.show();
 
-            ////////////////////////////
-            $http({
-                method: 'POST',
-                url: 'https://savor365.com/api/orderInfo',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data: $scope.checkOutInfo
+            //  }
+        }
 
+        $scope.addAddressDiv = function() {
+            $scope.boolAddNewAddress = true;
+        }
 
-            }).then(function(data) {
-                //alert(JSON.stringify(data));
-                console.log(data);
-                localStorage.removeItem('cartInfo');
+        $scope.saveAddress = function(address) {
+            $scope.address = address;
+            // JSON.stringify($scope.address);
+            // return;
+            $ionicLoading.show({
+                template: 'Saving into savor365 database.'
             });
-            /////////////////////////////
+            var user = JSON.parse(localStorage.getItem('loggedInUserInofos'));
+            $scope.defaultAdrs = {};
+
+            UsersFactory.addressSave(user[0].cus_id, address).then(function(response) {
+                //$scope.address = response.data;
+                $scope.boolAddNewAddress = false;
+                //alert(JSON.stringify(response.data));
+                if (response.data == "Address Saved") {
+                    $scope.defaultAdrs.addrs = $scope.address.line1 + ' ' + $scope.address.line2;
+                    $scope.defaultAdrs.state = $scope.address.state;
+                    $scope.defaultAdrs.town = $scope.address.city;
+                    $scope.defaultAdrs.zip_code = $scope.address.zipcode;
+                    $scope.defaultAdrs.phone = $scope.address.phone;
+                    $scope.defaultAdrs.country = "USA";
+
+                }
+                $ionicLoading.hide();
+
+            }, function(error) {
+                $ionicLoading.hide();
+
+                $ionicPopup.alert({
+                    title: 'Error!',
+                    template: 'Opps.. something wrong'
+                });
+                console.log("eror is address saving" + error);
+            });
 
         }
-    }       //............................For Delivery Ends........................
-})
+        $scope.close = function() {
+            $scope.boolAddNewAddress = false;
+        }
+        $scope.setTipsPercent = function(val) {
+            $scope.tips += val;
+            if ($scope.tips < 0) {
+                $scope.tips = 0;
+                return;
+            }
+            $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
+            $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
+        }
+        $scope.setDeliveryCharge = function(val) {
+            $scope.deliveryCharge = Number(val);
+        }
+        $scope.checkout = function(amnt, deliveryType, tips) {
+
+            $scope.boolPayment = false;
+
+            var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
+
+            // Making payment
+
+            UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
+
+                $scope.cc = response.data[0];
+                if(!$scope.cc){
+                    $ionicPopup.alert({
+                        title: 'Error!',
+                        template: 'Please add payment info.'
+                    }).then(
+                        function(res){
+                            $state.go("app.addresses");
+                        }
+                    );
+                }
+                else{
+
+                    var options = {
+                      location: 'no',
+                      clearcache: 'yes',
+                      toolbar: 'no'
+                    };
+
+                    var ref = cordova.InAppBrowser.open("https://savor365.com/api/makePayment?amount=" + amnt + "&cardNumber=" + $scope.cc.card_number + "&cvv=" + $scope.cc.cvv + "&expDate=1018&invNumber=45", "_blank", "location=no");
+                    ref.addEventListener('loaderror', function(event) { alert(event.code); });
+                    
+                    //var ref = window.open("https://savor365.com/api/makePayment?amount=" + amnt + "&cardNumber=" + $scope.cc.card_number + "&cvv=" + $scope.cc.cvv + "&expDate=" + $scope.cc.expiration_date + "&invNumber=45", "_blank", "location=no");
+                    
+                    $scope.boolPayment = true;
+                }
+                
+            },
+            function(error) {
+                console.log(error.message);
+            });
+
+            $scope.checkOutInfo = {};
+            if ($scope.boolPayment) {
+                $scope.checkOutInfo.cartItem = CartFactory.getCartInfo();
+                var d = new Date();
+                var time = d.getTime();
+                //alert(time);
+                var orderNo = time.toString();
+                orderNo = Number(orderNo.substring(4));
+                $scope.confirmationCode = time.toString().substring(9);
+                $scope.checkOutInfo.orderNo = orderNo;
+                // $scope.checkOutInfo.address = JSON.parse(localStorage.getItem('defaultAddress'));
+                $scope.checkOutInfo.address = $scope.defaultAdrs;
+                $scope.checkOutInfo.deliveryType = deliveryType;
+                $scope.foodTotal = $scope.grandTotal;
+                $scope.grandTotal += $scope.deliveryCharge;
+                $scope.checkOutInfo.foodTotal = $scope.foodTotal;
+                $scope.checkOutInfo.grandTotal = $scope.grandTotal;
+                //$scope.checkOutInfo.tips=tips;
+                $scope.checkOutInfo.deliveryCharge = $scope.deliveryCharge;
+                $scope.checkOutInfo.tips = $scope.tipsPercent;
+                $scope.checkOutInfo.confirmationCode = $scope.confirmationCode;
+                $scope.checkOutInfo.userinfo = userInfo;
+                //alert(JSON.stringify($scope.checkOutInfo));
+                console.log($scope.checkOutInfo);
+
+
+                ////////////////////////////
+                $http({
+                    method: 'POST',
+                    url: 'https://savor365.com/api/orderInfo',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    data: $scope.checkOutInfo
+
+
+                }).then(function(data) {
+                    //alert(JSON.stringify(data));
+                    console.log(data);
+                    localStorage.removeItem('cartInfo');
+                });
+                /////////////////////////////
+
+            }
+        } //............................For Delivery Ends........................
+    })
 
 .controller('myProfileCtrl', function($scope) {
 
@@ -823,18 +838,18 @@ $scope.checkout = function(amnt, deliveryType, tips) {
                 } else {
 
                     if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
-                        
+
                         console.log('no match');
                         localStorage.removeItem('cartInfo');
                         localStorage.removeItem('defaultAddress');
                         console.log(localStorage.getItem('cartInfo'));
-                    
+
                     }
-                    
+
                     localStorage.setItem('storeUserId', userInfo[0].cus_id);
-                    
+
                     UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
-                    
+
                         var addresses = response.data;
 
                         for (var i = 0; i < addresses.length; i++) {
@@ -846,7 +861,7 @@ $scope.checkout = function(amnt, deliveryType, tips) {
                         }
 
                     });
-                    
+
                     //Saving variables to use later
                     //$rootScope.login = false;
                     $scope.login1 = false;
@@ -879,9 +894,10 @@ $scope.checkout = function(amnt, deliveryType, tips) {
     }
 ])
 
-.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory, $rootScope) {
+.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory, $rootScope,ngFB) {
 
     $scope.login1 = true;
+
     $scope.signUp = function(data) {
         $scope.user = data;
         SignUpFactory.signup(data).then(function(response) {
@@ -958,6 +974,63 @@ $scope.checkout = function(amnt, deliveryType, tips) {
     }
 
     $scope.fbSignUp = function() {
+
+        //alert('hola');
+        $scope.data = {};
+        ngFB.login({
+            scope: 'email'
+        }).then(
+            function(response) {
+                ngFB.api({
+                    path: '/me',
+                    params: {
+                        fields: 'id,name,email'
+                    }
+                }).then(
+                    function(user) {
+
+                        var fbData = {};
+                        fbData.name = user.name;
+                        fbData.email = user.email;
+                        fbData.password = "";
+                        //fbData.mobile = user.mobile;
+                        $scope.signUp(fbData);
+                    },
+                    function(error) {
+                        alert('Facebook error: ' + error.error_description);
+                    });
+            });
+        // openFB.login(
+        //     function(response) {
+        //         //alert(JSON.stringify(response));
+        //         var accessToken = response.authResponse.accessToken;
+        //         openFB.api({
+        //             path: "/me",
+
+        //             success: function(data) {
+        //                 alert(JSON.stringify(data));
+        //                 $scope.data.name = data.name;
+        //                 $scope.data.email = data.email;
+
+        //             },
+        //             error: function() {
+
+        //             }
+        //         });
+        //     }, {
+        //         scope: "email"
+        //     });
+        // hello('facebook').login( function(res) {
+        //     console.log(res);
+        //     hello( 'facebook' ).api( '/me?fields=name,email' ).then(function(res) {
+        //      // console.log(json.name);
+
+        //       $scope.data.name=res.name;
+        //       $scope.data.email=res.email;
+        //       alert(JSON.stringify($scope.data));
+
+        //   })
+        // });      
         // $scope.data={};
         // $cordovaFacebook.login(["public_profile", "email", "user_friends","publish_actions"])
         //     .then(function(success) {
@@ -985,7 +1058,7 @@ $scope.checkout = function(amnt, deliveryType, tips) {
         //                  function (error) {
 
         //                 });      
-                                            
+
         //         //////////////////////                
         //     }, function(error) {
         //         // error
