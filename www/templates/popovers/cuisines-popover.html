@@ -4,7 +4,7 @@
     </ion-header-bar>
     <ion-content>
 		<ion-list ng-repeat="cuisine in cuisines">
-			<ion-item ng-click="closePopover()">{{cuisine.cuisine_name}}</ion-item>
+			<ion-item ng-click="closePopover(cuisine.id)">{{cuisine.cuisine_name}}</ion-item>
 		</ion-list>
     </ion-content>
 </ion-popover-view>

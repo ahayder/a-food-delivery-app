@@ -1,14 +1,5 @@
-.menu-bg {
-	background-color: darkorange;
-}
-
 .bg-image{
 	background-color: crimson !important;
-}
-
-#map{
-	width: 100%;
-	height: 100%;
 }
 
 .custom-item-divider{
@@ -33,16 +24,26 @@
 	color: white !important;
 }
 
-/*.res-logo {
-	border: 1px dashed #ed143d;
+.ion-fork {
+	color: white !important;
+}
+
+.ion-ios-settings {
+	color: white !important;
+}
+
+.res-logo {
+	border: 1px dashed #ef4e42;
 	padding: 2px !important;
 	border-radius: 3px;
 
-}*/
+}
 
 .res-info-box {
-	border: 2px dashed #ed143d;
-
+	border-bottom: 2px dashed #ef4e42 !important; 
+	border-left: none !important;
+	border-right: none !important;
+	border-top: none !important;
 }
 
 #menu-layer-two{
@@ -89,12 +90,52 @@ img.savorLogo
     -webkit-animation-timing-function: linear;
 }
 
+.sort-title{
+	margin-top: -25px;
+	color: white !important;
+	font-size: xx-small !important;
+}
 
-.item-complex .item-content,
-.item-radio .item-content {
-  background-color: darkorange !important; }
+.sort-button{
+	border-left: 2px solid #ef4e42 !important;
+}
 
-.item {
-    border-color: #e27e05 !important;
-    background-color: darkorange !important;
+.restaurant-thumbnail {
+	font-size: small;
+}
+
+.delivery-text {
+	right: 100px;
+}
+
+.rating-badge{
+	top: 58px !important;
+    line-height: 10px !important;
+    right: 18px !important;
+}
+
+.ratings-text{
+    font-size: .5em !important;
+    margin-top: 15px;
+    left: 12px !important;
+}
+
+.restaurent-food-page {
+	border-bottom: none !important;
+}
+
+
+.right-section{
+	float: right;
+    margin-right: -22px;
+    margin-top: -71px;
+}
+
+.heart-icon {
+    font-size: 37px;
+    margin-left: 6px;
+}
+
+.not-fav {
+	color: #c5c5c5 !important;
 }

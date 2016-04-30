@@ -142,15 +142,16 @@ angular.module('app.routes', [])
     })
 
 
-    // .state('app.tabs.order', {
-    //   url: '/order',
-    //   views: {
-    //     'order-tab': {
-    //       templateUrl: 'templates/order.html',
-    //       controller: 'orderCtrl'
-    //     }
-    //   }
-    // })
+    .state('app.moreInfo', {
+      url: '/moreInfo/:restaurantId',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/search/more-info.html',
+          controller: 'moreInfoCtrl'
+        }
+      }
+    })
+
     .state('app.cart', {
       url: '/cart',
       cache: false,

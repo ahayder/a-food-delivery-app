@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-       <meta http-equiv="Content-Security-Policy">
+        <meta http-equiv="Content-Security-Policy">
 
         <title></title>
         <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -13,12 +13,8 @@
         <script src="lib/ngCordova/dist/ng-cordova.js"></script>
         <script src="cordova.js"></script>
         <script src="openfb.js"></script>
-         <script src="ngopenfb.js"></script>
-         <!--  
-         <script>
-             openFB.init({appId: '577646735745723'});
-        </script>
-         -->
+        <script src="ngopenfb.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnluSBuAVJP_Epex8Tbp_a1AZoeGTLsLI&libraries=places"></script>
         
         <!-- compiled css output -->
         <link href="css/style.css" rel="stylesheet">
@@ -36,6 +32,9 @@
         <script src="js/directives.js"></script>
         <script src="js/controllers.js"></script>
         <script src="js/controllers/food-ctrl.js"></script>
+        
+        <script src="lib/angular-google-places-autocomplete/src/autocomplete.js"></script>
+        <link rel="stylesheet" href="lib/angular-google-places-autocomplete/src/autocomplete.css">
 
     </head>
     <body ng-app="app" animation="slide-left-right-ios7" class="platform-android platform-cordova platform-webview">

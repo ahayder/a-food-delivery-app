@@ -14,6 +14,10 @@
                         <i class="icon ion-fork"></i>
                         <p class="sort-title">Cuisines</p>
                 </button>
+                <button class="button button-clear sort-button" ng-click="filterPopover($event)">
+                        <i class="icon ion-ios-settings"></i>
+                        <p class="sort-title">Filters</p>
+                </button>
             </div>           
            
         </div>
@@ -21,21 +25,42 @@
 
         <ion-list>
 
-            <ion-item class="item-thumbnail-left res-info-box" collection-repeat="restaurant in searchResult" ui-sref="app.tabs.foods({restaurantId: restaurant.res_id})">
-                    <img class="res-logo" ng-src="https://savor365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
-                    <h2 class="assertive">{{restaurant.res_name}}</h2>
-                    <ul>
-                        <li><i class="icon ion-ios-telephone assertive"></i> {{restaurant.phone}}</li>
-                        <li><i class="icon ion-ios-location assertive"></i> {{restaurant.res_town}}, {{restaurant.res_county}}, {{restaurant.res_zipcode}}</li>
-                        <li><i class="icon ion-bag assertive"></i> Delivery Fee : $0.00</li>
-                        <li><i class="icon ion-bag assertive"></i> Min Delivery : $0.00</li>
-                        <li><i class="icon ion-clock assertive"></i> Delivery Time :45-60 min</li>
-                    </ul>
+            <ion-item class="item-thumbnail-left res-info-box" collection-repeat="restaurant in searchResult" ui-sref="app.foods({restaurantId: restaurant.res_id})">
 
+                <img class="res-logo" ng-src="https://savor365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
+
+                <h2 class="assertive">{{restaurant.res_name}}</h2>
+
+                <ul class="restaurant-thumbnail">
+                    <li>
+                            <i class="icon ion-bag assertive delivery-text"></i> Delivery Fee : $0.00
+
+                    </li>
+                    <li>
+                        <i class="icon ion-bag assertive"></i> Min Delivery : $0.00
+
+                    </li>
+                    <li><i class="icon ion-clock assertive"></i> Delivery Time :45-60 min</li>
+                </ul>
+
+                <div class="right-section">
+                    <a class="{{favClass}}" ng-click="makeFav(restaurant.res_id)"><i class="icon ion-ios-heart heart-icon"></i></a>
+                    <p><span class="badge badge-assertive rating-badge">3.5/5</span></p>
+                    <p class="ratings-text">
+                            (4 Ratings)
+                    </p>
+                </div>
                 
             </ion-item>
 
         </ion-list>
+
+
+        <div class="card" ng-hide="searchResult">
+          <div class="item item-text-wrap">
+            Sorry! No restaurants found.
+          </div>
+        </div>
 
     </ion-content>
 </ion-view>

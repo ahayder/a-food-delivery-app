@@ -32,6 +32,12 @@ angular.module('app.services', [])
 		},
 		getPaymentInfo: function(id){
 		 	return $http.get("https://savor365.com/api/findPaymentInfo?cusId="+id);
+		},
+		getFavs: function(id){
+			return $http.get("https://savor365.com/api/favs?cusId="+id);
+		},
+		saveFav: function(res, cus){
+			return $http.get("https://savor365.com/api/makeFav?resId="+ res +"cusId="+ cus);
 		}
 		
 	}
@@ -49,6 +55,15 @@ angular.module('app.services', [])
 		},
 		getSearchResult: function(){
 			return result;
+		},
+		getCuisines: function(){
+			return $http.get("https://savor365.com/api/cuisins");
+		},
+		searchByCuisine: function(id){
+			return $http.get("https://savor365.com/api/searchByCuisine?cuiId="+id);
+		},
+		searchByFreeDelivery: function(){
+			return $http.get("https://savor365.com/api/searchByFreeDelivery");
 		}
 		
 	}
@@ -78,6 +93,9 @@ angular.module('app.services', [])
 		},
 		getRestaurantsById: function(restaurantId){
 			return $http.get("https://savor365.com/api/findRestaurantsById?restaurantId="+ restaurantId);
+		},
+		getResOpenHours: function(resId){
+			return $http.get("https://savor365.com/api/resOpenHours?resId="+resId);
 		}
 		
 	}

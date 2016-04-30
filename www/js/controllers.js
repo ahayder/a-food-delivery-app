@@ -5,26 +5,6 @@ angular.module('app.controllers', [])
 
 .controller('appCtrl', ['$scope', '$state', '$rootScope', 'UsersFactory', function($scope, $state, $rootScope, UsersFactory) {
 
-    // $cordovaStatusbar.overlaysWebView(true);
-
-    // // styles: Default : 0, LightContent: 1, BlackTranslucent: 2, BlackOpaque: 3
-    // $cordovaStatusbar.style(1);
-
-    // // supported names: black, darkGray, lightGray, white, gray, red, green,
-    // // blue, cyan, yellow, magenta, orange, purple, brown
-    // $cordovaStatusbar.styleColor('black');
-
-    // $cordovaStatusbar.styleHex('#000');
-
-    // $cordovaStatusbar.hide();
-
-    // $cordovaStatusbar.show();
-
-    // var isVisible = $cordovaStatusbar.isVisible();
-
-
-
-
     $rootScope.login = true; // acctually it means false incase of ng-hide
 
     var loggedIn = window.localStorage['loggedIn'];
@@ -50,21 +30,10 @@ angular.module('app.controllers', [])
     };
 
 
-    // for using into cart page
-    //   var user = JSON.parse(window.localStorage['loggedInUserInofos']);
-
-    //   UsersFactory.getPaymentInfo(user[0].cus_id).then(function(response){
-    // $rootScope.cc = response.data[0];
-    // },
-    // function(error){
-    //  console.log(error.message);});
-    // End of call
-
 }])
 
 
-.controller("searchResultCtrl", ['$scope', '$ionicPopup', '$cordovaGeolocation', 'LocationFactory', 'SearchFactory', '$ionicLoading', 'FoodFactory', '$state', '$window', '$http', '$ionicPopover',
-    function($scope, $ionicPopup, $cordovaGeolocation, LocationFactory, SearchFactory, $ionicLoading, FoodFactory, $state, $window, $http, $ionicPopover) {
+.controller("searchResultCtrl", function($scope, $ionicPopup, $cordovaGeolocation, LocationFactory, SearchFactory, $ionicLoading, FoodFactory, $state, $window, $http, $ionicPopover, UsersFactory) {
 
         $ionicLoading.show({
             template: 'Loading...'
@@ -126,6 +95,8 @@ angular.module('app.controllers', [])
                 });
 
         }
+
+        $scope.favClass = "not-fav";
 
         initialization();
         
@@ -211,18 +182,115 @@ angular.module('app.controllers', [])
             
         }
 
-        $scope.closePopover = function(){
+        $scope.closePopover = function(id){
             $scope.popover.hide();
             $scope.$on('$destroy', function() {
                 $scope.popover.remove();
             });
+
+            // Getting data by cuisine
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+            var searchResult = [];
+            SearchFactory.searchByCuisine(id).then(function(response){
+                var resIds = response.data;
+
+                if(resIds.length == 0){
+                    $scope.searchResult = false;
+                    $ionicLoading.hide();
+                }
+                else{
+
+                    for (var i = 0; i < resIds.length; i++) {
+                        FoodFactory.getRestaurantsById(resIds[i]).then(function(res) {
+                            searchResult.push(res.data[0]);
+                        });
+                    }
+
+                    SearchFactory.saveSearchResult(searchResult);
+                    $scope.searchResult = SearchFactory.getSearchResult();
+                    $ionicLoading.hide(); 
+                }
+
+                
+
+            });
         }
 
-        
 
 
-    }
-])
+        $scope.filterPopover = function($event){
+
+            $ionicPopover.fromTemplateUrl('templates/popovers/filter-popover.html', {
+                    scope: $scope
+                }).then(function(popover) {
+                    $scope.filterPop = popover;
+                    $scope.filterPop.show($event);
+                });
+
+            
+            
+        }
+
+        $scope.closeFilterPopover = function(){
+
+            $scope.filterPop.hide();
+            $scope.$on('$destroy', function() {
+                $scope.filterPop.remove();
+            });
+            
+
+            // Getting data by free delivery charge
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+
+            var searchResult = [];
+            SearchFactory.searchByFreeDelivery().then(function(response){
+
+                var resIds = response.data;
+
+                if(resIds.length == 0){
+                    $scope.searchResult = false;
+                    $ionicLoading.hide();
+                }
+                else{
+
+                    for (var i = 0; i < resIds.length; i++) {
+                        FoodFactory.getRestaurantsById(resIds[i]).then(function(res) {
+                            searchResult.push(res.data[0]);
+                        });
+                    }
+
+                    SearchFactory.saveSearchResult(searchResult);
+                    $scope.searchResult = SearchFactory.getSearchResult();
+                    $ionicLoading.hide(); 
+                }
+                
+
+            });
+
+        }
+
+        $scope.makeFav = function(resId){
+            var resId = localStorage.getItem('resId');
+
+            var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
+
+            var userId = userInfo[0].cus_id;
+
+            UsersFactory.saveFav(resId, userId).then(function(response){
+                if(response.data > 0){
+                    alert("Successfully Saved");
+                    $scope.favClass = "assertive";
+                }
+            }),function(error){
+                alert("Erros");
+            }
+        }
+
+})
 
 
 .controller('orderCtrl', ['$scope', 'FoodFactory', '$ionicModal', '$ionicLoading',
@@ -1011,6 +1079,19 @@ angular.module('app.controllers', [])
         //     });
     }
 
+})
 
+.controller('moreInfoCtrl', function ($scope, $stateParams, FoodFactory) {
 
+    var restaurantId = $stateParams.restaurantId;
+    localStorage.setItem('resId',restaurantId);
+
+    FoodFactory.getResOpenHours(restaurantId).then(function(response){
+        $scope.resOpenHours = response.data;
+    });
+
+    FoodFactory.getRestaurantsById(restaurantId).then(function(response){
+        $scope.restaurant = response.data[0];
+        console.log($scope.restaurant);
+    });
 });

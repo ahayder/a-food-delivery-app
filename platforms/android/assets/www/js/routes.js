@@ -120,25 +120,10 @@ angular.module('app.routes', [])
     })
 
 
-      
-  
-
-    // Tabs
-    
-    .state('app.tabs', {
-      url: '/tabs',
-      abstract: true,
-      views: {
-        'side-menu': {
-          templateUrl: 'templates/tabs.html'
-        }
-      }
-    })
-
-    .state('app.tabs.searchResult', {
+    .state('app.searchResult', {
       url: '/searchResult',
       views: {
-        'search-tab': {
+        'side-menu': {
           templateUrl: 'templates/search/search-result.html',
           controller: 'searchResultCtrl'
         }
@@ -146,10 +131,10 @@ angular.module('app.routes', [])
     })
 
 
-    .state('app.tabs.foods', {
+    .state('app.foods', {
       url: '/foods/:restaurantId',
       views: {
-        'search-tab': {
+        'side-menu': {
           templateUrl: 'templates/search/foods.html',
           controller: 'foodsCtrl'
         }
@@ -157,20 +142,21 @@ angular.module('app.routes', [])
     })
 
 
-    // .state('app.tabs.order', {
-    //   url: '/order',
-    //   views: {
-    //     'order-tab': {
-    //       templateUrl: 'templates/order.html',
-    //       controller: 'orderCtrl'
-    //     }
-    //   }
-    // })
-    .state('app.tabs.cart', {
+    .state('app.moreInfo', {
+      url: '/moreInfo/:restaurantId',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/search/more-info.html',
+          controller: 'moreInfoCtrl'
+        }
+      }
+    })
+
+    .state('app.cart', {
       url: '/cart',
       cache: false,
       views: {
-        'cart-tab': {
+        'side-menu': {
           templateUrl: 'templates/cart.html',
            controller: 'cartCtrl'
         }
@@ -180,6 +166,6 @@ angular.module('app.routes', [])
     
 
   // if none of the above states are matched, use this as the fallback
-   $urlRouterProvider.otherwise('app/tabs/searchResult');
+   $urlRouterProvider.otherwise('app/searchResult');
 
 });

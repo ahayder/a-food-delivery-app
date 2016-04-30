@@ -1,6 +1,46 @@
 <ion-view title="Search Result">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <ion-list>
+
+            <ion-item class="item-thumbnail-left res-info-box restaurent-food-page">
+
+                <img class="res-logo" ng-src="https://savor365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
+
+                <h2 class="assertive">{{restaurant.res_name}}</h2>
+                <ul class="restaurant-thumbnail">
+                    <li>
+                            <i class="icon ion-bag assertive delivery-text"></i> Delivery Fee : $0.00
+
+                            <!-- Stars -->
+                            <p class="stars">
+                                <i class="icon ion-ios-star"></i>
+                                <i class="icon ion-ios-star"></i>
+                                <i class="icon ion-ios-star"></i>
+                                <i class="icon ion-ios-star"></i>
+                                <i class="icon ion-ios-star"></i>
+                            </p>
+
+                    </li>
+                    <li>
+                        <i class="icon ion-bag assertive"></i> Min Delivery : $0.00
+                        <p class="ratings-text">
+                            (4 Ratings)
+                        </p>
+
+                    </li>
+                    <li><i class="icon ion-clock assertive"></i> Delivery Time :45-60 min</li>
+                </ul>
+
+                <button class="button button-full button-stable" ui-sref="app.moreInfo({restaurantId: restaurant.res_id})">
+					More Info...
+				</button>
+                
+            </ion-item>
+			
+
+			<div class="item item-divider item-assertive">
+			    Available Foods
+			</div>
+
             <ion-item class="item item-icon-left" ng-repeat="food in foods" ng-click="orderModal(food)">
                 <i class="icon ion-chevron-right assertive"></i>
                 {{food.food_name}}

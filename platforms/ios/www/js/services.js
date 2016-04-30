@@ -49,6 +49,12 @@ angular.module('app.services', [])
 		},
 		getSearchResult: function(){
 			return result;
+		},
+		getCuisines: function(){
+			return $http.get("https://savor365.com/api/cuisins");
+		},
+		searchByCuisine: function(id){
+			return $http.get("https://savor365.com/api/searchByCuisin?cuiId="+id);
 		}
 		
 	}

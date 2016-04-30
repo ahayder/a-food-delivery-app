@@ -1,0 +1,44 @@
+<ion-view title="More Info">
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+
+        <ion-list>
+
+            <ion-item class="item item-divider item-assertive">
+                Hours of Operations
+            </ion-item>
+
+            <ion-item ng-repeat="op in resOpenHours">
+
+                {{op.day}}
+                
+                <span class="item-note">
+                  {{op.from_time | date:'mediumTime'}} - {{op.to_time | date:'mediumTime'}}
+                </span>
+
+            </ion-item>
+
+            <ion-item class="item item-divider item-assertive">
+                Contact Info
+            </ion-item>
+
+            <ion-item class="item">
+                Address:
+
+                <span class="item-note">
+                  {{restaurant.res_state}}, {{restaurant.res_town}}, {{restaurant.res_county}}
+                </span>
+            </ion-item>
+
+            <ion-item class="item">
+                Phone Number:
+
+                <span class="item-note">
+                  {{restaurant.phone}}
+                </span>
+            </ion-item>
+			
+
+        </ion-list>
+
+    </ion-content>
+</ion-view>

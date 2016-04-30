@@ -11,6 +11,13 @@ angular.module('app.foodCtrl', [])
 		$scope.foods = response.data;
 	});
 
+
+    FoodFactory.getRestaurantsById(restaurantId).then(function(response){
+        $scope.restaurant = response.data[0];
+    });
+
+
+
 	// Code of modal is started
 	// Initializing some variables
     // (alert)($scope.price);
