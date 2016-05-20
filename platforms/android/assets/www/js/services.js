@@ -37,7 +37,10 @@ angular.module('app.services', [])
 			return $http.get("https://savor365.com/api/favs?cusId="+id);
 		},
 		saveFav: function(res, cus){
-			return $http.get("https://savor365.com/api/makeFav?resId="+ res +"cusId="+ cus);
+			return $http.get("https://savor365.com/api/makeFav?resId="+ res +"&cusId="+ cus);
+		},
+		getLastOrderStatus: function(id){
+			return $http.get("https://savor365.com/api/orderStatus?cusId="+id)
 		}
 		
 	}
@@ -96,6 +99,9 @@ angular.module('app.services', [])
 		},
 		getResOpenHours: function(resId){
 			return $http.get("https://savor365.com/api/resOpenHours?resId="+resId);
+		},
+		getMenus: function(resId){
+			return $http.get("https://savor365.com/api/menu?resId="+resId);
 		}
 		
 	}
@@ -138,8 +144,28 @@ angular.module('app.services', [])
 			return storage;
 		},
 		makePayment: function(amnt, cardNum, cvv, expDate){
-			var invNum = 10001;
-			return $http.get("https://savor365.com/api/makePayment?amount="+amnt+"&cardNumber="+cardNum+"&cvv="+cvv+"&expDate="+expDate+"&invNumber="+invNum);
+			var cc = {}
+
+			cc.transaction_type = "purchase"
+			cc.amount = amnt
+			cc.currency_code = "USD"
+			cc.credit_card = {}
+			cc.credit_card.type = "visa"
+			cc.credit_card.cvv = "123"
+			cc.credit_card.cardholder_name = "John Smith"
+			cc.credit_card.card_number = "4012000033330026"
+			cc.credit_card.exp_date= "1020"
+			//return $http.post("https://api-cert.payeezy.com/v1/transactions ", data);
+			return $http({
+                    method: 'POST',
+                    url: 'https://api-cert.payeezy.com/v1/transactions',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: cc
+
+
+                })
 		}
 	}
 }])

@@ -27,15 +27,19 @@
 
                 <ion-item class="main-menu" href="#/app/order-history" ng-hide="login" menu-close=""><i class="icon ion-ios-list-outline"> Order History</i></ion-item>
 
+                <ion-item class="main-menu" href="#/app/order-status" ng-hide="login" menu-close=""><i class="icon ion-ios-information-outline"> Order Status</i></ion-item>
+
                 <ion-item class="main-menu" href="#/app/invite-friends" ng-hide="login" menu-close=""><i class="icon ion-speakerphone"> Invite Friends</i></ion-item>
 
-                <ion-item class="main-menu" href="#/app/favourite" ng-hide="login" menu-close=""><i class="icon ion-android-favorite-outline"> Favourite</i></ion-item>
+                <ion-item class="main-menu" href="#/app/favourite" ng-hide="login" menu-close=""><i class="icon ion-android-favorite-outline"> Favourites</i></ion-item>
 
                 <ion-item class="main-menu" href="#/app/login" ng-hide="!login" menu-close=""><i class="icon ion-log-in"> Login</i></ion-item>
 
                 <ion-item class="main-menu" href="#/app/signup" ng-hide="!login" menu-close=""><i class="icon ion-person-add"> Sign Up</i></ion-item>
 
                 <ion-item class="main-menu" ng-click="logout()" ng-hide="login" menu-close=""><i class="icon ion-log-out"> Logout</i></ion-item>
+
+                <ion-item class="main-menu" href="#/app/cart" ng-hide="login" menu-close=""><i class="icon ion-log-out"> Cart</i></ion-item>
 
             </ion-list>
         </ion-content>

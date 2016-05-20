@@ -15,8 +15,8 @@
 			<!-- Deatails and share -->
 
 			<div class="item item-body">
-				<h1 class="title">{{food.food_name}}</h1>
-			    <p>{{food.food_details}}</p>
+				<h2 class="title">{{food.food_name}}</h2>
+			    <p>{{food.food_detailes}}</p>
 			    <p>
 			      <a  class="button button-small button-calm icon-left ion-social-facebook" 
 			      ng-click="loginThenShare(food.food_name)">Share</a>
@@ -46,9 +46,9 @@
 				</div>
 				<div class="col">
 					<div class="button-bar">
-					  <a class="button button-positive" ng-click="decrease()">-</a>
+					  <a class="button button-assertive" ng-click="decrease()">-</a>
 					  <a class="button">{{qty}}</a>
-					  <a class="button button-positive" ng-click="increase()">+</a>
+					  <a class="button button-dark" ng-click="increase()">+</a>
 					</div>
 				</div>
 			</div>

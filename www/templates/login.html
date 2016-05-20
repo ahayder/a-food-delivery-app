@@ -1,35 +1,34 @@
-<ion-view title="Login">
-    <ion-content overflow-scroll="true" padding="true" scroll="false" class="has-header bg-image">
-        <div class="spacer" style="width: 300px; height: 28px;"></div>
-        <div class="logo-image">
-            <img src="img/icon.png" width="50%" height="auto" style="width: 50%; height: auto;">
+<ion-view title="Login" hide-nav-bar="true">
+
+    <ion-content padding="true" class=" manual-remove-top-padding" scroll="false">
+        <div class="spacer" style="width: 300px; height: 5px;"></div>
+        <div>
+            <img src="img/icon.jpg" class="savorLogo" style="display: block; margin-left: auto; margin-right: auto;">
         </div>
-        
-         <form class="list">
-            <div class="spacer" style="width: 300px; height: 38px;"></div>
-            <p class="text-center" ng-show="logoutMessage">!! Successfully Logged Out</p>
-            <ion-list>
-                <label class="item item-input">
-                    <span class="input-label">Email</span>
-                    <input type="email" ng-model="user.email" placeholder="">
-                </label>
-                <label class="item item-input">
-                    <span class="input-label">Password</span>
-                    <input type="password" ng-model="user.password" placeholder="">
-                </label>
-            </ion-list>
-            <div class="spacer" style="height: 40px;"></div>
-            <button class="button button-balanced button-block button-large" type="button" ng-click="login(user)">Log in</button>
-            <a href="#/app/signup" class="button button-dark button-clear button-block ">Or create an account</a>
+        <div class="spacer" style="width: 300px; height: 10px;"></div>
+        <p class="text-center" ng-show="logoutMessage">!! Successfully Logged Out</p>
+        <h4 id="page-heading1" style="color:#000000;text-align:center;">Log-in</h4>
+        <a ng-click="fbSignUp()">
+            <img src="img/fb.png" width="20%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
+        </a>
+        <h5 id="page-heading2" style="color:#000000;text-align:center;">------------------------- or ------------------------</h5>
+        <form class="list">
+            <label class="item item-input" name="email">
+                <span class="input-label">Email</span>
+                <input type="email" placeholder="" ng-model="user.email">
+            </label>
+            <label class="item item-input" name="password">
+                <span class="input-label">Password</span>
+                <input type="password" placeholder="" ng-model="user.password">
+            </label>
+            <div id="page-markdown1" style="color:#000000;text-align:right;"></div>
         </form>
- 
-        <!-- /////////Facebook Login Test -->
-         <!--   <form class="list">
-            <div class="spacer" style="width: 300px; height: 38px;"></div>
-            <button class="button button-balanced button-block button-large" type="button" ng-click="fbLogin()">Log in Fb
-            </button>
-            <a href="#/app/signup" class="button button-dark button-clear button-block ">Or create an account</a>
-        </form> -->
-        <!-- /////////Facebook Login Test Ends-->
+
+        <div class="button-bar">
+            <button id="page-button4" style="color:#000000; border-radius: 5px;" class="button button-assertive" ng-click="login(user)">Login</button>
+            <button id="page-button5" style="font-style:italic;text-align:right;" class="button button-light button-small button-block button-clear">Forgot Password?</button>
+        </div>
+        <div class="spacer" style="width: 300px; height: 5px;"></div>
+        <a id="page-button3" style="color:#000000;" class="button button-clear button-small button-block button-calm" href="#/app/signup">New? Create Account Here</a>
     </ion-content>
 </ion-view>

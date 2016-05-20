@@ -1,15 +1,32 @@
 <ion-view title="Favourite">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <ion-list>
-            <ion-item class="item">
-                <h2>Ceaser Salads</h2>
+
+            <ion-item class="item-thumbnail-left res-info-box" collection-repeat="restaurant in restaurants" ui-sref="app.foods({restaurantId: restaurant.res_id})">
+
+                <img class="res-logo" ng-src="https://savor365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
+
+                <h2 class="assertive">{{restaurant.res_name}}</h2>
+
+                <ul class="restaurant-thumbnail">
+                    <li>
+                            <i class="icon ion-bag assertive delivery-text"></i> Delivery Fee : $0.00
+
+                    </li>
+                    <li>
+                        <i class="icon ion-bag assertive"></i> Min Delivery : $0.00
+
+                    </li>
+                    <li><i class="icon ion-clock assertive"></i> Delivery Time :45-60 min</li>
+                </ul>
+
+                <div class="right-section">
+                    <p><span class="badge badge-assertive rating-badge-favourite-page">{{restaurant.rating_mark}}/5</span></p>
+                    <p class="ratings-text-favourite-page">
+                            ({{restaurant.rating_cus_number}} Ratings)
+                    </p>
+                </div>
+                
             </ion-item>
-            <ion-item class="item">
-                <h2>Italian Pizza</h2>
-            </ion-item>
-            <ion-item class="item">
-                <h2>Bangladdeshi Pizza :P</h2>
-            </ion-item>
-        </ion-list>
     </ion-content>
 </ion-view>

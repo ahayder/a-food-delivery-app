@@ -1,14 +1,21 @@
 angular.module('app.foodCtrl', [])
 
-.controller("foodsCtrl", ['$scope', 'FoodFactory','$state' ,'$stateParams', '$ionicModal', '$ionicLoading', 'CartFactory','$cordovaFacebook',
-	function($scope, FoodFactory, $state,$stateParams,$ionicModal, $ionicLoading, CartFactory,$cordovaFacebook){
-        
+.controller("foodsCtrl", function($scope, FoodFactory, $state, $stateParams, $ionicModal, $ionicLoading, CartFactory,$cordovaFacebook, $ionicPopup, UsersFactory, $ionicPopover, $location, $anchorScroll, $ionicScrollDelegate){
+    
+    $scope.favClass = "not-fav";   
 	var restaurantId = $stateParams.restaurantId;
+    $scope.resId = restaurantId; // For menu popover
     localStorage.setItem('resId',restaurantId);
 	$scope.disableCartButton=true;
 
 	FoodFactory.getFoodsByRestaurantId(restaurantId).then(function(response){
 		$scope.foods = response.data;
+
+        FoodFactory.getMenus(restaurantId).then(function(response){
+            $scope.menus = response.data;
+            console.log($scope.menus);
+        });
+
 	});
 
 
@@ -243,10 +250,118 @@ angular.module('app.foodCtrl', [])
 
 		CartFactory.saveIntoCart($scope.checkOutObj);
 
-		$state.go("app.tabs.cart");
+		$state.go("app.cart");
 		$scope.orderModalClose();
 
 	}
 
+    $scope.makeFav = function(resId){
+        var resId = localStorage.getItem('resId');
 
-}]);
+        var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
+
+        var userId = userInfo[0].cus_id;
+
+        UsersFactory.saveFav(resId, userId).then(function(response){
+            console.log(response.data);
+            if(response.data > 0){
+                $ionicPopup.alert({
+                    title: 'Succsess!',
+                    template: "Successfully Saved"
+                });
+
+                $scope.favClass = "assertive";
+            }
+            else{
+                $ionicPopup.alert({
+                    title: 'Error!',
+                    template: 'Opps.. something wrong '
+                });
+                $scope.favClass = "not-fav";
+            }
+        }),function(error){
+            $ionicPopup.alert({
+                title: 'Error!',
+                template: 'Opps.. something wrong ' + error.message
+            });
+            $scope.favClass = "not-fav";
+        }
+    }
+
+    var getFav = function(){
+
+        var resId = localStorage.getItem('resId');
+
+        if(window.localStorage['loggedInUserInofos']){
+
+            var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
+
+            var userId = userInfo[0].cus_id;
+        }
+        else{
+            userId = false;
+        }
+
+        
+
+        if(userId){
+            UsersFactory.getFavs(userId).then(function(response){
+                var res = response.data;
+                
+                for(var i=0; i < res.length; i++){
+                    if(res[i].res_id == resId){
+                        $scope.favClass = "assertive";
+                    }
+                    else{
+                        $scope.favClass = "not-fav";
+                    }
+                }
+
+            }, function(error){
+                $ionicPopup.alert({
+                    title: 'Error!',
+                    template: 'Opps.. something wrong ' + error.message
+                });
+                $scope.favClass = "not-fav";
+            });
+        }
+        else{
+            $scope.favClass = "not-fav";
+        }
+
+        
+    }
+
+    getFav();
+
+
+    $scope.menuPopover = function($event){
+
+
+        $ionicPopover.fromTemplateUrl('templates/popovers/menu-popover.html', {
+                scope: $scope
+            }).then(function(popover) {
+                $scope.popover = popover;
+                $scope.popover.show($event);
+            });
+        
+    }
+
+    $scope.goToMenu = function(id){
+
+
+
+        $location.hash("menu-"+id);
+
+        var handle =     $ionicScrollDelegate.$getByHandle('content');
+        handle.anchorScroll();
+
+        $scope.popover.hide();
+            $scope.$on('$destroy', function() {
+                $scope.popover.remove();
+            });
+
+    }
+
+
+});

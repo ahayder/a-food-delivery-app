@@ -8,18 +8,18 @@
     },
     "installed_plugins": {
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.savor365.www"
         },
         "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.savor365.www"
         },
         "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.savor365.www"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.savor365.www"
+        },
+        "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.savor365.www"
         }
     },

@@ -98,6 +98,8 @@ angular.module('app.controllers', [])
 
         $scope.favClass = "not-fav";
 
+
+
         initialization();
         
 
@@ -273,61 +275,46 @@ angular.module('app.controllers', [])
 
         }
 
-        $scope.makeFav = function(resId){
-            var resId = localStorage.getItem('resId');
-
-            var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
-
-            var userId = userInfo[0].cus_id;
-
-            UsersFactory.saveFav(resId, userId).then(function(response){
-                if(response.data > 0){
-                    alert("Successfully Saved");
-                    $scope.favClass = "assertive";
-                }
-            }),function(error){
-                alert("Erros");
-            }
-        }
+        
 
 })
 
 
-.controller('orderCtrl', ['$scope', 'FoodFactory', '$ionicModal', '$ionicLoading',
-        function($scope, FoodFactory, $ionicModal, $ionicLoading) {
-            // Getting Foods    
-            var fetchFoods = function() {
-                    // show loading
-                    $ionicLoading.show({
-                        template: 'Loading...'
-                    });
+// .controller('orderCtrl', ['$scope', 'FoodFactory', '$ionicModal', '$ionicLoading',
+//         function($scope, FoodFactory, $ionicModal, $ionicLoading) {
+//             // Getting Foods    
+//             var fetchFoods = function() {
+//                     // show loading
+//                     $ionicLoading.show({
+//                         template: 'Loading...'
+//                     });
 
-                    FoodFactory.getFoods().then(function(foodsResponse) {
-                        var fooods = foodsResponse.data;
+//                     FoodFactory.getFoods().then(function(foodsResponse) {
+//                         var fooods = foodsResponse.data;
 
-                        // For getting the name of the cuisine
-                        FoodFactory.getCuisines().then(function(cuisineResponse) {
-                            var allCuisines = cuisineResponse.data;
-                            for (var i = 0; i < fooods.length; i++) {
-                                for (var j = 0; j < allCuisines.length; j++) {
-                                    if (+fooods[i].cuisine_id == +allCuisines[j].id) {
-                                        fooods[i].cuisine_id = allCuisines[j].cuisine_name;
-                                    }
-                                }
-                            }
-                            $scope.foods = fooods;
-                            $ionicLoading.hide();
-                        });
+//                         // For getting the name of the cuisine
+//                         FoodFactory.getCuisines().then(function(cuisineResponse) {
+//                             var allCuisines = cuisineResponse.data;
+//                             for (var i = 0; i < fooods.length; i++) {
+//                                 for (var j = 0; j < allCuisines.length; j++) {
+//                                     if (+fooods[i].cuisine_id == +allCuisines[j].id) {
+//                                         fooods[i].cuisine_id = allCuisines[j].cuisine_name;
+//                                     }
+//                                 }
+//                             }
+//                             $scope.foods = fooods;
+//                             $ionicLoading.hide();
+//                         });
 
 
-                    });
-                }
-                // Calling the fetch function when order page loads
-            fetchFoods();
-        }
-    ])
+//                     });
+//                 }
+//                 // Calling the fetch function when order page loads
+//             fetchFoods();
+//         }
+//     ])
     // Cart Controller
-    .controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup) {
+    .controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $resource) {
 
         // $ionicLoading.show({
         //     template: 'Loading...'
@@ -477,6 +464,7 @@ angular.module('app.controllers', [])
             UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
 
                 $scope.cc = response.data[0];
+
                 if(!$scope.cc){
                     $ionicPopup.alert({
                         title: 'Error!',
@@ -489,18 +477,132 @@ angular.module('app.controllers', [])
                 }
                 else{
 
-                    var options = {
-                      location: 'no',
-                      clearcache: 'yes',
-                      toolbar: 'no'
-                    };
+                    var nonce = Math.random() * 1000000000000000000;
 
-                    var ref = cordova.InAppBrowser.open("https://savor365.com/api/makePayment?amount=" + amnt + "&cardNumber=" + $scope.cc.card_number + "&cvv=" + $scope.cc.cvv + "&expDate=1018&invNumber=45", "_blank", "location=no");
-                    ref.addEventListener('loaderror', function(event) { alert(event.code); });
+                    var d = new Date();
+                    var time = d.getTime();
+
+                    var apikey = "y6pWAJNyJyjGv66IsVuWnklkKUPFbb0a";
+                    var token = "fdoa-a480ce8951daa73262734cf102641994c1e55e7cdf4c02b6";
+
+                    var forHmac = {};
+                    forHmac.time = time;
+                    forHmac.nonce = nonce;
+                    forHmac.payload = {
+                                  "merchant_ref": "Astonishing-Sale",
+                                  "transaction_type": "purchase",
+                                  "method": "credit_card",
+                                  "amount": "1299",
+                                  "partial_redemption": "false",
+                                  "currency_code": "USD",
+                                  "credit_card": {
+                                    "type": "visa",
+                                    "cardholder_name": "John Smith",
+                                    "card_number": "4012000033330026",
+                                    "exp_date": "1020",
+                                    "cvv": "123"
+                                  }
+                                }
+
+                    console.log(forHmac);
+
+
+
+                    //var ref = cordova.InAppBrowser.open("https://savor365.com/api/makePayment?amount=" + amnt + "&cardNumber=" + $scope.cc.card_number + "&cvv=" + $scope.cc.cvv + "&expDate=1018&invNumber=45", "_blank", "location=no");
+
                     
-                    //var ref = window.open("https://savor365.com/api/makePayment?amount=" + amnt + "&cardNumber=" + $scope.cc.card_number + "&cvv=" + $scope.cc.cvv + "&expDate=" + $scope.cc.expiration_date + "&invNumber=45", "_blank", "location=no");
+                    // CartFactory.makePayment(amnt, $scope.cc.card_number, $scope.cc.cvv, "1080").then(
+                    //         function(response){
+                    //             alert(response)
+                    //         }
+                    //     );
+
+
+
+                    // Getting HMAC authorization for payeezy payemnt
+
+                    var getHmac = function(forHmac){
+
+                        $http({
+                            method: 'POST',
+                            url: 'https://savor365.com/api/hmac',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            data: forHmac
+
+
+                        }).then(function(hmacAuth){
+
+
+                            // Making Payment
+                            $http({
+                                method: 'POST',
+                                url: 'https://api-cert.payeezy.com/v1/transactions',
+                                headers: {
+                                            'apikey' : apikey,
+                                            'token' : token,
+                                            'Content-Type' :'application/json',
+                                            'Authorization':hmacAuth.data,
+                                            'nonce': nonce,
+                                            'timestamp': time,
+                                            
+                                        },
+                                data: {
+                                      "merchant_ref": "Astonishing-Sale",
+                                      "transaction_type": "purchase",
+                                      "method": "credit_card",
+                                      "amount": "1299",
+                                      "partial_redemption": "false",
+                                      "currency_code": "USD",
+                                      "credit_card": {
+                                        "type": "visa",
+                                        "cardholder_name": "John Smith",
+                                        "card_number": "4012000033330026",
+                                        "exp_date": "1020",
+                                        "cvv": "123"
+                                      }
+                                    }
+
+                            }).then(function(response){
+                                alert("success ho geya" + JSON.stringify(response));
+                                localStorage.removeItem('cartInfo');
+                            },function(error){
+                                alert("error" + JSON.stringify(error))
+                            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        }, function(error){
+                            alert(JSON.stringify(error))
+                        });
+
+                    }
+
+
+                    getHmac();
+
+
+                    /// END of test
                     
-                    $scope.boolPayment = true;
+                    //$scope.boolPayment = true;
                 }
                 
             },
@@ -680,6 +782,7 @@ angular.module('app.controllers', [])
         function(error) {
             console.log(error.message);
         });
+
     // End of call
 
     $scope.savePaymentInfos = function(payment) {
@@ -817,8 +920,51 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('favouriteCtrl', function($scope) {
+.controller('favouriteCtrl', function($scope, $ionicPopup, $q, UsersFactory, FoodFactory) {
 
+    var getFav = function(){
+
+        var resId = localStorage.getItem('resId');
+
+        var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
+
+        var userId = userInfo[0].cus_id;
+
+        
+
+        UsersFactory.getFavs(userId).then(function(response){
+            var res = response.data;
+            $scope.restaurantsInfo = [];
+            var loopPromises = [];
+            //console.log(res);
+
+            angular.forEach(res, function(r){
+                var deferred = $q.defer();
+                loopPromises.push(deferred.promise);
+                FoodFactory.getRestaurantsById(r.res_id).then(function(response){
+                    //console.log(response.data[0]);
+                    $scope.restaurantsInfo.push(response.data[0]);
+                    //console.log($scope.restaurantsInfo);
+                    deferred.resolve();
+                });
+            })
+
+            $q.all(loopPromises).then(function(){
+                //console.log($scope.restaurantsInfo);
+                $scope.restaurants = $scope.restaurantsInfo;
+                //console.log($scope.restaurants);
+
+            });
+            
+        }, function(error){
+            $ionicPopup.alert({
+                title: 'Error!',
+                template: 'Opps.. something wrong ' + error.message
+            });
+        });
+    }
+
+    getFav();
 
 })
 
@@ -833,91 +979,97 @@ angular.module('app.controllers', [])
 })
 
 // Login/Signup     
-.controller('loginCtrl', ['$scope', 'UsersFactory', '$ionicPopup', '$state', '$rootScope', '$timeout',
-    function($scope, UsersFactory, $ionicPopup, $state, $rootScope, $timeout) {
+.controller('loginCtrl', function($scope, UsersFactory, $ionicPopup, $state, $rootScope, $timeout, ngFB, SignUpFactory, $ionicHistory) {
 
-        $scope.logoutMessage = false;
-        $scope.login1 = true;
-        $scope.login = function(user) {
+    $scope.logoutMessage = false;
+    $scope.login1 = true;
+    $scope.login = function(user) {
 
-            UsersFactory.login(user.email, user.password).then(function(response) {
-                //console.log(localStorage.getItem('storeUserId'));
-                var userInfo = response.data;
+        UsersFactory.login(user.email, user.password).then(function(response) {
+            //console.log(localStorage.getItem('storeUserId'));
+            var userInfo = response.data;
 
-                if (userInfo.length == 0) {
-                    $ionicPopup.alert({
-                        title: 'Unsuccessful',
-                        template: 'The email or password mismatched'
-                    });
-                } else {
+            if (userInfo.length == 0) {
+                $ionicPopup.alert({
+                    title: 'Unsuccessful',
+                    template: 'The email or password mismatched'
+                });
+            } else {
 
-                    if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
+                if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
 
-                        console.log('no match');
-                        localStorage.removeItem('cartInfo');
-                        localStorage.removeItem('defaultAddress');
-                        console.log(localStorage.getItem('cartInfo'));
-
-                    }
-
-                    localStorage.setItem('storeUserId', userInfo[0].cus_id);
-
-                    UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
-
-                        var addresses = response.data;
-
-                        for (var i = 0; i < addresses.length; i++) {
-                            if (addresses[i].adrs_type == 1) {
-                                //alert(addresses[i]);
-                                localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
-                                break;
-                            }
-                        }
-
-                    });
-
-                    //Saving variables to use later
-                    //$rootScope.login = false;
-                    $scope.login1 = false;
-                    window.localStorage['loggedIn'] = "true";
-                    window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
-                    // without timeout menu ng-show doesn't work
-                    //$state.go("app.searchResult");
-                    if (localStorage.getItem('resId') == null) {
-                        $state.go("app.searchResult");
-                        $rootScope.login = false;
-                    } else {
-
-                        $state.go("app.searchResult", {
-
-                            restaurantId: JSON.parse(localStorage.getItem('resId'))
-                        });
-                        $rootScope.login = false;
-                    }
+                    console.log('no match');
+                    localStorage.removeItem('cartInfo');
+                    localStorage.removeItem('defaultAddress');
+                    console.log(localStorage.getItem('cartInfo'));
 
                 }
 
-            }, function(error) {
-                $ionicPopup.alert({
-                    title: 'Unsuccessful',
-                    template: 'Opps! there was a problem' + error.message
+                localStorage.setItem('storeUserId', userInfo[0].cus_id);
+
+                UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
+
+                    var addresses = response.data;
+
+                    for (var i = 0; i < addresses.length; i++) {
+                        if (addresses[i].adrs_type == 1) {
+                            //alert(addresses[i]);
+                            localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
+                            break;
+                        }
+                    }
+
                 });
+
+                //Saving variables to use later
+                //$rootScope.login = false;
+                $scope.login1 = false;
+                window.localStorage['loggedIn'] = "true";
+                window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
+                // without timeout menu ng-show doesn't work
+                //$state.go("app.searchResult");
+                if (localStorage.getItem('resId') == null) {
+                    $state.go("app.searchResult");
+                    $rootScope.login = false;
+                } else {
+
+                    $state.go("app.searchResult", {
+
+                        restaurantId: JSON.parse(localStorage.getItem('resId'))
+                    });
+                    $rootScope.login = false;
+                }
+
+            }
+
+        }, function(error) {
+            $ionicPopup.alert({
+                title: 'Unsuccessful',
+                template: 'Opps! there was a problem' + error.message
             });
-        }
-
+        });
     }
-])
 
-.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory, $rootScope,ngFB) {
 
-    $scope.login1 = true;
+
+
+
+
+
+
+
+
+
+
+
+
 
     $scope.signUp = function(data) {
         $scope.user = data;
         SignUpFactory.signup(data).then(function(response) {
             var popup = $ionicPopup.alert({
                 title: 'Success!',
-                template: 'Successfully signed up, now login and enjoy your food'
+                template: 'Successfully signed up!'
             });
 
             popup.then(function(res) {
@@ -925,6 +1077,7 @@ angular.module('app.controllers', [])
                     //$state.go("app.login");
                     //////////////////////////////
                     UsersFactory.login($scope.user.email, $scope.user.password).then(function(response) {
+
                         var userInfo = response.data;
                         ////////////////////
                         if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
@@ -942,6 +1095,7 @@ angular.module('app.controllers', [])
                                 }
                             }
                         });
+
                         if (userInfo.length == 0) {
                             $ionicPopup.alert({
                                 title: 'Unsuccessful',
@@ -955,9 +1109,15 @@ angular.module('app.controllers', [])
                             window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
                             // without timeout menu ng-show doesn't work
                             if (localStorage.getItem('resId') == null) {
+                                $ionicHistory.nextViewOptions({
+                                  disableBack: true
+                                });
                                 $state.go("app.searchResult");
                                 $rootScope.login = false;
                             } else {
+                                $ionicHistory.nextViewOptions({
+                                  disableBack: true
+                                });
                                 $state.go("app.foods", {
                                     restaurantId: JSON.parse(localStorage.getItem('resId'))
                                 });
@@ -982,7 +1142,125 @@ angular.module('app.controllers', [])
         }, function(error) {
             $ionicPopup.alert({
                 title: 'Error',
-                template: 'The signup was not successful for this reason' + JSON.parse(error)
+                template: 'The signup was not successful for this reason:' + JSON.parse(error)
+            });
+        });
+    }
+
+    $scope.fbSignUp = function() {
+
+    //alert('hola');
+    $scope.data = {};
+    ngFB.login({
+        scope: 'email'
+    }).then(
+        function(response) {
+            ngFB.api({
+                path: '/me',
+                params: {
+                    fields: 'id,name,email'
+                }
+            }).then(
+                function(user) {
+
+                    var fbData = {};
+                    fbData.name = user.name;
+                    fbData.email = user.email;
+                    fbData.password = "";
+                    //fbData.mobile = user.mobile;
+                    $scope.signUp(fbData);
+                },
+                function(error) {
+                    alert('Facebook error: ' + error.error_description);
+                });
+        });
+    }
+
+})
+
+.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory, $rootScope,  ngFB, $ionicHistory) {
+
+    $scope.login1 = true;
+
+    $scope.signUp = function(data) {
+        $scope.user = data;
+        SignUpFactory.signup(data).then(function(response) {
+            var popup = $ionicPopup.alert({
+                title: 'Success!',
+                template: 'Successfully signed up, now login and enjoy your food'
+            });
+
+            popup.then(function(res) {
+                if (res) {
+                    //$state.go("app.login");
+                    //////////////////////////////
+                    UsersFactory.login($scope.user.email, $scope.user.password).then(function(response) {
+
+                        var userInfo = response.data;
+                        ////////////////////
+                        if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
+                            localStorage.removeItem('cartInfo');
+                        }
+                        localStorage.setItem('storeUserId', userInfo[0].cus_id);
+                        ////////////////////////                        
+                        UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
+                            var addresses = response.data;
+                            for (var i = 0; i < addresses.length; i++) {
+                                if (addresses[i].adrs_type == 1) {
+                                    //alert(addresses[i]);
+                                    localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
+                                    break;
+                                }
+                            }
+                        });
+
+                        if (userInfo.length == 0) {
+                            $ionicPopup.alert({
+                                title: 'Unsuccessful',
+                                template: 'The email or password mismatched'
+                            });
+                        } else {
+                            //Saving variables to use later
+                            //$rootScope.login = false;
+                            $scope.login1 = false;
+                            window.localStorage['loggedIn'] = "true";
+                            window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
+                            // without timeout menu ng-show doesn't work
+                            if (localStorage.getItem('resId') == null) {
+                                $ionicHistory.nextViewOptions({
+                                  disableBack: true
+                                });
+                                $state.go("app.searchResult");
+                                $rootScope.login = false;
+                            } else {
+                                $ionicHistory.nextViewOptions({
+                                  disableBack: true
+                                });
+                                $state.go("app.foods", {
+                                    restaurantId: JSON.parse(localStorage.getItem('resId'))
+                                });
+                                $rootScope.login = false;
+                            }
+
+
+                        }
+
+                    }, function(error) {
+                        $ionicPopup.alert({
+                            title: 'Unsuccessful',
+                            template: 'Opps! there was a problem' + JSON.parse(error)
+                        });
+                    });
+                    //////////////////////////////
+                } else {
+                    console.log("Do nothing");
+                }
+            });
+
+        }, function(error) {
+            $ionicPopup.alert({
+                title: 'Error',
+                template: 'The signup was not successful for this reason:' + JSON.parse(error)
             });
         });
     }
@@ -1093,5 +1371,27 @@ angular.module('app.controllers', [])
     FoodFactory.getRestaurantsById(restaurantId).then(function(response){
         $scope.restaurant = response.data[0];
         console.log($scope.restaurant);
+    });
+    
+})
+
+.controller('orderStatusCtrl', function ($scope, UsersFactory, $ionicPopup) {
+
+    $scope.orderStat = [];
+
+    var user = JSON.parse(localStorage.getItem('loggedInUserInofos'));
+
+
+    UsersFactory.getLastOrderStatus(user[0].cus_id).then(function(response){
+
+        var res = response.data;
+        
+        if(res.length > 0){
+            $scope.orderStat = res[0];
+            console.log(res);
+        }
+        else{
+            $scope.orderStat = false;
+        }
     });
 });

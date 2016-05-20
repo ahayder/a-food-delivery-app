@@ -117,7 +117,7 @@ img.savorLogo
 .ratings-text{
     font-size: .5em !important;
     margin-top: 15px;
-    left: 12px !important;
+    margin-right: -4px;
 }
 
 .restaurent-food-page {
@@ -138,4 +138,44 @@ img.savorLogo
 
 .not-fav {
 	color: #c5c5c5 !important;
+}
+
+
+.rating-badge-next-page{
+	top: 58px !important;
+    line-height: 10px !important;
+    right: 18px !important;
+}
+
+.ratings-text-next-page{
+    font-size: .5em !important;
+    margin-right: 28px;
+    margin-top: 15px;
+}
+
+.right-section-next-page{
+	float: right;
+    margin-right: -22px;
+    margin-top: -71px;
+}
+
+.heart-icon-next-page {
+    font-size: 37px;
+    margin-left: 6px;
+}
+
+.ratings-text-favourite-page{
+    font-size: .5em !important;
+    margin-top: 34px;
+    left: 12px !important;
+}
+
+.rating-badge-favourite-page{
+	top: 38px !important;
+    line-height: 10px !important;
+    right: 18px !important;
+}
+
+#page-button3 {
+    color: #f0ad4e !important;
 }

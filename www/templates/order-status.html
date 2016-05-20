@@ -1,0 +1,22 @@
+<ion-view title="Order Status">
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+
+        <div class="card">
+
+            <div class="item item-divider" ng-show="orderStat">
+                 <h3>Order Number: {{orderStat.order_no}}</h3>
+            </div>
+
+            <div class="item item-text-wrap" ng-show="orderStat">
+                 <h4>Your order  is {{orderStat.order_status}}</h4>
+                <p>Estimated Time is: {{orderStat.est_time}} minutes</p>
+            </div>
+
+            <div class="item item-text-wrap" ng-hide="orderStat">
+                Sorry you have no order(s).
+            </div>
+               
+        </div>
+        
+    </ion-content>
+</ion-view>

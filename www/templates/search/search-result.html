@@ -44,10 +44,10 @@
                 </ul>
 
                 <div class="right-section">
-                    <a class="{{favClass}}" ng-click="makeFav(restaurant.res_id)"><i class="icon ion-ios-heart heart-icon"></i></a>
-                    <p><span class="badge badge-assertive rating-badge">3.5/5</span></p>
+                    <a class="{{favClass}}"><i class="icon ion-ios-heart heart-icon"></i></a>
+                    <p><span class="badge badge-assertive rating-badge">{{restaurant.rating_mark}}/5</span></p>
                     <p class="ratings-text">
-                            (4 Ratings)
+                            ({{restaurant.rating_cus_number}} Ratings)
                     </p>
                 </div>
                 
