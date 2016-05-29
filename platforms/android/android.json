@@ -27,6 +27,10 @@
                         {
                             "xml": "<feature name=\"Keyboard\"><param name=\"android-package\" value=\"io.ionic.keyboard.IonicKeyboard\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -49,19 +53,22 @@
     },
     "installed_plugins": {
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
         },
         "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
         },
         "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
         },
         "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.savor365.android"
         }
     },
     "dependent_plugins": {},
@@ -105,6 +112,13 @@
                 "cordova.plugins.Keyboard"
             ],
             "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+            "id": "cordova-plugin-splashscreen.SplashScreen",
+            "clobbers": [
+                "navigator.splashscreen"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -112,6 +126,7 @@
         "cordova-plugin-geolocation": "2.1.0",
         "cordova-plugin-inappbrowser": "1.4.1-dev",
         "cordova-plugin-whitelist": "1.2.1",
-        "ionic-plugin-keyboard": "2.0.1"
+        "ionic-plugin-keyboard": "2.0.1",
+        "cordova-plugin-splashscreen": "3.2.2"
     }
 }

@@ -39,6 +39,13 @@ module.exports = [
             "cordova.plugins.Keyboard"
         ],
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -48,7 +55,8 @@ module.exports.metadata =
     "cordova-plugin-geolocation": "2.1.0",
     "cordova-plugin-inappbrowser": "1.4.1-dev",
     "cordova-plugin-whitelist": "1.2.1",
-    "ionic-plugin-keyboard": "2.0.1"
+    "ionic-plugin-keyboard": "2.0.1",
+    "cordova-plugin-splashscreen": "3.2.2"
 };
 // BOTTOM OF METADATA
 });

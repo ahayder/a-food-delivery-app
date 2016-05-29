@@ -8,19 +8,22 @@
     },
     "installed_plugins": {
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
         },
         "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
         },
         "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
         },
         "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.savor365.www"
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.savor365.android"
         }
     },
     "dependent_plugins": {}

@@ -1,5 +1,29 @@
 
-angular.module('app', ['ionic', 'app.foodCtrl', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova','ngOpenFB','google.places', 'ngResource'])
+angular.module('app', 
+  ['ionic',
+  'app.appCtrl',
+  'app.addressCtrl',
+  'app.addressesCtrl',
+  'app.cartCtrl',
+  'app.favouriteCtrl',
+  'app.foodCtrl',
+  'app.inviteFriendsCtrl',
+  'app.loginCtrl',
+  'app.moreInfoCtrl',
+  'app.myAccountCtrl',
+  'app.myProfileCtrl',
+  'app.orderHistoryCtrl',
+  'app.orderStatusCtrl',
+  'app.paymentCtrl',
+  'app.searchCtrl',
+  'app.signupCtrl',
+  'app.routes', 
+  'app.services', 
+  'app.directives', 
+  'ngCordova', 
+  'ngOpenFB',
+  'google.places', 
+  'ngResource'])
 
 .run(function($ionicPlatform,ngFB) {
    ngFB.init({appId: '577646735745723'});

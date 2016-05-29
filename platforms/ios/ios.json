@@ -15,6 +15,10 @@
                         {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -37,6 +41,9 @@
         },
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.savor365.www"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.savor365.android"
         }
     },
     "dependent_plugins": {},
@@ -81,10 +88,19 @@
                 "cordova.InAppBrowser.open",
                 "window.open"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+            "id": "cordova-plugin-splashscreen.SplashScreen",
+            "pluginId": "cordova-plugin-splashscreen",
+            "clobbers": [
+                "navigator.splashscreen"
+            ]
         }
     ],
     "plugin_metadata": {
         "cordova-plugin-geolocation": "2.1.0",
-        "cordova-plugin-inappbrowser": "1.4.1-dev"
+        "cordova-plugin-inappbrowser": "1.4.1-dev",
+        "cordova-plugin-splashscreen": "3.2.2"
     }
 }

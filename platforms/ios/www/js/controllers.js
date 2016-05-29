@@ -157,6 +157,7 @@ angular.module('app.controllers', [])
                 $ionicLoading.hide();
                 SearchFactory.saveSearchResult(searchResult);
                 $scope.searchResult = SearchFactory.getSearchResult();
+                console.log($scope.searchResult);
             });
 
         }
@@ -388,15 +389,7 @@ angular.module('app.controllers', [])
             $scope.deliveryModal.remove();
         });
 
-        $scope.openDeliveryModal = function() {
-            //    if (localStorage.getItem('defaultAddress') != null) {
-            //alert(localStorage.getItem('defaultAddress'));
-            var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
-            $scope.defaultAdrs = defaultAddress;
-            $scope.deliveryModal.show();
-
-            //  }
-        }
+        
 
         $scope.addAddressDiv = function() {
             $scope.boolAddNewAddress = true;
@@ -404,27 +397,25 @@ angular.module('app.controllers', [])
 
         $scope.saveAddress = function(address) {
             $scope.address = address;
-            // JSON.stringify($scope.address);
-            // return;
+            //alert(JSON.stringify($scope.address));
+            
             $ionicLoading.show({
                 template: 'Saving into savor365 database.'
             });
             var user = JSON.parse(localStorage.getItem('loggedInUserInofos'));
             $scope.defaultAdrs = {};
 
-            UsersFactory.addressSave(user[0].cus_id, address).then(function(response) {
+            UsersFactory.addressSave(user[0].cus_id, $scope.address).then(function(response) {
                 //$scope.address = response.data;
                 $scope.boolAddNewAddress = false;
-                //alert(JSON.stringify(response.data));
-                if (response.data == "Address Saved") {
-                    $scope.defaultAdrs.addrs = $scope.address.line1 + ' ' + $scope.address.line2;
-                    $scope.defaultAdrs.state = $scope.address.state;
-                    $scope.defaultAdrs.town = $scope.address.city;
-                    $scope.defaultAdrs.zip_code = $scope.address.zipcode;
-                    $scope.defaultAdrs.phone = $scope.address.phone;
-                    $scope.defaultAdrs.country = "USA";
 
-                }
+                $scope.defaultAdrs.addrs = $scope.address.line1 + ' ' + $scope.address.line2;
+                $scope.defaultAdrs.state = $scope.address.state;
+                $scope.defaultAdrs.town = $scope.address.city;
+                $scope.defaultAdrs.zip_code = $scope.address.zipcode;
+                $scope.defaultAdrs.phone = $scope.address.phone;
+                $scope.defaultAdrs.country = "USA";
+
                 $ionicLoading.hide();
 
             }, function(error) {
@@ -438,9 +429,30 @@ angular.module('app.controllers', [])
             });
 
         }
+
+        $scope.openDeliveryModal = function() {
+            //    if (localStorage.getItem('defaultAddress') != null) {
+            //alert(localStorage.getItem('defaultAddress'));
+            var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
+
+            // if default address value is null then don't show the address panel
+            if (defaultAddress == null) {
+                $scope.showAddAddress = false;
+            }
+            else{
+               $scope.showAddAddress = true;
+               $scope.defaultAdrs = defaultAddress;
+            }
+            
+            $scope.deliveryModal.show();
+
+            //  }
+        }
+
         $scope.close = function() {
             $scope.boolAddNewAddress = false;
         }
+
         $scope.setTipsPercent = function(val) {
             $scope.tips += val;
             if ($scope.tips < 0) {
@@ -450,9 +462,29 @@ angular.module('app.controllers', [])
             $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
             $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
         }
+
         $scope.setDeliveryCharge = function(val) {
             $scope.deliveryCharge = Number(val);
         }
+
+        // Getting the card Type
+        var getCardType = function(cardNum){
+            cardNum = cardNum.charAt(0);
+            if(cardNum == 4){
+                return "visa"
+            }
+            else if(cardNum == 5){
+                return "master card"
+            }
+            else if(cardNum == 3){
+                return "american express"
+            }
+            else if(cardNum == 6){
+                return "discover"
+            }
+        }
+
+
         $scope.checkout = function(amnt, deliveryType, tips) {
 
             $scope.boolPayment = false;
@@ -463,15 +495,21 @@ angular.module('app.controllers', [])
 
             UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
 
-                $scope.cc = response.data[0];
+                var cc = response.data[0];
 
-                if(!$scope.cc){
+                console.log(cc);
+
+                var cardType = getCardType(cc.card_number);
+
+
+
+                if(!cc){
                     $ionicPopup.alert({
                         title: 'Error!',
-                        template: 'Please add payment info.'
+                        template: 'Please add an payment.'
                     }).then(
                         function(res){
-                            $state.go("app.addresses");
+                            $state.go("app.payment");
                         }
                     );
                 }
@@ -482,8 +520,8 @@ angular.module('app.controllers', [])
                     var d = new Date();
                     var time = d.getTime();
 
-                    var apikey = "y6pWAJNyJyjGv66IsVuWnklkKUPFbb0a";
-                    var token = "fdoa-a480ce8951daa73262734cf102641994c1e55e7cdf4c02b6";
+                    var apikey = "yfcM9zC93Ixhi1Y8u5d0b8QdbwagCxKh";
+                    var token = "fdoa-83b6ae2adf296e152fdc15078558582983b6ae2adf296e15";
 
                     var forHmac = {};
                     forHmac.time = time;
@@ -492,19 +530,20 @@ angular.module('app.controllers', [])
                                   "merchant_ref": "Astonishing-Sale",
                                   "transaction_type": "purchase",
                                   "method": "credit_card",
-                                  "amount": "1299",
+                                  "amount": String(amnt),
                                   "partial_redemption": "false",
                                   "currency_code": "USD",
                                   "credit_card": {
-                                    "type": "visa",
-                                    "cardholder_name": "John Smith",
-                                    "card_number": "4012000033330026",
-                                    "exp_date": "1020",
-                                    "cvv": "123"
+                                    "type": String(cardType),
+                                    "cardholder_name": String(cc.holder_name),
+                                    "card_number": String(cc.card_number),
+                                    "exp_date": String(cc.expiration_date),
+                                    "cvv": String(cc.cvv)
                                   }
                                 }
 
-                    console.log(forHmac);
+                    console.log(forHmac.payload);
+                    alert(JSON.stringify(forHmac.payload));
 
 
 
@@ -534,41 +573,43 @@ angular.module('app.controllers', [])
 
                         }).then(function(hmacAuth){
 
+                            alert("This is the api key: " + String(apikey));
+
 
                             // Making Payment
                             $http({
                                 method: 'POST',
                                 url: 'https://api-cert.payeezy.com/v1/transactions',
                                 headers: {
-                                            'apikey' : apikey,
-                                            'token' : token,
+                                            'apikey' : String(apikey),
+                                            'token' : String(token),
                                             'Content-Type' :'application/json',
-                                            'Authorization':hmacAuth.data,
-                                            'nonce': nonce,
-                                            'timestamp': time,
+                                            'Authorization': String(hmacAuth.data),
+                                            'nonce': String(nonce),
+                                            'timestamp': String(time),
                                             
                                         },
                                 data: {
-                                      "merchant_ref": "Astonishing-Sale",
-                                      "transaction_type": "purchase",
-                                      "method": "credit_card",
-                                      "amount": "1299",
-                                      "partial_redemption": "false",
-                                      "currency_code": "USD",
-                                      "credit_card": {
-                                        "type": "visa",
-                                        "cardholder_name": "John Smith",
-                                        "card_number": "4012000033330026",
-                                        "exp_date": "1020",
-                                        "cvv": "123"
-                                      }
-                                    }
+                                          "merchant_ref": "Astonishing-Sale",
+                                          "transaction_type": "purchase",
+                                          "method": "credit_card",
+                                          "amount": String(amnt),
+                                          "partial_redemption": "false",
+                                          "currency_code": "USD",
+                                          "credit_card": {
+                                            "type": String(cardType),
+                                            "cardholder_name": String(cc.holder_name),
+                                            "card_number": String(cc.card_number),
+                                            "exp_date": String(cc.expiration_date),
+                                            "cvv": String(cc.cvv)
+                                          }
+                                        }
 
                             }).then(function(response){
                                 alert("success ho geya" + JSON.stringify(response));
                                 localStorage.removeItem('cartInfo');
                             },function(error){
-                                alert("error" + JSON.stringify(error))
+                                alert("error" + JSON.stringify(error));
                             });
 
 
@@ -686,23 +727,12 @@ angular.module('app.controllers', [])
     $scope.saveAddress = function(address) {
         //alert(JSON.stringify(address));
 
-        return;
         $ionicLoading.show({
             template: 'Saving into savor365 database.'
         });
 
         UsersFactory.addressSave(user[0].cus_id, address).then(function(response) {
             $scope.address = response.data;
-            //    var newAddress={addrs:address.line1+' '+address.line2,
-            // country:'USA',
-            // cus_id:user[0].cus_id,
-            // id:-1,
-            // phone:address.phone,
-            // state:address.state,
-            // town:address.city,
-            // zip_code:address.zipcode};
-            // alert(JSON.stringify($scope.address));
-            //$scope.addresses.push(newAddress);
             $ionicLoading.hide();
             $scope.closeModal();
             UsersFactory.getAddresses(user[0].cus_id).then(function(response) {
@@ -986,7 +1016,7 @@ angular.module('app.controllers', [])
     $scope.login = function(user) {
 
         UsersFactory.login(user.email, user.password).then(function(response) {
-            //console.log(localStorage.getItem('storeUserId'));
+            //console.log(localStorage.getItem('userId'));
             var userInfo = response.data;
 
             if (userInfo.length == 0) {
@@ -996,7 +1026,7 @@ angular.module('app.controllers', [])
                 });
             } else {
 
-                if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
+                if (localStorage.getItem('userId') != userInfo[0].cus_id) {
 
                     console.log('no match');
                     localStorage.removeItem('cartInfo');
@@ -1005,17 +1035,25 @@ angular.module('app.controllers', [])
 
                 }
 
-                localStorage.setItem('storeUserId', userInfo[0].cus_id);
+                localStorage.setItem('userId', userInfo[0].cus_id);
 
+                // Saving the user's default address in local storage for use in delivery modal
                 UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
 
                     var addresses = response.data;
 
-                    for (var i = 0; i < addresses.length; i++) {
-                        if (addresses[i].adrs_type == 1) {
-                            //alert(addresses[i]);
-                            localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
-                            break;
+
+                    // jodi address matro 1 ta hoy tahole oitai save korbe
+                    if(addresses.length == 1){
+                        localStorage.setItem('defaultAddress', JSON.stringify(addresses[0]));
+                    }
+                    else{
+                        for (var i = 0; i < addresses.length; i++) {
+                            if (addresses[i].adrs_type == 1) {
+                                //alert(addresses[i]);
+                                localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
+                                break;
+                            }
                         }
                     }
 
@@ -1033,6 +1071,11 @@ angular.module('app.controllers', [])
                     $rootScope.login = false;
                 } else {
 
+                    // disabeling the back button in the next page
+                    $ionicHistory.nextViewOptions({
+                      disableAnimate: true,
+                      disableBack: true
+                    });
                     $state.go("app.searchResult", {
 
                         restaurantId: JSON.parse(localStorage.getItem('resId'))
@@ -1080,10 +1123,10 @@ angular.module('app.controllers', [])
 
                         var userInfo = response.data;
                         ////////////////////
-                        if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
+                        if (localStorage.getItem('userId') != userInfo[0].cus_id) {
                             localStorage.removeItem('cartInfo');
                         }
-                        localStorage.setItem('storeUserId', userInfo[0].cus_id);
+                        localStorage.setItem('userId', userInfo[0].cus_id);
                         ////////////////////////                        
                         UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
                             var addresses = response.data;
@@ -1198,10 +1241,10 @@ angular.module('app.controllers', [])
 
                         var userInfo = response.data;
                         ////////////////////
-                        if (localStorage.getItem('storeUserId') != userInfo[0].cus_id) {
+                        if (localStorage.getItem('userId') != userInfo[0].cus_id) {
                             localStorage.removeItem('cartInfo');
                         }
-                        localStorage.setItem('storeUserId', userInfo[0].cus_id);
+                        localStorage.setItem('userId', userInfo[0].cus_id);
                         ////////////////////////                        
                         UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
                             var addresses = response.data;

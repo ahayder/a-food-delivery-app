@@ -1,4 +1,4 @@
-<ion-view title="Search Result">
+<ion-view title="Restaurant">
     <ion-content overflow-scroll="true" padding="true" class="has-header" delegate-handle="content">
 
     	<ion-list>
@@ -10,14 +10,14 @@
                 <h2 class="assertive">{{restaurant.res_name}}</h2>
                 <ul class="restaurant-thumbnail">
                     <li>
-                            <i class="icon ion-bag assertive delivery-text"></i> Delivery Fee : $0.00
+                            <i class="icon ion-bag assertive delivery-text"></i> Delivery Fee : ${{restaurant.delivery_charged}}
 
                     </li>
                     <li>
-                        <i class="icon ion-bag assertive"></i> Min Delivery : $0.00
+                        <i class="icon ion-bag assertive"></i> Min Delivery : ${{restaurant.min_delivery_charge}}
 
                     </li>
-                    <li><i class="icon ion-clock assertive"></i> Delivery Time :45-60 min</li>
+                    <li><i class="icon ion-clock assertive"></i> Delivery Time :{{restaurant.delivery_time}} mins</li>
                 </ul>
 
                 <div class="right-section-next-page">

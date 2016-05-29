@@ -12,6 +12,9 @@
         },
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.savor365.www"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.savor365.android"
         }
     },
     "dependent_plugins": {}
