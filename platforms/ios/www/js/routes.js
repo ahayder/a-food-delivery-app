@@ -130,12 +130,12 @@ angular.module('app.routes', [])
     })
 
 
-    .state('app.searchResult', {
-      url: '/searchResult',
+    .state('app.search', {
+      url: '/search',
       views: {
         'side-menu': {
           templateUrl: 'templates/search/search-result.html',
-          controller: 'searchResultCtrl'
+          controller: 'searchCtrl'
         }
       }
     })
@@ -164,7 +164,6 @@ angular.module('app.routes', [])
 
     .state('app.cart', {
       url: '/cart',
-      cache: false,
       views: {
         'side-menu': {
           templateUrl: 'templates/cart.html',
@@ -176,6 +175,6 @@ angular.module('app.routes', [])
     
 
   // if none of the above states are matched, use this as the fallback
-   $urlRouterProvider.otherwise('app/searchResult');
+   $urlRouterProvider.otherwise('app/search');
 
 });

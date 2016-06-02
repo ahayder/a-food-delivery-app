@@ -45,6 +45,9 @@ angular.module('app.favouriteCtrl', [])
             });
         });
         
+        //if($scope.restaurants.length == 0){
+            $scope.ifEmpty = "empty-fav";
+        //}
     }
 
     getFav();

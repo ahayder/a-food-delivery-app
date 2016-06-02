@@ -1,0 +1,17 @@
+<ion-popover-view>
+    <ion-header-bar>
+		<h1 class="title">Select as shipping address</h1>
+    </ion-header-bar>
+    <ion-content>
+		<ion-list ng-repeat="a in addrsses">
+	
+	<ion-item ng-click="makeThisShippingAddress(a)">
+
+		<h4>{{a.cus_name}}</h4>
+		<p>{{a.addrs}}, State: {{a.state}}, Town: {{a.town}}, Zip: {{a.zip_code}}, Phone: {{a.phone}}, Country: {{a.country}}</p>
+
+	</ion-item>
+
+</ion-list>
+    </ion-content>
+</ion-popover-view>

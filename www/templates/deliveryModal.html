@@ -5,10 +5,9 @@
     </ion-header-bar>
 
     <ion-content class="padding">
-    <div class="card" ng-show='boolAddNewAddress'>
-        <div class="item item-divider item-assertive">Add New Address</div>
+    <div class="card list" ng-show='boolAddNewAddress'>
+        <div class="item item-divider item-assertive">Add shipping address</div>
             <div class="item item-text-wrap">
-                <div class="card list">
                     <form name="myform">
                         <label class="item item-input">
                             <input type="text" ng-model="address.line1" placeholder="Address Line 1" required>
@@ -35,30 +34,25 @@
                           Cancel
                         </button>
                     </form>
-                </div>
             </div>
         </div>
-        <button class="button button-dark button-block button-large" ng-click="addAddressDiv()">
-        Change/Add Shipping Address</button>
+        
         <div class="card" ng-show="showAddAddress">
-            <div class="item item-divider item-assertive">Your Default Shipping Address</div>
+            <div class="item item-divider item-assertive">Shipping address</div>
             <div class="item item-text-wrap">
-                <p>Address: {{defaultAdrs.addrs}}</p>
-                <p>State: {{defaultAdrs.state}}</p>
-                <!-- <p>County: {{defaultAdrs.county}}</p> -->
-                <p>Town: {{defaultAdrs.town}}</p>
-                <p>Zip: {{defaultAdrs.zip_code}}</p>
-                <p>Phone: {{defaultAdrs.phone}}</p>
-                <p>Country: {{defaultAdrs.country}}</p>
+                <h4>{{defaultAdrs.cus_name}}</h4>
+                <p>{{defaultAdrs.addrs}}, State: {{defaultAdrs.state}}, Town: {{defaultAdrs.town}}, Zip: {{defaultAdrs.zip_code}}, Phone: {{defaultAdrs.phone}}, Country: {{defaultAdrs.country}}</p>
+                <a class="button button-dark button-clear button-small right" ng-click="changeAddress($event)">Change shipping address</a>
+                <a class="button button-dark button-clear button-small right" ng-click="addAddressDiv()">Add new address</a>
             </div>
         </div>
 
         <div class="card">
-            <div class="item item-divider item-assertive">Your Shipping Type</div>
+            <div class="item item-divider item-assertive">Shipping type</div>
             <div class="item item-text-wrap">
             
             <ion-list>
-              <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(0)">Pick Up</ion-radio>
+              <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(0)">Pickup</ion-radio>
               <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(1)">Delivery</ion-radio>
             </ion-list>
 

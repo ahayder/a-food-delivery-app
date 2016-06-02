@@ -1,7 +1,7 @@
 angular.module('app.cartCtrl', [])
 
 // Cart Controller
-.controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $resource) {
+.controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover) {
 
     $scope.emptyCart = true;
     var cartInfo = CartFactory.getCartInfo();
@@ -99,6 +99,7 @@ angular.module('app.cartCtrl', [])
             $scope.defaultAdrs.phone = $scope.address.phone;
             $scope.defaultAdrs.country = "USA";
 
+
             $ionicLoading.hide();
 
         }, function(error) {
@@ -108,8 +109,51 @@ angular.module('app.cartCtrl', [])
                 title: 'Error!',
                 template: 'Opps.. something wrong'
             });
-            console.log("eror is address saving" + error);
+            //console.log("eror is address saving" + error);
         });
+
+    }
+
+    $scope.makeThisShippingAddress = function(address){
+
+        $scope.defaultAdrs.cus_name = address.cus_name;
+        $scope.defaultAdrs.addrs = address.line1 + ' ' + address.line2;
+        $scope.defaultAdrs.state = address.state;
+        $scope.defaultAdrs.town = address.city;
+        $scope.defaultAdrs.zip_code = address.zipcode;
+        $scope.defaultAdrs.phone = address.phone;
+        $scope.defaultAdrs.country = "USA";
+
+        $scope.popover.hide();
+        $scope.$on('$destroy', function() {
+            $scope.popover.remove();
+        });
+
+    }
+
+    // getting addressess- user will select a address from these addresses
+    $scope.changeAddress = function($event){
+
+
+        var user = JSON.parse(window.localStorage['loggedInUserInofos']);
+
+        UsersFactory.getAddresses(user[0].cus_id).then(function(response) {
+            $scope.addrsses = response.data;
+            
+            $ionicPopover.fromTemplateUrl('templates/popovers/selectAddressPopover.html', {
+                scope: $scope
+            }).then(function(popover) {
+                $scope.popover = popover;
+                $scope.popover.show($event);
+
+            });
+
+            
+
+            
+
+        });
+
 
     }
 
@@ -125,6 +169,7 @@ angular.module('app.cartCtrl', [])
         else{
            $scope.showAddAddress = true;
            $scope.defaultAdrs = defaultAddress;
+           //console.log($scope.defaultAdrs);
         }
         
         $scope.deliveryModal.show();

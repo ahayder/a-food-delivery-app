@@ -1,13 +1,26 @@
 <ion-side-menus enable-menu-with-back-views="false">
+
     <ion-side-menu-content>
+
+        <!-- Common navebar of the app -->
         <ion-nav-bar class="bar-assertive">
             <ion-nav-back-button></ion-nav-back-button>
             <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle=""></button>
             </ion-nav-buttons>
+            <ion-nav-buttons side="right">
+                <a class="button button-icon button-clear ion-ios-cart" href="#/app/cart"> ${{cartTotal}}</a>
+            </ion-nav-buttons>
         </ion-nav-bar>
+        <!-- End common navebar of the app -->
+
+        <!-- Templates renders here -->
         <ion-nav-view name="side-menu"></ion-nav-view>
+
     </ion-side-menu-content>
+
+
+
     <ion-side-menu side="left">
         <ion-header-bar class="bar-assertive">
             <div class="title">Menu</div>
@@ -17,7 +30,7 @@
                 <img src="img/icon.jpg" class="savorLogo" alt="Logo">
             </div>
             <ion-list>
-                <ion-item class="main-menu" href="#/app/search" ng-hide="login" menu-close=""><i class="icon ion-ios-home-outline"> Home</i></ion-item>
+                <ion-item class="main-menu" href="#/app/search" ng-hide="login" menu-close=""><i class="icon ion-ios-search"> Srearch</i></ion-item>
 
                 <ion-item class="main-menu" href="#/app/my-account" ng-hide="login" menu-close=""><i class="icon ion-ios-information-outline"> My Account</i></ion-item>
 
@@ -39,9 +52,8 @@
 
                 <ion-item class="main-menu" ng-click="logout()" ng-hide="login" menu-close=""><i class="icon ion-log-out"> Logout</i></ion-item>
 
-                <ion-item class="main-menu" href="#/app/cart" ng-hide="login" menu-close=""><i class="icon ion-log-out"> Cart</i></ion-item>
-
             </ion-list>
         </ion-content>
     </ion-side-menu>
+
 </ion-side-menus>
