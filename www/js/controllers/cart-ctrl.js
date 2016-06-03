@@ -3,6 +3,52 @@ angular.module('app.cartCtrl', [])
 // Cart Controller
 .controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover) {
 
+    // Getting Address
+    // Saving the user's default address in local storage
+
+    UsersFactory.getAddresses(localStorage.getItem('userId')).then(function(response) {
+
+        var addresses = response.data;
+
+
+        // jodi address matro 1 ta hoy tahole oitai save korbe
+        if(addresses.length == 1){
+            localStorage.setItem('defaultAddress', JSON.stringify(addresses[0]));
+        }
+        else{
+            for (var i = 0; i < addresses.length; i++) {
+                if (addresses[i].adrs_type == 1) {
+                    //alert(addresses[i]);
+                    localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
+                    break;
+                }
+            }
+        }
+
+    });
+    // End Saving the user's default address in local storage
+
+
+    // Value initialization for tips calculation
+    $scope.tips=0;
+    $scope.percentages = [
+      {
+        value: 5
+      },
+      {
+        value: 10
+      },
+      {
+        value: 15
+      },
+      {
+        value: 20
+      },
+      {
+        value: 25
+      }];
+      // End Value initialization for tips calculation
+
     $scope.emptyCart = true;
     var cartInfo = CartFactory.getCartInfo();
     $scope.resId = localStorage.getItem('resId');
@@ -48,13 +94,13 @@ angular.module('app.cartCtrl', [])
     }
 
     $scope.boolAddNewAddress = false;
-    $scope.deliveryCharge = 1;
+    $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
     $scope.deliveryType = 'delivery';
-    $scope.tips = 1;
-    $scope.tipsPercent = 0;
+    // $scope.tipsPercent = 1;
+    // $scope.tipsPercent = 0;
     $scope.foodTotal = $scope.grandTotal;
-    $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
-    $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
+    // $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
+    // $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
 
     $ionicModal.fromTemplateUrl('templates/deliveryModal.html', {
         scope: $scope,
@@ -72,7 +118,7 @@ angular.module('app.cartCtrl', [])
         $scope.deliveryModal.remove();
     });
 
-    
+
 
     $scope.addAddressDiv = function() {
         $scope.boolAddNewAddress = true;
@@ -81,7 +127,7 @@ angular.module('app.cartCtrl', [])
     $scope.saveAddress = function(address) {
         $scope.address = address;
         //alert(JSON.stringify($scope.address));
-        
+
         $ionicLoading.show({
             template: 'Saving into savor365 database.'
         });
@@ -101,6 +147,9 @@ angular.module('app.cartCtrl', [])
 
 
             $ionicLoading.hide();
+
+            $scope.showAddAddress = true;
+            $scope.showOnlyAddAddress = false;
 
         }, function(error) {
             $ionicLoading.hide();
@@ -139,7 +188,7 @@ angular.module('app.cartCtrl', [])
 
         UsersFactory.getAddresses(user[0].cus_id).then(function(response) {
             $scope.addrsses = response.data;
-            
+
             $ionicPopover.fromTemplateUrl('templates/popovers/selectAddressPopover.html', {
                 scope: $scope
             }).then(function(popover) {
@@ -148,9 +197,9 @@ angular.module('app.cartCtrl', [])
 
             });
 
-            
 
-            
+
+
 
         });
 
@@ -161,17 +210,22 @@ angular.module('app.cartCtrl', [])
         //    if (localStorage.getItem('defaultAddress') != null) {
         //alert(localStorage.getItem('defaultAddress'));
         var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
+        console.log(defaultAddress);
 
         // if default address value is null then don't show the address panel
         if (defaultAddress == null) {
             $scope.showAddAddress = false;
+            $scope.showOnlyAddAddress = true;
+            console.log("if");
         }
         else{
+          $scope.showOnlyAddAddress = false;
            $scope.showAddAddress = true;
            $scope.defaultAdrs = defaultAddress;
            //console.log($scope.defaultAdrs);
+           console.log("else");
         }
-        
+
         $scope.deliveryModal.show();
 
         //  }
@@ -181,18 +235,27 @@ angular.module('app.cartCtrl', [])
         $scope.boolAddNewAddress = false;
     }
 
+
+    // calcuate tips
     $scope.setTipsPercent = function(val) {
-        $scope.tips += val;
-        if ($scope.tips < 0) {
-            $scope.tips = 0;
-            return;
-        }
+
+
+        console.log(val);
+        $scope.tips = val;
+
         $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
         $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
     }
 
     $scope.setDeliveryCharge = function(val) {
-        $scope.deliveryCharge = Number(val);
+
+        if(val){
+          $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
+        }
+        else{
+          $scope.deliveryCharge = 0;
+        }
+
     }
 
     // Getting the card Type
@@ -277,7 +340,7 @@ angular.module('app.cartCtrl', [])
 
                 //var ref = cordova.InAppBrowser.open("https://savor365.com/api/makePayment?amount=" + amnt + "&cardNumber=" + $scope.cc.card_number + "&cvv=" + $scope.cc.cvv + "&expDate=1018&invNumber=45", "_blank", "location=no");
 
-                
+
                 // CartFactory.makePayment(amnt, $scope.cc.card_number, $scope.cc.cvv, "1080").then(
                 //         function(response){
                 //             alert(response)
@@ -315,7 +378,7 @@ angular.module('app.cartCtrl', [])
                                         'Authorization': String(hmacAuth.data),
                                         'nonce': String(nonce),
                                         'timestamp': String(time),
-                                        
+
                                     },
                             data: {
                                       "merchant_ref": "Astonishing-Sale",
@@ -370,10 +433,10 @@ angular.module('app.cartCtrl', [])
 
 
                 /// END of test
-                
+
                 //$scope.boolPayment = true;
             }
-            
+
         },
         function(error) {
             console.log(error.message);
@@ -394,8 +457,8 @@ angular.module('app.cartCtrl', [])
             $scope.checkOutInfo.deliveryType = deliveryType;
             $scope.foodTotal = $scope.grandTotal;
             $scope.grandTotal += $scope.deliveryCharge;
-            $scope.checkOutInfo.foodTotal = $scope.foodTotal;
-            $scope.checkOutInfo.grandTotal = $scope.grandTotal;
+            $scope.checkOutInfo.foodTotal = $scope.foodTotal.toFixed(2);
+            $scope.checkOutInfo.grandTotal = $scope.grandTotal.toFixed(2);
             //$scope.checkOutInfo.tips=tips;
             $scope.checkOutInfo.deliveryCharge = $scope.deliveryCharge;
             $scope.checkOutInfo.tips = $scope.tipsPercent;

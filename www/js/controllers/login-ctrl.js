@@ -1,6 +1,6 @@
 angular.module('app.loginCtrl', [])
 
-// Login and signup using facebook ctrl   
+// Login and signup using facebook ctrl
 .controller('loginCtrl', function($scope, UsersFactory, $ionicPopup, $state, $rootScope, $timeout, ngFB, SignUpFactory, $ionicHistory) {
 
     $scope.logoutMessage = false;
@@ -22,34 +22,33 @@ angular.module('app.loginCtrl', [])
 
                     console.log('no match');
                     localStorage.removeItem('cartInfo');
-                    localStorage.removeItem('defaultAddress');
                     console.log(localStorage.getItem('cartInfo'));
 
                 }
 
                 localStorage.setItem('userId', userInfo[0].cus_id);
 
-                // Saving the user's default address in local storage for use in delivery modal
-                UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
-
-                    var addresses = response.data;
-
-
-                    // jodi address matro 1 ta hoy tahole oitai save korbe
-                    if(addresses.length == 1){
-                        localStorage.setItem('defaultAddress', JSON.stringify(addresses[0]));
-                    }
-                    else{
-                        for (var i = 0; i < addresses.length; i++) {
-                            if (addresses[i].adrs_type == 1) {
-                                //alert(addresses[i]);
-                                localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
-                                break;
-                            }
-                        }
-                    }
-
-                });
+                // // Saving the user's default address in local storage for use in delivery modal
+                // UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
+                //
+                //     var addresses = response.data;
+                //
+                //
+                //     // jodi address matro 1 ta hoy tahole oitai save korbe
+                //     if(addresses.length == 1){
+                //         localStorage.setItem('defaultAddress', JSON.stringify(addresses[0]));
+                //     }
+                //     else{
+                //         for (var i = 0; i < addresses.length; i++) {
+                //             if (addresses[i].adrs_type == 1) {
+                //                 //alert(addresses[i]);
+                //                 localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
+                //                 break;
+                //             }
+                //         }
+                //     }
+                //
+                // });
 
                 //Saving variables to use later
                 //$rootScope.login = false;
@@ -119,7 +118,7 @@ angular.module('app.loginCtrl', [])
                             localStorage.removeItem('cartInfo');
                         }
                         localStorage.setItem('userId', userInfo[0].cus_id);
-                        ////////////////////////                        
+                        ////////////////////////
                         UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
                             var addresses = response.data;
                             for (var i = 0; i < addresses.length; i++) {

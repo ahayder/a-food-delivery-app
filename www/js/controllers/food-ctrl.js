@@ -3,8 +3,8 @@ angular.module('app.foodCtrl', [])
 
 // Food order ctrl
 .controller("foodsCtrl", function($scope, FoodFactory, $state, $stateParams, $ionicModal, $ionicLoading, CartFactory,$cordovaFacebook, $ionicPopup, UsersFactory, $ionicPopover, $location, $anchorScroll, $ionicScrollDelegate){
-    
-    $scope.favClass = "not-fav";   
+
+    $scope.favClass = "not-fav";
 	var restaurantId = $stateParams.restaurantId;
     $scope.resId = restaurantId; // For menu popover
     localStorage.setItem('resId',restaurantId);
@@ -23,6 +23,10 @@ angular.module('app.foodCtrl', [])
 
     FoodFactory.getRestaurantsById(restaurantId).then(function(response){
         $scope.restaurant = response.data[0];
+
+        // For using in delivery modal
+        localStorage.setItem('deliveryCharge',$scope.restaurant.delivery_charged);
+
     });
 
 
@@ -71,7 +75,7 @@ angular.module('app.foodCtrl', [])
     	// Getting the food extras
 
     	FoodFactory.getExtrasById($scope.food.food_id).then(function(response){
-    		
+
     		var count=0;
 
     		$scope.foodExtras = response.data;
@@ -96,11 +100,11 @@ angular.module('app.foodCtrl', [])
 
     						$scope.foodExtras[i].bool=true;
     					}
-    					
+
     				}
     			}
 
-    			count=0;	
+    			count=0;
     		}
     	});
 
@@ -113,7 +117,7 @@ angular.module('app.foodCtrl', [])
     	// End Modal View
     	$ionicLoading.hide();
   	};
-    
+
 
   	// Order modal closing function
   	$scope.orderModalClose = function() {
@@ -124,10 +128,10 @@ angular.module('app.foodCtrl', [])
   	$scope.loginThenShare=function(foodName){
   	$cordovaFacebook.login(["public_profile", "email", "user_friends","publish_actions"])
             .then(function(success) {
-               
+
                 $cordovaFacebook.api("me?fields=name,email")
                     .then(function(success) {
-                      
+
                       // **********Facebook Post**********
                         var options = {
                             method: 'feed',
@@ -139,21 +143,21 @@ angular.module('app.foodCtrl', [])
                         console.log(success);
                         }, function (error) {
 
-                        });                       
+                        });
                         // **********Facebook Post End**********
                         },
                          function (error) {
 
-                        });      
-                                            
-                //////////////////////                
+                        });
+
+                //////////////////////
             }, function(error) {
                 // error
             });
   	};
 
   	$scope.share = function (foodName) {
-  
+
     // ngFB.api({
     //     method: 'POST',
     //     path: '/me/feed',
@@ -177,7 +181,7 @@ angular.module('app.foodCtrl', [])
   	// Price calculation
 
 	$scope.setPrice = function(price,size,sizeName){
-		
+
 		$scope.disableCartButton=false;
 		for(var i=0;i<$scope.checkOutObj.foodExtra.length;i++){
 
@@ -188,7 +192,7 @@ angular.module('app.foodCtrl', [])
 		$scope.checkOutObj.foodExtra = [];
 
 		$scope.checkOutObj.sizeInfo = {sizeId:size,sizeName:sizeName,sizePrice:price};
-		
+
 		$scope.price = Number(price) + $scope.globalPrice;
 		$scope.globalPrice=$scope.price;
 		///////////////////////////////////////
@@ -199,7 +203,7 @@ angular.module('app.foodCtrl', [])
 				}
 			}
 		}
-    	
+
 	};
 
 
@@ -221,18 +225,18 @@ angular.module('app.foodCtrl', [])
 
 
 	$scope.addExtraFood=function(price,ifChecked,foodExtra1){
-		
+
 		if(ifChecked){
-			$scope.price=Number($scope.price)+Number(price);	
+			$scope.price=Number($scope.price)+Number(price);
 			$scope.globalPrice=$scope.price;
 			$scope.checkOutObj.foodExtra.push(foodExtra1);
 		}
 		else{
-			$scope.price=Number($scope.price)-Number(price);	
+			$scope.price=Number($scope.price)-Number(price);
 			$scope.globalPrice=$scope.price;
 			for(var i=0;i<$scope.checkOutObj.foodExtra.length;i++){
 				if($scope.checkOutObj.foodExtra[i].id==foodExtra1.id){
-					$scope.checkOutObj.foodExtra.splice(i,1);	
+					$scope.checkOutObj.foodExtra.splice(i,1);
 				}
 			}
 		}
@@ -258,7 +262,7 @@ angular.module('app.foodCtrl', [])
 	}
 
 
-    // 
+    //
     var getFav = function(){
 
         var resId = localStorage.getItem('resId');
@@ -273,12 +277,12 @@ angular.module('app.foodCtrl', [])
             userId = false;
         }
 
-        
+
 
         if(userId){
             UsersFactory.getFavs(userId).then(function(response){
                 var res = response.data;
-                
+
                 for(var i=0; i < res.length; i++){
                     if(res[i].res_id == resId){
                         $scope.favClass = "assertive";
@@ -300,7 +304,7 @@ angular.module('app.foodCtrl', [])
             $scope.favClass = "not-fav";
         }
 
-        
+
     }
 
     getFav();
@@ -328,7 +332,7 @@ angular.module('app.foodCtrl', [])
         if(userId){
             UsersFactory.getFavs(userId).then(function(response){
                 var res = response.data;
-                
+
                 for(var i=0; i < res.length; i++){
 
                     if(res[i].res_id == resId){
@@ -382,7 +386,7 @@ angular.module('app.foodCtrl', [])
             $scope.favClass = "not-fav";
         }
 
-        
+
     }
 
 
@@ -398,7 +402,7 @@ angular.module('app.foodCtrl', [])
                 $scope.popover = popover;
                 $scope.popover.show($event);
             });
-        
+
     }
 
     $scope.goToMenu = function(id){

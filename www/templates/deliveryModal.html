@@ -27,16 +27,15 @@
                          <label class="item item-input">
                             <input type="text" ng-model="address.phone" placeholder="Phone No" required>
                         </label>
-                        <button class="button button-full button-positive" ng-disabled="myform.$invalid"ng-click="saveAddress(address)">
-                      Save
-                        </button>
-                        <button class="button button-full button-assertive" ng-click="close()">
-                          Cancel
-                        </button>
+
+                        <div class="button-bar">
+                          <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid"ng-click="saveAddress(address)">Save</a>
+                          <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
+                        </div>
                     </form>
             </div>
         </div>
-        
+
         <div class="card" ng-show="showAddAddress">
             <div class="item item-divider item-assertive">Shipping address</div>
             <div class="item item-text-wrap">
@@ -47,43 +46,46 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="item item-divider item-assertive">Shipping type</div>
+        <div class="card" ng-show="showOnlyAddAddress">
+            <div class="item item-divider item-assertive">Shipping address</div>
             <div class="item item-text-wrap">
-            
+                <a class="button button-dark button-clear button-small right" ng-click="addAddressDiv()">Add new address</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="item item-divider item-assertive">Shipping type- Delivery Charge ${{deliveryCharge}}</div>
+            <div class="item item-text-wrap">
+
             <ion-list>
-              <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(0)">Pickup</ion-radio>
-              <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(1)">Delivery</ion-radio>
+              <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio>
+              <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio>
             </ion-list>
 
             </div>
         </div>
 
-        <div class="card">
         <div class="item item-text-wrap">
            <h2>Delivery Charge ${{deliveryCharge}}</h2>
-           <br>
-         </div> 
-         <!-- ////////////////////// -->
-         <div class="row">
-                <div class="col-33">
-                    <p class="verticle-center">Tips: ${{tipsPercent}}</p>
-                </div>
-                <div class="col-67">
-                    <div class="button-bar">
-                        <a class="button button-assertive" ng-click="setTipsPercent(-1)">-</a>  
-                        <a class="button button-clear">{{tips}}%</a> 
-                        <a class="button button-dark" ng-click="setTipsPercent(+1)">+</a>
-                    </div>
-                </div>
+         </div>
+
+          <label class="item item-input item-select">
+            <div class="input-label">
+              Tips: ${{cartTotal * percentage.value/100 | number:2}}
             </div>
-         <!-- ///////////////////////   -->
-         <button class="button button-assertive button-block button-large" 
-        ng-click="checkout(.01,deliveryType,tips)" ng-disabled='disableCheckOut'>
-        Checkout</button>
-        <button class="button button-calm button-block button-large" ng-click="closeModal()">
-        Cancel</button>
-        </div>
+
+
+            <select ng-model="percentage" ng-init="percentage=percentages[0]" ng-options="percentage.value for percentage in percentages"></select>
+
+          </label>
+
+          <div class="item item-text-wra">
+            <input type="checkbox" ng-model="termsCondition"> I agree with <a href="#">terms & conditions</a>
+          </div>
+      <div class="button-bar">
+        <a class="button button-assertive button-clear" ng-click="checkout(.01,deliveryType,tips)" ng-disabled='disableCheckOut || !termsCondition'>Checkout</a>
+        <a class="button button-calm button-clear" ng-click="closeModal()">Cancel</a>
+      </div>
 
 
     </ion-content>
