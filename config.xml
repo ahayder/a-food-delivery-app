@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.savor365.app" version="0.4.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.savor365.android" version="0.4.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Savor365</name>
   <description>
       Savor365 User App
     </description>
   <author email="alihayder@gmailcom" href="http://ahayder.me/">
-      N. M. Ali Hayder, Soumya Rauth & Imranul Hasan
+      N. M. Ali Hayder, Soumya Rauth and Imranul Hasan
     </author>
   <content src="index.html"/>
   <access origin="*"/>

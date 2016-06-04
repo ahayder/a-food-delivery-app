@@ -316,7 +316,7 @@ angular.module('app.foodCtrl', [])
     // Making Favourite
     $scope.makeFav = function(resId){
 
-
+        console.log("dhuksi");
 
         var resId = localStorage.getItem('resId');
 
