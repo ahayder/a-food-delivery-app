@@ -26,6 +26,8 @@ angular.module('app.foodCtrl', [])
 
         // For using in delivery modal
         localStorage.setItem('deliveryCharge',$scope.restaurant.delivery_charged);
+        localStorage.setItem('taxRate',$scope.restaurant.res_tax_rate);
+        console.log($scope.restaurant.res_tax_rate);
 
     });
 

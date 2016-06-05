@@ -3,6 +3,11 @@ angular.module('app.cartCtrl', [])
 // Cart Controller
 .controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover) {
 
+    // For showing/hiding the shipping address section into modal
+    $scope.deliverySelected = true;
+    $scope.taxRate= parseFloat(localStorage.getItem('taxRate'));
+    $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
+    //console.log($scope.taxRate*10);
     // Getting Address
     // Saving the user's default address in local storage
 
@@ -33,19 +38,22 @@ angular.module('app.cartCtrl', [])
     $scope.tips=0;
     $scope.percentages = [
       {
-        value: 5
+        val: 0
       },
       {
-        value: 10
+        val: 5
       },
       {
-        value: 15
+        val: 10
       },
       {
-        value: 20
+        val: 15
       },
       {
-        value: 25
+        val: 20
+      },
+      {
+        val: 25
       }];
       // End Value initialization for tips calculation
 
@@ -58,8 +66,12 @@ angular.module('app.cartCtrl', [])
     }
     //alert(JSON.stringify(cartInfo));
     var grandTotal = 0;
-
+      //$scope.cartFoods = cartInfo;
+    //  $scope.cartFoods.
+      ///console.log($scope.cartFoods);
     if (cartInfo) {
+
+
         $scope.emptyCart = false;
         var temp = [];
 
@@ -69,19 +81,40 @@ angular.module('app.cartCtrl', [])
                 name: cartInfo[i].mainFood.food_name,
                 size: cartInfo[i].sizeInfo.sizeName,
                 qty: cartInfo[i].qty,
-                price: cartInfo[i].totalPrice,
+                price: parseFloat(cartInfo[i].totalPrice),
                 specialInstruction: cartInfo[i].specialInstruction
             }
 
             temp.push(food);
-            grandTotal += cartInfo[i].totalPrice;
+            var temporaray = cartInfo[i].totalPrice*cartInfo[i].qty;
+            grandTotal += temporaray;
         }
-        $scope.grandTotal = grandTotal;
+        $scope.subTotal = parseFloat(grandTotal);
+
+        // Calculating grandTotal excluding tips
+        var subTotal = parseFloat($scope.subTotal);
+        var deliveryCharge = parseFloat($scope.deliveryCharge);
+        var taxRate = parseFloat($scope.taxRate);
+
+        var tax = subTotal*(taxRate/100);
+        var tips = subTotal*($scope.percentage/100);
+
+        $scope.gTotal = subTotal + deliveryCharge + tax;
+
         $scope.foods = temp;
-    } else {}
+
+    }
     $scope.emptyCart = true;
 
     $ionicLoading.hide();
+
+
+
+
+
+
+
+
 
 
     //........................... For Delivery Starts......................
@@ -94,7 +127,7 @@ angular.module('app.cartCtrl', [])
     }
 
     $scope.boolAddNewAddress = false;
-    $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
+
     $scope.deliveryType = 'delivery';
     // $scope.tipsPercent = 1;
     // $scope.tipsPercent = 0;
@@ -107,6 +140,7 @@ angular.module('app.cartCtrl', [])
         animation: 'slide-in-up'
     }).then(function(deliveryModal) {
         $scope.deliveryModal = deliveryModal;
+
     });
     // Order Modal
 
@@ -210,7 +244,7 @@ angular.module('app.cartCtrl', [])
         //    if (localStorage.getItem('defaultAddress') != null) {
         //alert(localStorage.getItem('defaultAddress'));
         var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
-        console.log(defaultAddress);
+        //console.log(defaultAddress);
 
         // if default address value is null then don't show the address panel
         if (defaultAddress == null) {
@@ -251,9 +285,11 @@ angular.module('app.cartCtrl', [])
 
         if(val){
           $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
+          $scope.deliverySelected = true;
         }
         else{
           $scope.deliveryCharge = 0;
+          $scope.deliverySelected = false;
         }
 
     }

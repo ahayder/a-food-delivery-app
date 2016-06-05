@@ -5,6 +5,26 @@
     </ion-header-bar>
 
     <ion-content class="padding">
+
+        <div class="row remove-padding">
+             <div class="col remove-padding">
+               <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio>
+             </div>
+
+             <div class="col remove-padding">
+               <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio>
+             </div>
+
+        </div>
+
+      <!-- <div class="button-bar">
+
+  <a class="button"><ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio></a>
+  <a class="button"><ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio></a>
+
+</div> -->
+
+
     <div class="card list" ng-show='boolAddNewAddress'>
         <div class="item item-divider item-assertive">Add shipping address</div>
             <div class="item item-text-wrap">
@@ -36,15 +56,7 @@
             </div>
         </div>
 
-        <div class="card" ng-show="showAddAddress">
-            <div class="item item-divider item-assertive">Shipping address</div>
-            <div class="item item-text-wrap">
-                <h4>{{defaultAdrs.cus_name}}</h4>
-                <p>{{defaultAdrs.addrs}}, State: {{defaultAdrs.state}}, Town: {{defaultAdrs.town}}, Zip: {{defaultAdrs.zip_code}}, Phone: {{defaultAdrs.phone}}, Country: {{defaultAdrs.country}}</p>
-                <a class="button button-dark button-clear button-small right" ng-click="changeAddress($event)">Change shipping address</a>
-                <a class="button button-dark button-clear button-small right" ng-click="addAddressDiv()">Add new address</a>
-            </div>
-        </div>
+
 
         <div class="card" ng-show="showOnlyAddAddress">
             <div class="item item-divider item-assertive">Shipping address</div>
@@ -53,31 +65,117 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="item item-divider item-assertive">Shipping type</div>
-            <div class="item item-text-wrap">
 
-            <ion-list>
-              <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio>
-              <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio>
-            </ion-list>
-
-            </div>
-        </div>
-
-        <div class="item item-text-wrap">
-           <h2>Delivery Charge ${{deliveryCharge}}</h2>
-         </div>
 
           <label class="item item-input item-select">
             <div class="input-label">
-              Tips: ${{cartTotal * percentage.value/100 | number:2}}
+              <!-- Tips: ${{cartTotal * percentage.value/100 | number:2}} -->
+              Tips: {{percentage.val}}%
             </div>
 
 
-            <select ng-model="percentage" ng-init="percentage=percentages[0]" ng-options="percentage.value for percentage in percentages"></select>
+            <select ng-model="percentage" ng-init="percentage=percentages[1]" ng-options="percentage.val for percentage in percentages"></select>
 
           </label>
+
+
+
+          <!-- Invoice -->
+          <div class="card">
+              <div class="item item-divider item-assertive">Invoice</div>
+              <div class="item item-text-wrap">
+
+                <div class="row remove-padding">
+                  <div class="col-50 remove-padding">
+                        <h4>Food Details</h4>
+                  </div>
+                  <div class="col-50 remove-padding">
+
+                            <p>Qty | Unit Price | Price</p>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row remove-padding" ng-repeat="food in foods">
+
+                  <div class="col-50 remove-padding">
+                        <h4><p>{{food.name}}</p></h4>
+                        <p>Size: {{food.size}}</p>
+
+                        <br>
+                  </div>
+
+                  <div class="col-50 remove-padding">
+
+                    <p>&nbsp;{{food.qty}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{food.price}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    {{food.qty * food.price}}</p>
+                    <br>
+                  </div>
+
+
+                </div>
+                <hr>
+                <div class="row remove-padding">
+                  <div class="col-67 remove-padding">
+                        <p>Sub total:</p>
+
+                  </div>
+                  <div class="col-33 remove-padding">
+
+                            <p style="text-align:right;">{{subTotal}}</p><hr>
+
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="row remove-padding">
+                  <div class="col-50 remove-padding">
+                        <p>Delivery Cost:</p>
+                        <p>Tips:</p>
+                        <p>Tax:</p>
+                  </div>
+                  <div class="col-50 remove-padding">
+
+                            <p>{{deliveryCharge}}</p>
+                            <p>{{subTotal * percentage.val/100 | number:2}}</p>
+                            <p>{{subTotal * (taxRate/100) | number:2}}</p>
+                    </div>
+                </div>
+
+                <div class="row remove-padding">
+                  <div class="col-67 remove-padding">
+                        <p>grand total:</p>
+
+                  </div>
+                  <div class="col-33 remove-padding">
+
+                            <p style="text-align:right;">{{gTotal+subTotal * percentage.val/100 | number:2}}</p>   <!--Adding from above col-50-->
+
+
+                    </div>
+                </div>
+
+
+
+
+              </div>
+          </div>
+
+
+          <div class="card" ng-show="showAddAddress" ng-if="deliverySelected">
+              <div class="item item-divider item-assertive">Shipping address</div>
+              <div class="item item-text-wrap">
+                  <h4>{{defaultAdrs.cus_name}}</h4>
+                  <p>{{defaultAdrs.addrs}}, State: {{defaultAdrs.state}}, Town: {{defaultAdrs.town}}, Zip: {{defaultAdrs.zip_code}}, Phone: {{defaultAdrs.phone}}, Country: {{defaultAdrs.country}}</p>
+                  <a class="button button-dark button-clear button-small right" ng-click="changeAddress($event)">Change shipping address</a>
+                  <a class="button button-dark button-clear button-small right" ng-click="addAddressDiv()">Add new address</a>
+              </div>
+          </div>
+
+
+
 
           <div class="item item-text-wra">
             <input type="checkbox" ng-model="termsCondition"> I agree with <a href="#">terms & conditions</a>

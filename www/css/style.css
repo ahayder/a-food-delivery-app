@@ -40,7 +40,7 @@
 }
 
 .res-info-box {
-	border-bottom: 2px dashed #ef4e42 !important; 
+	border-bottom: 2px dashed #ef4e42 !important;
 	border-left: none !important;
 	border-right: none !important;
 	border-top: none !important;
@@ -76,7 +76,7 @@
   from {
     -webkit-transform: rotate(0deg);
   }
-  to { 
+  to {
     -webkit-transform: rotate(360deg);
   }
 }
@@ -84,8 +84,8 @@
 img.savorLogo
 {
 	max-height: 100px;
-    -webkit-animation-name:             rotate; 
-    -webkit-animation-duration:         10s; 
+    -webkit-animation-name:             rotate;
+    -webkit-animation-duration:         10s;
     -webkit-animation-iteration-count:  infinite;
     -webkit-animation-timing-function: linear;
 }
@@ -189,46 +189,10 @@ img.savorLogo
     background-size: 45%;
     background-repeat: no-repeat;
     opacity: 0.2;
-    background-position: center; 
+    background-position: center;
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.remove-padding{
+	padding:0 !important;
+}

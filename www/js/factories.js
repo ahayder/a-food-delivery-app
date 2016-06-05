@@ -42,7 +42,7 @@ angular.module('app.services', [])
 		getLastOrderStatus: function(id){
 			return $http.get("https://savor365.com/api/orderStatus?cusId="+id)
 		}
-		
+
 	}
 }])
 
@@ -68,7 +68,7 @@ angular.module('app.services', [])
 		searchByFreeDelivery: function(){
 			return $http.get("https://savor365.com/api/searchByFreeDelivery");
 		}
-		
+
 	}
 }])
 
@@ -103,7 +103,7 @@ angular.module('app.services', [])
 		getMenus: function(resId){
 			return $http.get("https://savor365.com/api/menu?resId="+resId);
 		}
-		
+
 	}
 }])
 
@@ -117,7 +117,7 @@ angular.module('app.services', [])
 			if(localStorage.getItem('cartInfo')==null){
 				localStorage.setItem('cartInfo',[]);
 				storage=[];
-			
+
 			}
 			if(localStorage.getItem('cartInfo').length>0){
 				storage = JSON.parse(localStorage.getItem('cartInfo'));
@@ -125,12 +125,12 @@ angular.module('app.services', [])
 				localStorage.setItem('cartInfo',JSON.stringify(storage));
 			}
 			else{
-				
+
 				storage.push(cartData);
 				localStorage.setItem('cartInfo',JSON.stringify(storage));
 			}
-			
-			
+
+			//console.log(storage);
 		},
 		getCartInfo: function(){
 			//return JSON.parse(window.localStorage['cartInfo'] || false);
@@ -141,6 +141,7 @@ angular.module('app.services', [])
 			if(JSON.stringify(localStorage.getItem('cartInfo'))!=""){
 				storage=JSON.parse(localStorage.getItem('cartInfo'));
 			}
+			//console.log(storage);
 			return storage;
 		},
 		makePayment: function(amnt, cardNum, cvv, expDate){
@@ -202,4 +203,3 @@ angular.module('app.services', [])
 // 		}
 // 	}
 // });
-
