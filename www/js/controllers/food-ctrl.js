@@ -77,7 +77,7 @@ angular.module('app.foodCtrl', [])
     	// Getting the food extras
 
     	FoodFactory.getExtrasById($scope.food.food_id).then(function(response){
-
+                console.log(response.data);
     		var count=0;
 
     		$scope.foodExtras = response.data;
@@ -114,6 +114,8 @@ angular.module('app.foodCtrl', [])
 
     	FoodFactory.getExtraFoodPrice($scope.food.food_id).then(function(response){
     		$scope.foodExtrasPrice = response.data;
+        console.log($scope.foodExtrasPrice);
+
     	});
 
     	// End Modal View
@@ -186,7 +188,7 @@ angular.module('app.foodCtrl', [])
 
 		$scope.disableCartButton=false;
 		for(var i=0;i<$scope.checkOutObj.foodExtra.length;i++){
-
+          //console.log($scope.checkOutObj.foodExtra.length);
 			$scope.checkOutObj.foodExtra[i].ifChecked=false;
 
 		}
@@ -197,14 +199,31 @@ angular.module('app.foodCtrl', [])
 
 		$scope.price = Number(price) + $scope.globalPrice;
 		$scope.globalPrice=$scope.price;
+    //console.log($scope.foodExtrasPrice.price);
 		///////////////////////////////////////
-		for(var i=0;i<$scope.foodExtrasPrice.length;i++){
-			for(var j=0;j<$scope.foodExtras.length;j++){
-				if($scope.foodExtrasPrice[i].extra_food_id==$scope.foodExtras[j].id && $scope.foodExtrasPrice[i].size_name_id==size){
-					$scope.foodExtras[j].price1=$scope.foodExtrasPrice[i].price;
-				}
-			}
+    var temp = 0
+    for(var j=0;j<$scope.foodExtras.length;j++){
+
+		    for(var i=0;i<$scope.foodExtrasPrice.length;i++){
+  				if($scope.foodExtrasPrice[i].extra_food_id==$scope.foodExtras[j].id && $scope.foodExtrasPrice[i].size_name_id==size){
+
+              $scope.foodExtras[j].price1=$scope.foodExtrasPrice[i].price;
+  				}
+			  }
+
 		}
+
+    for(var i = 0; $scope.foodExtras.length; i++){
+
+      if($scope.foodExtras[i].hasOwnProperty('price1')){
+        //$scope.foodExtras[j].price1 = 0;
+      }
+      else{
+        $scope.foodExtras[i].price1 = 0;
+      }
+    }
+    console.log($scope.foodExtras);
+
 
 	};
 

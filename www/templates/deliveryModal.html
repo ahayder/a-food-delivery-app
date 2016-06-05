@@ -70,11 +70,12 @@
           <label class="item item-input item-select">
             <div class="input-label">
               <!-- Tips: ${{cartTotal * percentage.value/100 | number:2}} -->
-              Tips: {{percentage.val}}%
+              Tips:
+              <!--{{percentage.val}}%-->
             </div>
 
 
-            <select ng-model="percentage" ng-init="percentage=percentages[1]" ng-options="percentage.val for percentage in percentages"></select>
+            <select ng-model="percentage" ng-init="percentage=percentages[1]" ng-options="percentage.per for percentage in percentages"></select>
 
           </label>
 
@@ -132,8 +133,8 @@
 
                 <div class="row remove-padding">
                   <div class="col-50 remove-padding">
-                        <p>Delivery Cost:</p>
-                        <p>Tips:</p>
+                        <p>Delivery fee:</p>
+                        <p>Tip:</p>
                         <p>Tax:</p>
                   </div>
                   <div class="col-50 remove-padding">
@@ -146,7 +147,7 @@
 
                 <div class="row remove-padding">
                   <div class="col-67 remove-padding">
-                        <p>grand total:</p>
+                        <p>Total:</p>
 
                   </div>
                   <div class="col-33 remove-padding">
@@ -164,6 +165,8 @@
           </div>
 
 
+              <!--shipping Address-->
+
           <div class="card" ng-show="showAddAddress" ng-if="deliverySelected">
               <div class="item item-divider item-assertive">Shipping address</div>
               <div class="item item-text-wrap">
@@ -174,10 +177,56 @@
               </div>
           </div>
 
+          <!--Billing Address section-->
+          <div class="item item-divider item-assertive">Billing address</div>
+          <div class="item ">
 
+          <div class="row remove-padding">
 
+            <div class="col remove-padding">
+              <input type="radio" ng-model="shipping" name="SameAsShipping" checked>Same as shipping
+              <!-- <input type="checkbox" ng-model="termsCondition">Add new -->
+            </div>
+            <div class="col remove-padding">
+              <!-- <input type="checkbox" ng-model="termsCondition">Same as shipping -->
+              <input type="radio" ng-model="shipping" value="addNew" name="AddNewBilling">Add new
+            </div>
+          </div>
+        </div>
 
-          <div class="item item-text-wra">
+        <div class="card list" ng-show="shipping == 'addNew'">
+            <div class="item item-divider item-assertive">Add billing address</div>
+                <div class="item item-text-wrap">
+                        <form name="myform">
+                            <label class="item item-input">
+                                <input type="text" ng-model="address.line1" placeholder="Address Line 1" required>
+                            </label>
+                            <label class="item item-input">
+                                <input type="text" ng-model="address.line2" placeholder="Address Line 2" required>
+                            </label>
+                            <label class="item item-input">
+                                <input type="text" ng-model="address.city" placeholder="City" required>
+                            </label>
+                            <label class="item item-input">
+                                <input type="text" ng-model="address.state" placeholder="State" required>
+                            </label>
+                            <label class="item item-input">
+                                <input type="text" ng-model="address.zipcode" placeholder="Zip Code" required>
+                            </label>
+                             <label class="item item-input">
+                                <input type="text" ng-model="address.phone" placeholder="Phone No" required>
+                            </label>
+
+                            <div class="button-bar">
+                              <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid"ng-click="saveAddress(address)">Save</a>
+                              <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
+                            </div>
+                        </form>
+                </div>
+            </div>
+
+<!--End of Billing section-->
+          <div class="item item-text-wrap">
             <input type="checkbox" ng-model="termsCondition"> I agree with <a href="#">terms & conditions</a>
           </div>
       <div class="button-bar">

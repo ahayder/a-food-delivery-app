@@ -5,6 +5,7 @@ angular.module('app.cartCtrl', [])
 
     // For showing/hiding the shipping address section into modal
     $scope.deliverySelected = true;
+    $scope.termsCondition=true;
     $scope.taxRate= parseFloat(localStorage.getItem('taxRate'));
     $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
     //console.log($scope.taxRate*10);
@@ -38,22 +39,28 @@ angular.module('app.cartCtrl', [])
     $scope.tips=0;
     $scope.percentages = [
       {
-        val: 0
+        val: 0,
+        per: "0%"
       },
       {
-        val: 5
+        val: 5,
+        per: "5%"
       },
       {
-        val: 10
+        val: 10,
+        per: "10%"
       },
       {
-        val: 15
+        val: 15,
+        per: "15%"
       },
       {
-        val: 20
+        val: 20,
+        per: "20%"
       },
       {
-        val: 25
+        val: 25,
+        per: "25%"
       }];
       // End Value initialization for tips calculation
 
