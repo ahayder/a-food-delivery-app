@@ -11,7 +11,7 @@ angular.module('app.favouriteCtrl', [])
 
         var userId = userInfo[0].cus_id;
 
-        
+
 
         UsersFactory.getFavs(userId).then(function(response){
 
@@ -37,16 +37,16 @@ angular.module('app.favouriteCtrl', [])
                 //console.log($scope.restaurants);
 
             });
-            
+
         }, function(error){
             $ionicPopup.alert({
                 title: 'Error!',
                 template: 'Opps.. something wrong ' + error.message
             });
         });
-        
+
         //if($scope.restaurants.length == 0){
-            $scope.ifEmpty = "empty-fav";
+            $scope.ifEmpty = "empty-page";
         //}
     }
 

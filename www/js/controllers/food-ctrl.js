@@ -195,11 +195,16 @@ angular.module('app.foodCtrl', [])
 
 		$scope.checkOutObj.foodExtra = [];
 
-		$scope.checkOutObj.sizeInfo = {sizeId:size,sizeName:sizeName,sizePrice:price};
+    if($scope.checkOutObj.sizeInfo!=null){
+      return;
+    }else{
+      $scope.checkOutObj.sizeInfo = {sizeId:size,sizeName:sizeName,sizePrice:price};
+    }
+
 
 		$scope.price = Number(price) + $scope.globalPrice;
 		$scope.globalPrice=$scope.price;
-    //console.log($scope.foodExtrasPrice.price);
+    //console.log($scope.globalPrice);
 		///////////////////////////////////////
     var temp = 0
     for(var j=0;j<$scope.foodExtras.length;j++){
@@ -239,8 +244,10 @@ angular.module('app.foodCtrl', [])
 	}
 
 	$scope.decrease=function(){
+    if($scope.qty>0){
+      $scope.qty-=1;
+    }
 
-		$scope.qty-=1;
 		$scope.price=$scope.globalPrice*$scope.qty;
 	}
 

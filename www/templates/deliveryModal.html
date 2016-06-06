@@ -1,5 +1,6 @@
 <ion-modal-view>
     <ion-header-bar class="bar bar-assertive">
+      <a class="button button-icon button-clear ion-close-round" ng-click="closeModal()"></a>
         <h1 class="title">Delivery</h1>
         <a class="button button-icon button-clear ion-ios-cart" href="#/app/cart">${{cartTotal}}</a>
     </ion-header-bar>
@@ -218,7 +219,7 @@
                             </label>
 
                             <div class="button-bar">
-                              <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid"ng-click="saveAddress(address)">Save</a>
+                              <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid" ng-click="saveAddress(address)">Save</a>
                               <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
                             </div>
                         </form>

@@ -1,5 +1,6 @@
 <ion-modal-view>
 	<ion-header-bar class="bar bar-assertive">
+			<a class="button button-icon button-clear ion-close-round" ng-click="orderModalClose()"></a>
 	  	<h1 class="title">Place Your Order</h1>
 	  	<a class="button button-icon button-clear ion-ios-cart" href="#/app/cart">${{cartTotal}}</a>
 	</ion-header-bar>
@@ -11,7 +12,7 @@
 	<ion-content class="has-subheader">
 
 	  	<div class="list card">
-			
+
 
 			<!-- Deatails and share -->
 
@@ -19,7 +20,7 @@
 				<h2 class="title">{{food.food_name}}</h2>
 			    <p>{{food.food_detailes}}</p>
 			    <p>
-			      <a  class="button button-small button-calm icon-left ion-social-facebook" 
+			      <a  class="button button-small button-calm icon-left ion-social-facebook"
 			      ng-click="loginThenShare(food.food_name)">Share</a>
 			    </p>
 			</div>
@@ -55,8 +56,8 @@
 			</div>
 
 			<!-- End Quantity -->
-			
-			
+
+
 
 			<!-- Extras -->
 
@@ -64,8 +65,8 @@
 				<div class="item item-divider assertive" ng-show="fe.bool">
 					Add&nbsp{{fe.type | capitalize }}
 				</div>
-			<ion-checkbox ng-model='fe.ifChecked' ng-checked="fe.ifChecked" ng-click="addExtraFood(fe.price1,fe.ifChecked,fe)">{{fe.item_name}} (${{fe.price1}})</ion-checkbox>
-			</div>	
+			<ion-checkbox ng-model='fe.ifChecked' ng-checked="fe.ifChecked" ng-click="addExtraFood(fe.price1,fe.ifChecked,fe)">{{fe.item_name}} (${{fe.price1}})<span ng-if="fe.price1==0" style="float:right;" class="badge badge-assertive"> Free</span></ion-checkbox>
+			</div>
 
 			<!-- End Extras -->
 

@@ -1,5 +1,5 @@
 <ion-view title="Favourite">
-    <ion-content overflow-scroll="true" padding="true" class="has-header empty-fav">
+    <ion-content overflow-scroll="true" padding="true" class="has-header empty-page">
         <ion-list>
 
             <ion-item class="item-thumbnail-left res-info-box" collection-repeat="restaurant in restaurants" ui-sref="app.foods({restaurantId: restaurant.res_id})">
@@ -26,7 +26,7 @@
                             ({{restaurant.rating_cus_number}} Ratings)
                     </p>
                 </div>
-                
+
             </ion-item>
     </ion-content>
 </ion-view>

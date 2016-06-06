@@ -10,7 +10,7 @@ angular.module('app.cartCtrl', [])
     $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
     //console.log($scope.taxRate*10);
     // Getting Address
-    // Saving the user's default address in local storage
+    // Saving the user's defau lt address in local storage
 
     UsersFactory.getAddresses(localStorage.getItem('userId')).then(function(response) {
 
@@ -67,10 +67,11 @@ angular.module('app.cartCtrl', [])
     $scope.emptyCart = true;
     var cartInfo = CartFactory.getCartInfo();
     $scope.resId = localStorage.getItem('resId');
-    if (cartInfo != undefined) {
-        if (cartInfo.length > 0)
-            $scope.emptyCart = false;
-    }
+    // if (cartInfo != undefined) {
+    //     if (cartInfo.length > 0)
+    //     console.log(cartInfo.length);
+    //         $scope.emptyCart = false;
+    // }
     //alert(JSON.stringify(cartInfo));
     var grandTotal = 0;
       //$scope.cartFoods = cartInfo;
@@ -109,11 +110,15 @@ angular.module('app.cartCtrl', [])
         $scope.gTotal = subTotal + deliveryCharge + tax;
 
         $scope.foods = temp;
+        $ionicLoading.hide();
 
     }
-    $scope.emptyCart = true;
+    else {
+      $scope.emptyCart = true;
 
-    $ionicLoading.hide();
+      $ionicLoading.hide();
+    }
+
 
 
 
@@ -530,5 +535,32 @@ angular.module('app.cartCtrl', [])
 
         }
     } //............................For Delivery Ends........................
+
+//-----------CART DELETE POPUP---------------
+
+$scope.showDeleteAlert = function() {
+  var confirmPopup = $ionicPopup.confirm({
+    title: 'Delete alert',
+    template: 'Are you sure you want to empty cart?'
+  });
+
+  confirmPopup.then(function(res) {
+    if(res) {
+      localStorage.setItem('cartInfo',[]);
+      $scope.foods=false;
+      $scope.emptyCart=true;
+      $scope.emptyPage = " empty-page";
+    } else {
+      return;
+      $scope.emptyPage = "";
+    }
+  });
+};
+
+
+
+
+
+
 
 });
