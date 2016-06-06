@@ -1,13 +1,16 @@
 <ion-view title="Cart">
     <ion-header-bar class="bar-subheader bar-dark">
-        <h1 class="title">Grand Total: ${{grandTotal | number:2}}</h1>
-        <button class="button" ui-sref="app.foods({restaurantId: resId})">
-        Add More
+
+      <button class="button" ui-sref="app.foods({restaurantId: resId})">
+          Add More
       </button>
+        <h1 class="title">Total: ${{grandTotal | number:2}}</h1>
+        <button class="button" ng-click="getPromocode()">Use Promocode</button>
+          
     </ion-header-bar>
-    <ion-content overflow-scroll="true" padding="true" scroll="true" class="has-subheader">
+    <ion-content overflow-scroll="true" padding="true" scroll="true" class="has-subheader" ng-class="emptyPage">
     <!-- <button class="button button-balanced button-block button-large icon ion-cash">{{defaultAdrs}}</button> -->
-        <ion-list ng-show="emptyCart">
+        <ion-list ng-if="!emptyCart" >
             <ion-item class="item" ng-repeat="food in foods">
                 <h2>{{food.name}}</h2>
                 <p>Size: {{food.size}}, Quantity: {{food.qty}}</p>
@@ -15,23 +18,19 @@
                 <p>Your Instruction: {{food.specialInstruction}}</p>
             </ion-item>
         </ion-list>
-        <!-- <button ng-hide="emptyCart" class="button button-balanced button-block button-large icon ion-cash">Checkout</button> -->
-        <!--  <div class="card">
-            <div class="item item-divider">Your Default Shipping Address</div>
-            <div class="item item-text-wrap">
-                <p>Address:  {{defaultAdrs.addrs}}</p>
-                <p>State: {{defaultAdrs.state}}</p>
-                <p>County: {{defaultAdrs.county}}</p>
-                <p>Town: {{defaultAdrs.town}}</p>
-                <p>Zip: {{defaultAdrs.zip_code}}</p>
-                <p>Phone: {{defaultAdrs.phone}}</p>
-                <p>Country: {{defaultAdrs.country}}</p>
-            </div>
-        </div> -->
-        <!-- <button class="button button-balanced button-block button-large icon ion-cash" ng-click="checkout(.01)">Checkout</button> -->
-        <button class="button button-assertive button-block button-large"
+      <!--Empty cart section-->
+        <button ng-if="!emptyCart" class="button button-assertive button-block button-large"
         ng-click="openDeliveryModal()">Next</button>
-        <h4 class="text-center" ng-show="emptyCart">The Cart is Empty</h4>
+
+        <h4 class="text-center" ng-if="emptyCart">The Cart is Empty</h4>
+
+
+
+
+        <!-- Footer -->
+      <div class="bar bar-footer bar-assertive">
+        <a class="button button-icon button-clear ion-android-delete" ng-click="showDeleteAlert()"> Empty Cart</a>
+      </div>
 
     </ion-content>
 </ion-view>

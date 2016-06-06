@@ -114,9 +114,10 @@ angular.module('app.cartCtrl', [])
 
     }
     else {
-      $scope.emptyCart = true;
+        $scope.emptyPage = " empty-page";
+        $scope.emptyCart = true;
 
-      $ionicLoading.hide();
+        $ionicLoading.hide();
     }
 
 
@@ -558,6 +559,41 @@ $scope.showDeleteAlert = function() {
 };
 
 
+
+
+
+    // Getting the promocode
+
+    $scope.getPromocode = function(){
+
+        $scope.promo = {};
+        var promoPopup = $ionicPopup.show({
+            template: '<input type="number" ng-model="promo.code">',
+            title: 'Enter the promocode',
+            scope: $scope,
+            buttons: [
+              { text: 'Cancel' },
+              {
+                text: '<b>Use</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                  if (!$scope.promo.code) {
+                    //don't allow the user to close unless he enters wifi password
+                    e.preventDefault();
+                  } else {
+                    return $scope.promo.code;
+                  }
+                }
+              }
+            ]
+        });
+
+        promoPopup.then(function(res) {
+            console.log('Tapped!', res);
+        });
+
+    }
+    
 
 
 

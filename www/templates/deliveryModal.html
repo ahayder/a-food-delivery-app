@@ -1,240 +1,189 @@
 <ion-modal-view>
     <ion-header-bar class="bar bar-assertive">
-      <a class="button button-icon button-clear ion-close-round" ng-click="closeModal()"></a>
+        <a class="button button-icon button-clear ion-close-round" ng-click="closeModal()"></a>
         <h1 class="title">Delivery</h1>
         <a class="button button-icon button-clear ion-ios-cart" href="#/app/cart">${{cartTotal}}</a>
     </ion-header-bar>
-
-    <ion-content class="padding">
-
+    <ion-content class="padding has-header has-footer" >
         <div class="row remove-padding">
-             <div class="col remove-padding">
-               <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio>
-             </div>
-
-             <div class="col remove-padding">
-               <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio>
-             </div>
-
-        </div>
-
-      <!-- <div class="button-bar">
-
-  <a class="button"><ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio></a>
-  <a class="button"><ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio></a>
-
-</div> -->
-
-
-    <div class="card list" ng-show='boolAddNewAddress'>
-        <div class="item item-divider item-assertive">Add shipping address</div>
-            <div class="item item-text-wrap">
-                    <form name="myform">
-                        <label class="item item-input">
-                            <input type="text" ng-model="address.line1" placeholder="Address Line 1" required>
-                        </label>
-                        <label class="item item-input">
-                            <input type="text" ng-model="address.line2" placeholder="Address Line 2" required>
-                        </label>
-                        <label class="item item-input">
-                            <input type="text" ng-model="address.city" placeholder="City" required>
-                        </label>
-                        <label class="item item-input">
-                            <input type="text" ng-model="address.state" placeholder="State" required>
-                        </label>
-                        <label class="item item-input">
-                            <input type="text" ng-model="address.zipcode" placeholder="Zip Code" required>
-                        </label>
-                         <label class="item item-input">
-                            <input type="text" ng-model="address.phone" placeholder="Phone No" required>
-                        </label>
-
-                        <div class="button-bar">
-                          <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid"ng-click="saveAddress(address)">Save</a>
-                          <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
-                        </div>
-                    </form>
+            <div class="col remove-padding">
+                <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio>
+            </div>
+            <div class="col remove-padding">
+                <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio>
             </div>
         </div>
-
-
-
+        <!-- <div class="button-bar">
+            <a class="button"><ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio></a>
+            <a class="button"><ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio></a>
+            
+            </div> -->
+        <div class="card list" ng-show='boolAddNewAddress'>
+            <div class="item item-divider item-assertive">Add shipping address</div>
+            <div class="item item-text-wrap">
+                <form name="myform">
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.line1" placeholder="Address Line 1" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.line2" placeholder="Address Line 2" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.city" placeholder="City" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.state" placeholder="State" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.zipcode" placeholder="Zip Code" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.phone" placeholder="Phone No" required>
+                    </label>
+                    <div class="button-bar">
+                        <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid"ng-click="saveAddress(address)">Save</a>
+                        <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="card" ng-show="showOnlyAddAddress">
             <div class="item item-divider item-assertive">Shipping address</div>
             <div class="item item-text-wrap">
                 <a class="button button-dark button-clear button-small right" ng-click="addAddressDiv()">Add new address</a>
             </div>
         </div>
-
-
-
-          <label class="item item-input item-select">
+        <label class="item item-input item-select">
             <div class="input-label">
-              <!-- Tips: ${{cartTotal * percentage.value/100 | number:2}} -->
-              Tips:
-              <!--{{percentage.val}}%-->
+                <!-- Tips: ${{cartTotal * percentage.value/100 | number:2}} -->
+                Tips:
+                <!--{{percentage.val}}%-->
             </div>
-
-
             <select ng-model="percentage" ng-init="percentage=percentages[1]" ng-options="percentage.per for percentage in percentages"></select>
-
-          </label>
-
-
-
-          <!-- Invoice -->
-          <div class="card">
-              <div class="item item-divider item-assertive">Invoice</div>
-              <div class="item item-text-wrap">
-
+        </label>
+        <!-- Invoice -->
+        <div class="card">
+            <div class="item item-divider item-assertive">Invoice</div>
+            <div class="item item-text-wrap">
                 <div class="row remove-padding">
-                  <div class="col-50 remove-padding">
+                    <div class="col-50 remove-padding">
                         <h4>Food Details</h4>
-                  </div>
-                  <div class="col-50 remove-padding">
-
-                            <p>Qty | Unit Price | Price</p>
+                    </div>
+                    <div class="col-50 remove-padding">
+                        <p>Qty | Unit Price | Price</p>
                     </div>
                 </div>
                 <hr>
-
                 <div class="row remove-padding" ng-repeat="food in foods">
-
-                  <div class="col-50 remove-padding">
-                        <h4><p>{{food.name}}</p></h4>
+                    <div class="col-50 remove-padding">
+                        <h4>
+                            <p>{{food.name}}</p>
+                        </h4>
                         <p>Size: {{food.size}}</p>
-
-                        <br>
-                  </div>
-
-                  <div class="col-50 remove-padding">
-
-                    <p>&nbsp;{{food.qty}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{food.price}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    {{food.qty * food.price}}</p>
-                    <br>
-                  </div>
-
-
+                        <br ng-if="!$last">
+                    </div>
+                    <div class="col-50 remove-padding">
+                        <p>&nbsp;{{food.qty}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{food.price}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    {{food.qty * food.price}}</p>
+                        <br ng-if="!$last">
+                    </div>
                 </div>
                 <hr>
                 <div class="row remove-padding">
-                  <div class="col-67 remove-padding">
+                    <div class="col-67 remove-padding">
                         <p>Sub total:</p>
-
-                  </div>
-                  <div class="col-33 remove-padding">
-
-                            <p style="text-align:right;">{{subTotal}}</p><hr>
-
-
+                    </div>
+                    <div class="col-33 remove-padding">
+                        <p style="text-align:right;">{{subTotal}}</p>
+                        <hr>
                     </div>
                 </div>
-
-
-
-
                 <div class="row remove-padding">
-                  <div class="col-50 remove-padding">
+                    <div class="col-50 remove-padding">
                         <p>Delivery fee:</p>
                         <p>Tip:</p>
                         <p>Tax:</p>
-                  </div>
-                  <div class="col-50 remove-padding">
-
-                            <p>{{deliveryCharge}}</p>
-                            <p>{{subTotal * percentage.val/100 | number:2}}</p>
-                            <p>{{subTotal * (taxRate/100) | number:2}}</p>
+                        <p>Discount:</p>
+                    </div>
+                    <div class="col-50 remove-padding">
+                        <p>{{deliveryCharge}}</p>
+                        <p>{{subTotal * percentage.val/100 | number:2}}</p>
+                        <p>{{subTotal * (taxRate/100) | number:2}}</p>
+                        <p>-{{discountAmount}}</p>
                     </div>
                 </div>
-
                 <div class="row remove-padding">
-                  <div class="col-67 remove-padding">
+                    <div class="col-67 remove-padding">
+                        <br>
                         <p>Total:</p>
-
-                  </div>
-                  <div class="col-33 remove-padding">
-
-                            <p style="text-align:right;">{{gTotal+subTotal * percentage.val/100 | number:2}}</p>   <!--Adding from above col-50-->
-
-
+                    </div>
+                    <div class="col-33 remove-padding">
+                        <hr>
+                        <p style="text-align:right;">{{gTotal+subTotal * percentage.val/100 | number:2}}</p>
+                        <!--Adding from above col-50-->
                     </div>
                 </div>
-
-
-
-
-              </div>
-          </div>
-
-
-              <!--shipping Address-->
-
-          <div class="card" ng-show="showAddAddress" ng-if="deliverySelected">
-              <div class="item item-divider item-assertive">Shipping address</div>
-              <div class="item item-text-wrap">
-                  <h4>{{defaultAdrs.cus_name}}</h4>
-                  <p>{{defaultAdrs.addrs}}, State: {{defaultAdrs.state}}, Town: {{defaultAdrs.town}}, Zip: {{defaultAdrs.zip_code}}, Phone: {{defaultAdrs.phone}}, Country: {{defaultAdrs.country}}</p>
-                  <a class="button button-dark button-clear button-small right" ng-click="changeAddress($event)">Change shipping address</a>
-                  <a class="button button-dark button-clear button-small right" ng-click="addAddressDiv()">Add new address</a>
-              </div>
-          </div>
-
-          <!--Billing Address section-->
-          <div class="item item-divider item-assertive">Billing address</div>
-          <div class="item ">
-
-          <div class="row remove-padding">
-
-            <div class="col remove-padding">
-              <input type="radio" ng-model="shipping" name="SameAsShipping" checked>Same as shipping
-              <!-- <input type="checkbox" ng-model="termsCondition">Add new -->
             </div>
-            <div class="col remove-padding">
-              <!-- <input type="checkbox" ng-model="termsCondition">Same as shipping -->
-              <input type="radio" ng-model="shipping" value="addNew" name="AddNewBilling">Add new
-            </div>
-          </div>
         </div>
-
+        <!--shipping Address-->
+        <div class="card" ng-show="showAddAddress" ng-if="deliverySelected">
+            <div class="item item-divider item-assertive">Shipping address</div>
+            <div class="item item-text-wrap">
+                <h4>{{defaultAdrs.cus_name}}</h4>
+                <p>{{defaultAdrs.addrs}}, State: {{defaultAdrs.state}}, Town: {{defaultAdrs.town}}, Zip: {{defaultAdrs.zip_code}}, Phone: {{defaultAdrs.phone}}, Country: {{defaultAdrs.country}}</p>
+                <a class="button button-dark button-clear button-small right" ng-click="changeAddress($event)">Change shipping address</a>
+                <a class="button button-dark button-clear button-small right" ng-click="addAddressDiv()">Add new address</a>
+            </div>
+        </div>
+        <!--Billing Address section-->
+        <div class="item item-divider item-assertive">Billing address</div>
+        <div class="item ">
+            <div class="row remove-padding">
+                <div class="col remove-padding">
+                    <input type="radio" ng-model="shipping" name="SameAsShipping" checked> Same as shipping
+                    <!-- <input type="checkbox" ng-model="termsCondition">Add new -->
+                </div>
+                <div class="col remove-padding">
+                    <!-- <input type="checkbox" ng-model="termsCondition">Same as shipping -->
+                    <input type="radio" ng-model="shipping" value="addNew" name="AddNewBilling"> Add new
+                </div>
+            </div>
+        </div>
         <div class="card list" ng-show="shipping == 'addNew'">
             <div class="item item-divider item-assertive">Add billing address</div>
-                <div class="item item-text-wrap">
-                        <form name="myform">
-                            <label class="item item-input">
-                                <input type="text" ng-model="address.line1" placeholder="Address Line 1" required>
-                            </label>
-                            <label class="item item-input">
-                                <input type="text" ng-model="address.line2" placeholder="Address Line 2" required>
-                            </label>
-                            <label class="item item-input">
-                                <input type="text" ng-model="address.city" placeholder="City" required>
-                            </label>
-                            <label class="item item-input">
-                                <input type="text" ng-model="address.state" placeholder="State" required>
-                            </label>
-                            <label class="item item-input">
-                                <input type="text" ng-model="address.zipcode" placeholder="Zip Code" required>
-                            </label>
-                             <label class="item item-input">
-                                <input type="text" ng-model="address.phone" placeholder="Phone No" required>
-                            </label>
-
-                            <div class="button-bar">
-                              <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid" ng-click="saveAddress(address)">Save</a>
-                              <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
-                            </div>
-                        </form>
-                </div>
+            <div class="item item-text-wrap">
+                <form name="myform">
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.line1" placeholder="Address Line 1" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.line2" placeholder="Address Line 2" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.city" placeholder="City" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.state" placeholder="State" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.zipcode" placeholder="Zip Code" required>
+                    </label>
+                    <label class="item item-input">
+                    <input type="text" ng-model="address.phone" placeholder="Phone No" required>
+                    </label>
+                    <div class="button-bar">
+                        <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid" ng-click="saveAddress(address)">Save</a>
+                        <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
+                    </div>
+                </form>
             </div>
-
-<!--End of Billing section-->
-          <div class="item item-text-wrap">
-            <input type="checkbox" ng-model="termsCondition"> I agree with <a href="#">terms & conditions</a>
-          </div>
-      <div class="button-bar">
-        <a class="button button-assertive button-clear" ng-click="checkout(.01,deliveryType,tips)" ng-disabled='disableCheckOut || !termsCondition'>Checkout</a>
-        <a class="button button-calm button-clear" ng-click="closeModal()">Cancel</a>
-      </div>
-
-
+        </div>
+        <!--End of Billing section-->
+        <div class="item item-text-wrap">
+            <input type="checkbox" ng-model="termsCondition"> I agree with <a href="#">terms &amp; conditions</a>
+        </div>
+        <div class="button-bar">
+            <a class="button button-assertive button-clear" ng-click="checkout(.01,deliveryType,tips)" ng-disabled='disableCheckOut || !termsCondition'>Checkout</a>
+            <a class="button button-calm button-clear" ng-click="closeModal()">Cancel</a>
+        </div>
     </ion-content>
 </ion-modal-view>

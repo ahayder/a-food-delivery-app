@@ -22,7 +22,7 @@
 
                 <div class="right-section-next-page">
                     <a class="{{favClass}}" ng-click="makeFav(restaurant.res_id)"><i class="icon ion-ios-heart heart-icon-next-page"></i></a>
-                    <p><span class="badge badge-assertive rating-badge-next-page">{{restaurant.rating_mark}}/5</span></p>
+                    <p><span class="badge badge-assertive rating-badge-next-page">{{restaurant.rating_mark | number:1}}/5</span></p>
                     <p class="ratings-text-next-page">
                             ({{restaurant.rating_cus_number}} Ratings)
                     </p>
