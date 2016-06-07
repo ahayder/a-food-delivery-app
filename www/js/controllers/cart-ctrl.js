@@ -4,10 +4,12 @@ angular.module('app.cartCtrl', [])
 .controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover) {
 
     // For showing/hiding the shipping address section into modal
+
     $scope.deliverySelected = true;
     $scope.termsCondition=true;
     $scope.taxRate= parseFloat(localStorage.getItem('taxRate'));
     $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
+    $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
     //console.log($scope.taxRate*10);
     // Getting Address
     // Saving the user's defau lt address in local storage
@@ -94,7 +96,8 @@ angular.module('app.cartCtrl', [])
             }
 
             temp.push(food);
-            var temporaray = cartInfo[i].totalPrice*cartInfo[i].qty;
+            // var temporaray = cartInfo[i].totalPrice*cartInfo[i].qty;
+            temporaray = cartInfo[i].totalPrice;
             grandTotal += temporaray;
         }
         $scope.subTotal = parseFloat(grandTotal);
@@ -209,6 +212,53 @@ angular.module('app.cartCtrl', [])
         });
 
     }
+//saveAddress ends here
+
+//saveBillingAddress starts below
+
+$scope.saveBillingAddress=function(billingAddress) {
+    return;
+      $scope.address = billingAddress;
+      //alert(JSON.stringify($scope.address));
+
+      $ionicLoading.show({
+          template: 'Saving into savor365 database.'
+      });
+
+      $scope.defaultAdrs = {};
+
+      UsersFactory.addressSave(user[0].cus_id, $scope.address).then(function(response) {
+          //$scope.address = response.data;
+          $scope.boolAddNewAddress = false;
+
+          $scope.defaultAdrs.addrs = $scope.address.line1 + ' ' + $scope.address.line2;
+          $scope.defaultAdrs.state = $scope.address.state;
+          $scope.defaultAdrs.town = $scope.address.city;
+          $scope.defaultAdrs.zip_code = $scope.address.zipcode;
+          $scope.defaultAdrs.phone = $scope.address.phone;
+          $scope.defaultAdrs.country = "USA";
+
+
+          $ionicLoading.hide();
+
+          $scope.showAddAddress = true;
+          $scope.showOnlyAddAddress = false;
+
+      }, function(error) {
+          $ionicLoading.hide();
+
+          $ionicPopup.alert({
+              title: 'Error!',
+              template: 'Opps.. something wrong'
+          });
+          //console.log("eror is address saving" + error);
+      });
+
+  }
+
+
+
+//saveBillingAddress ends
 
     $scope.makeThisShippingAddress = function(address){
 
@@ -227,7 +277,7 @@ angular.module('app.cartCtrl', [])
 
     }
 
-    // getting addressess- user will select a address from these addresses
+    // getting addressess- user will select an address from these addresses
     $scope.changeAddress = function($event){
 
 
@@ -296,14 +346,19 @@ angular.module('app.cartCtrl', [])
 
     $scope.setDeliveryCharge = function(val) {
 
-        if(val){
-          $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
-          $scope.deliverySelected = true;
-        }
-        else{
-          $scope.deliveryCharge = 0;
-          $scope.deliverySelected = false;
-        }
+            if(val){
+                $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
+                $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
+                $scope.deliverySelected = true;
+                console.log($scope.deliveryCharge);
+              }
+              else{
+                //$scope.deliveryCharge = 0;
+                $scope.deliveryChargeForShowingOnly = 0;
+                $scope.pickUp=true;
+                $scope.deliverySelected = false;
+                console.log($scope.deliveryCharge);
+              }
 
     }
 
@@ -456,22 +511,8 @@ angular.module('app.cartCtrl', [])
 
 
 
+                          }, function(error){
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    }, function(error){
                         alert(JSON.stringify(error))
                     });
 
@@ -547,14 +588,21 @@ $scope.showDeleteAlert = function() {
 
   confirmPopup.then(function(res) {
     if(res) {
-      localStorage.setItem('cartInfo',[]);
-      $scope.foods=false;
-      $scope.emptyCart=true;
-      $scope.emptyPage = " empty-page";
-    } else {
-      return;
-      $scope.emptyPage = "";
-    }
+
+        //localStorage.setItem('cartInfo',[]);
+        localStorage.removeItem('cartInfo');
+        console.log(localStorage);
+        $scope.foods=false;
+        $scope.emptyCart=true;
+        console.log($scope.emptyCart);
+        $scope.emptyPage = "empty-page";
+
+      } else {
+        return;
+        $scope.emptyPage = "";
+
+      }
+
   });
 };
 
@@ -593,7 +641,7 @@ $scope.showDeleteAlert = function() {
         });
 
     }
-    
+
 
 
 

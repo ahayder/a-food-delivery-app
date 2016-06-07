@@ -16,7 +16,7 @@
         <!-- <div class="button-bar">
             <a class="button"><ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio></a>
             <a class="button"><ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio></a>
-            
+
             </div> -->
         <div class="card list" ng-show='boolAddNewAddress'>
             <div class="item item-divider item-assertive">Add shipping address</div>
@@ -83,7 +83,7 @@
                         <br ng-if="!$last">
                     </div>
                     <div class="col-50 remove-padding">
-                        <p>&nbsp;{{food.qty}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{food.price}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    {{food.qty * food.price}}</p>
+                        <p>&nbsp;{{food.qty}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{food.price/food.qty}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    {{food.qty * (food.price/food.qty)}}</p>
                         <br ng-if="!$last">
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                         <p>Discount:</p>
                     </div>
                     <div class="col-50 remove-padding">
-                        <p>{{deliveryCharge}}</p>
+                        <p>{{deliveryChargeForShowingOnly}}</p>
                         <p>{{subTotal * percentage.val/100 | number:2}}</p>
                         <p>{{subTotal * (taxRate/100) | number:2}}</p>
                         <p>-{{discountAmount}}</p>
@@ -118,7 +118,9 @@
                     </div>
                     <div class="col-33 remove-padding">
                         <hr>
-                        <p style="text-align:right;">{{gTotal+subTotal * percentage.val/100 | number:2}}</p>
+                        <p ng-show="deliveryType == 'delivery'" style="text-align:right;">{{gTotal+subTotal * percentage.val/100 | number:2}}</p>
+                        <p ng-show="deliveryType == 'pickup'" style="text-align:right;">{{gTotal+subTotal * percentage.val/100 - deliveryCharge | number:2}}</p>
+
                         <!--Adding from above col-50-->
                     </div>
                 </div>
@@ -153,25 +155,25 @@
             <div class="item item-text-wrap">
                 <form name="myform">
                     <label class="item item-input">
-                    <input type="text" ng-model="address.line1" placeholder="Address Line 1" required>
+                    <input type="text" ng-model="billingAddress.line1" placeholder="Address Line 1" required>
                     </label>
                     <label class="item item-input">
-                    <input type="text" ng-model="address.line2" placeholder="Address Line 2" required>
+                    <input type="text" ng-model="billingAddress.line2" placeholder="Address Line 2" required>
                     </label>
                     <label class="item item-input">
-                    <input type="text" ng-model="address.city" placeholder="City" required>
+                    <input type="text" ng-model="billingAddress.city" placeholder="City" required>
                     </label>
                     <label class="item item-input">
-                    <input type="text" ng-model="address.state" placeholder="State" required>
+                    <input type="text" ng-model="billingAddress.state" placeholder="State" required>
                     </label>
                     <label class="item item-input">
-                    <input type="text" ng-model="address.zipcode" placeholder="Zip Code" required>
+                    <input type="text" ng-model="billingAddress.zipcode" placeholder="Zip Code" required>
                     </label>
                     <label class="item item-input">
-                    <input type="text" ng-model="address.phone" placeholder="Phone No" required>
+                    <input type="text" ng-model="billingAddress.phone" placeholder="Phone No" required>
                     </label>
                     <div class="button-bar">
-                        <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid" ng-click="saveAddress(address)">Save</a>
+                        <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid" ng-click="saveBillingAddress(billingAddress)">Save</a>
                         <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
                     </div>
                 </form>
