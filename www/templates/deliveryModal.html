@@ -2,7 +2,7 @@
     <ion-header-bar class="bar bar-assertive">
         <a class="button button-icon button-clear ion-close-round" ng-click="closeModal()"></a>
         <h1 class="title">Delivery</h1>
-        <a class="button button-icon button-clear ion-ios-cart" href="#/app/cart">${{cartTotal}}</a>
+        <a class="button button-icon button-clear ion-ios-cart" href="#/app/cart">${{cartTotal |number:2}}</a>
     </ion-header-bar>
     <ion-content class="padding has-header has-footer" >
         <div class="row remove-padding">
@@ -136,7 +136,7 @@
                 <a class="button button-dark button-clear button-small right" ng-click="addAddressDiv()">Add new address</a>
             </div>
         </div>
-        <!--Billing Address section-->
+          <!--Billing Address section-->
         <div class="item item-divider item-assertive">Billing address</div>
         <div class="item ">
             <div class="row remove-padding">
@@ -184,7 +184,7 @@
             <input type="checkbox" ng-model="termsCondition"> I agree with <a href="#">terms &amp; conditions</a>
         </div>
         <div class="button-bar">
-            <a class="button button-assertive button-clear" ng-click="checkout(.01,deliveryType,tips)" ng-disabled='disableCheckOut || !termsCondition'>Checkout</a>
+            <a class="button button-assertive button-clear" ng-click="checkout(defaultAdrs,cartTotal,food,subTotal,deliveryChargeForShowingOnly,subTotal,percentage,subTotal,taxRate,discountAmount,gTotal)" ng-disabled='disableCheckOut || !termsCondition'>Checkout</a>
             <a class="button button-calm button-clear" ng-click="closeModal()">Cancel</a>
         </div>
     </ion-content>

@@ -380,7 +380,16 @@ $scope.saveBillingAddress=function(billingAddress) {
     }
 
 
-    $scope.checkout = function(amnt, deliveryType, tips) {
+    $scope.checkout = function(defaultAdrs,cartTotal,food,subTotal,deliveryChargeForShowingOnly,subTotal,percentage,subTotal,taxRate,discountAmount,gTotal) {
+
+          //Test code starts below
+            var checkOutUnitPrice= food.price/food.qty;
+            var checckOutPrice= food.qty * (food.price/food.qty);
+            var checkOutTips= subTotal * percentage.val/100 ;
+            var checkOutTax= subTotal * (taxRate/100);
+            var checkOutTotalDelivery= gTotal+subTotal * percentage.val/100 ;
+            var checkOutTotalPickup= gTotal+subTotal * percentage.val/100 - deliveryCharge;
+          //Test code starts up
 
         $scope.boolPayment = false;
 
@@ -532,6 +541,9 @@ $scope.saveBillingAddress=function(billingAddress) {
             console.log(error.message);
         });
 
+
+        // payment end here
+
         $scope.checkOutInfo = {};
         if ($scope.boolPayment) {
             $scope.checkOutInfo.cartItem = CartFactory.getCartInfo();
@@ -591,9 +603,11 @@ $scope.showDeleteAlert = function() {
 
         //localStorage.setItem('cartInfo',[]);
         localStorage.removeItem('cartInfo');
-        console.log(localStorage);
+        //console.log(localStorage);
         $scope.foods=false;
         $scope.emptyCart=true;
+        $scope.subTotal=0;
+        console.log("subTotal:" +$scope.subTotal);
         console.log($scope.emptyCart);
         $scope.emptyPage = "empty-page";
 
