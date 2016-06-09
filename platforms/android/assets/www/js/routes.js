@@ -117,8 +117,8 @@ angular.module('app.routes', [])
           controller: 'loginCtrl'
         }
       }
-    })      
-        
+    })
+
     .state('app.signup', {
       url: '/signup',
       views: {
@@ -143,6 +143,7 @@ angular.module('app.routes', [])
 
     .state('app.foods', {
       url: '/foods/:restaurantId',
+      cache: false,
       views: {
         'side-menu': {
           templateUrl: 'templates/search/foods.html',
@@ -164,6 +165,7 @@ angular.module('app.routes', [])
 
     .state('app.cart', {
       url: '/cart',
+      cache: false,
       views: {
         'side-menu': {
           templateUrl: 'templates/cart.html',
@@ -171,8 +173,8 @@ angular.module('app.routes', [])
         }
       }
     });
-      
-    
+
+
 
   // if none of the above states are matched, use this as the fallback
    $urlRouterProvider.otherwise('app/search');

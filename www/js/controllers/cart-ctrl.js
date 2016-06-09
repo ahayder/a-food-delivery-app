@@ -1,7 +1,7 @@
 angular.module('app.cartCtrl', [])
 
 // Cart Controller
-.controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover) {
+.controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover, FoodFactory) {
 
     // For showing/hiding the shipping address section into modal
 
@@ -10,7 +10,7 @@ angular.module('app.cartCtrl', [])
     $scope.taxRate= parseFloat(localStorage.getItem('taxRate'));
     $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
     $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
-    //console.log($scope.taxRate*10);
+
     // Getting Address
     // Saving the user's defau lt address in local storage
 
@@ -103,7 +103,7 @@ angular.module('app.cartCtrl', [])
         $scope.subTotal = parseFloat(grandTotal);
 
         // Calculating grandTotal excluding tips
-        var subTotal = parseFloat($scope.subTotal);
+        var subTotal = $scope.subTotal;
         var deliveryCharge = parseFloat($scope.deliveryCharge);
         var taxRate = parseFloat($scope.taxRate);
 
@@ -313,14 +313,14 @@ $scope.saveBillingAddress=function(billingAddress) {
         if (defaultAddress == null) {
             $scope.showAddAddress = false;
             $scope.showOnlyAddAddress = true;
-            console.log("if");
+            //console.log("if");
         }
         else{
           $scope.showOnlyAddAddress = false;
            $scope.showAddAddress = true;
            $scope.defaultAdrs = defaultAddress;
            //console.log($scope.defaultAdrs);
-           console.log("else");
+           //console.log("else");
         }
 
         $scope.deliveryModal.show();
@@ -334,10 +334,10 @@ $scope.saveBillingAddress=function(billingAddress) {
 
 
     // calcuate tips
-    $scope.setTipsPercent = function(val) {
+    $scope.calculateTip = function(val) {
 
 
-        console.log(val);
+        //console.log(val);
         $scope.tips = val;
 
         $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
@@ -350,67 +350,140 @@ $scope.saveBillingAddress=function(billingAddress) {
                 $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
                 $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
                 $scope.deliverySelected = true;
-                console.log($scope.deliveryCharge);
+                //console.log($scope.deliveryCharge);
               }
               else{
                 //$scope.deliveryCharge = 0;
                 $scope.deliveryChargeForShowingOnly = 0;
                 $scope.pickUp=true;
                 $scope.deliverySelected = false;
-                console.log($scope.deliveryCharge);
+                //console.log($scope.deliveryCharge);
               }
 
     }
 
     // Getting the card Type
     var getCardType = function(cardNum){
-        cardNum = cardNum.charAt(0);
-        if(cardNum == 4){
-            return "visa"
+        var firstChar = cardNum.charAt(0);
+        if(firstChar == 4){
+            return "Visa"
         }
-        else if(cardNum == 5){
-            return "master card"
+        else if(firstChar == 5){
+            return "MasterCard"
         }
-        else if(cardNum == 3){
-            return "american express"
+        else if(firstChar == 3){
+            return "American Express"
         }
-        else if(cardNum == 6){
-            return "discover"
+        else if(firstChar == 6){
+            return "Discover"
         }
     }
 
 
-    $scope.checkout = function(defaultAdrs,cartTotal,food,subTotal,deliveryChargeForShowingOnly,subTotal,percentage,subTotal,taxRate,discountAmount,gTotal) {
+    $scope.checkout = function(deliveryType, tipPercetage) {
 
-          //Test code starts below
-            var checkOutUnitPrice= food.price/food.qty;
-            var checckOutPrice= food.qty * (food.price/food.qty);
-            var checkOutTips= subTotal * percentage.val/100 ;
-            var checkOutTax= subTotal * (taxRate/100);
-            var checkOutTotalDelivery= gTotal+subTotal * percentage.val/100 ;
-            var checkOutTotalPickup= gTotal+subTotal * percentage.val/100 - deliveryCharge;
-          //Test code starts up
 
-        $scope.boolPayment = false;
+        // Making the checkout object
+        var checkOutInfo = {};
 
+
+        // User Info
         var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
 
-        // Making payment
+        // Restaurant Info
+        checkOutInfo.resInfo = JSON.parse(localStorage.getItem('restaurantInfoForCheckoutInfo'));
+        //console.log(checkOutInfo.resInfo);
+
+        // Order Number
+        var d = new Date();
+        var time = d.getTime();
+        //alert(time);
+        var orderNo = time.toString();
+        orderNo = Number(orderNo.substring(4));
+        checkOutInfo.orderNo = orderNo;
+
+
+        // Confirmation code
+        var confirmationCode = time.toString().substring(9);
+        checkOutInfo.confirmationCode = confirmationCode;
+
+
+        // Delivery Type
+        checkOutInfo.deliveryType = deliveryType;
+
+        
+        // Cart Info
+        checkOutInfo.cartItem = CartFactory.getCartInfo();
+        
+        
+        //Address
+        checkOutInfo.shippingAddress = $scope.defaultAdrs;
+
+
+        // Checkout foods
+        checkOutInfo.foods = $scope.foods;
+
+
+
+        // SubTotal
+        checkOutInfo.subTotal = $scope.subTotal;
+
+
+        // Grand Total
+        if(deliveryType == 'delivery'){
+            checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100)
+        }
+        else{
+            checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100) - $scope.deliveryCharge;
+        }
+
+
+        // User Info
+        checkOutInfo.userinfo = userInfo;
+        
+
+        // Delivery charge
+        checkOutInfo.deliveryCharge = $scope.deliveryCharge;
+
+
+        // Tax
+        checkOutInfo.tax = $scope.subTotal * ($scope.taxRate/100);
+
+
+        // Tips percentage
+        checkOutInfo.tips = $scope.subTotal * tipPercetage/100;
+
+        
+        // Speacial Intructions
+        checkOutInfo.specialInstruction = "";
+        
+        
+        //alert(JSON.stringify(checkOutInfo));
+        //console.log(checkOutInfo);
+
+
+
+        // End of object building for checkout
+        /////////////////////////////////////////////////////////////
+        ///////////////////----------------!!------------------------
+
+
+        
+
+        
+
+        // Making payment Starts here
+
+        $scope.boolPayment = false;
 
         UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
 
             var cc = response.data[0];
 
-            console.log(cc);
-
-            var cardType = getCardType(cc.card_number);
-
-
-
             if(!cc){
                 $ionicPopup.alert({
                     title: 'Error!',
-                    template: 'Please add an payment.'
+                    template: 'Please add a card to proceed.'
                 }).then(
                     function(res){
                         $state.go("app.payment");
@@ -419,121 +492,68 @@ $scope.saveBillingAddress=function(billingAddress) {
             }
             else{
 
-                var nonce = Math.random() * 1000000000000000000;
-
-                var d = new Date();
-                var time = d.getTime();
-
-                var apikey = "yfcM9zC93Ixhi1Y8u5d0b8QdbwagCxKh";
-                var token = "fdoa-83b6ae2adf296e152fdc15078558582983b6ae2adf296e15";
-
-                var forHmac = {};
-                forHmac.time = time;
-                forHmac.nonce = nonce;
-                forHmac.payload = {
-                              "merchant_ref": "Astonishing-Sale",
-                              "transaction_type": "purchase",
-                              "method": "credit_card",
-                              "amount": String(amnt),
-                              "partial_redemption": "false",
-                              "currency_code": "USD",
-                              "credit_card": {
-                                "type": String(cardType),
-                                "cardholder_name": String(cc.holder_name),
-                                "card_number": String(cc.card_number),
-                                "exp_date": String(cc.expiration_date),
-                                "cvv": String(cc.cvv)
-                              }
-                            }
-
-                console.log(forHmac.payload);
-                alert(JSON.stringify(forHmac.payload));
+                // payemnt object
+                var paymentInfo = {}
 
 
-
-                //var ref = cordova.InAppBrowser.open("https://savor365.com/api/makePayment?amount=" + amnt + "&cardNumber=" + $scope.cc.card_number + "&cvv=" + $scope.cc.cvv + "&expDate=1018&invNumber=45", "_blank", "location=no");
-
-
-                // CartFactory.makePayment(amnt, $scope.cc.card_number, $scope.cc.cvv, "1080").then(
-                //         function(response){
-                //             alert(response)
-                //         }
-                //     );
+                // Card Info
+                paymentInfo.cardInfo = cc;
 
 
+                // Card type
+                var ccType = getCardType(cc.card_number);
+                paymentInfo.cardType = ccType;
 
-                // Getting HMAC authorization for payeezy payemnt
+                
+                // Order Number
+                paymentInfo.orderNo = orderNo;
 
-                var getHmac = function(forHmac){
+
+                // User Info
+                paymentInfo.userinfo = userInfo[0];
+
+
+                // Grand Total
+                paymentInfo.amount = checkOutInfo.grandTotal
+
+
+                console.log(paymentInfo);
+
+                var makePayment = function(forHmac){
 
                     $http({
                         method: 'POST',
-                        url: 'https://savor365.com/api/hmac',
+                        url: 'https://savor365.com/api/setPayload',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         },
-                        data: forHmac
+                        data: paymentInfo
 
 
-                    }).then(function(hmacAuth){
+                    }).then(function(response){
 
-                        alert("This is the api key: " + String(apikey));
+                        // if success payment
+                        console.log(response.data);
+                        var res = response.data;
 
-
-                        // Making Payment
-                        $http({
-                            method: 'POST',
-                            url: 'https://api-cert.payeezy.com/v1/transactions',
-                            headers: {
-                                        'apikey' : String(apikey),
-                                        'token' : String(token),
-                                        'Content-Type' :'application/json',
-                                        'Authorization': String(hmacAuth.data),
-                                        'nonce': String(nonce),
-                                        'timestamp': String(time),
-
-                                    },
-                            data: {
-                                      "merchant_ref": "Astonishing-Sale",
-                                      "transaction_type": "purchase",
-                                      "method": "credit_card",
-                                      "amount": String(amnt),
-                                      "partial_redemption": "false",
-                                      "currency_code": "USD",
-                                      "credit_card": {
-                                        "type": String(cardType),
-                                        "cardholder_name": String(cc.holder_name),
-                                        "card_number": String(cc.card_number),
-                                        "exp_date": String(cc.expiration_date),
-                                        "cvv": String(cc.cvv)
-                                      }
-                                    }
-
-                        }).then(function(response){
-                            alert("success ho geya" + JSON.stringify(response));
-                            localStorage.removeItem('cartInfo');
-                        },function(error){
-                            alert("error" + JSON.stringify(error));
-                        });
-
-
-
-
-
-                          }, function(error){
-
-                        alert(JSON.stringify(error))
+                        if(res.hasOwnProperty("Error")){
+                            alert(JSON.stringify(res));
+                        }
+                        else{
+                            $scope.boolPayment = true;
+                            alert("Payment Complete");
+                        }
+                        
+                    }, function(error){
+                        // if error payment
+                        console.log(error.message);
+                        alert("Error");
                     });
 
                 }
 
-
-                getHmac();
-
-
-                /// END of test
-
-                //$scope.boolPayment = true;
+                makePayment();
+                
             }
 
         },
@@ -544,40 +564,19 @@ $scope.saveBillingAddress=function(billingAddress) {
 
         // payment end here
 
-        $scope.checkOutInfo = {};
+        
+
+        //-----------------Saving & Fax---------------------------------
+        // Saving into database and send fax
+        //////////////////////////////////////////////////////////////
         if ($scope.boolPayment) {
-            $scope.checkOutInfo.cartItem = CartFactory.getCartInfo();
-            var d = new Date();
-            var time = d.getTime();
-            //alert(time);
-            var orderNo = time.toString();
-            orderNo = Number(orderNo.substring(4));
-            $scope.confirmationCode = time.toString().substring(9);
-            $scope.checkOutInfo.orderNo = orderNo;
-            // $scope.checkOutInfo.address = JSON.parse(localStorage.getItem('defaultAddress'));
-            $scope.checkOutInfo.address = $scope.defaultAdrs;
-            $scope.checkOutInfo.deliveryType = deliveryType;
-            $scope.foodTotal = $scope.grandTotal;
-            $scope.grandTotal += $scope.deliveryCharge;
-            $scope.checkOutInfo.foodTotal = $scope.foodTotal.toFixed(2);
-            $scope.checkOutInfo.grandTotal = $scope.grandTotal.toFixed(2);
-            //$scope.checkOutInfo.tips=tips;
-            $scope.checkOutInfo.deliveryCharge = $scope.deliveryCharge;
-            $scope.checkOutInfo.tips = $scope.tipsPercent;
-            $scope.checkOutInfo.confirmationCode = $scope.confirmationCode;
-            $scope.checkOutInfo.userinfo = userInfo;
-            //alert(JSON.stringify($scope.checkOutInfo));
-            console.log($scope.checkOutInfo);
-
-
-            ////////////////////////////
-            $http({
+            var sendReq = $http({
                 method: 'POST',
                 url: 'https://savor365.com/api/orderInfo',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                data: $scope.checkOutInfo
+                data: checkOutInfo
 
 
             }).then(function(data) {
@@ -585,9 +584,11 @@ $scope.saveBillingAddress=function(billingAddress) {
                 console.log(data);
                 localStorage.removeItem('cartInfo');
             });
-            /////////////////////////////
-
+            //console.log(sendReq);
         }
+        /////////////////////////////////////////////////////
+
+        
     } //............................For Delivery Ends........................
 
 //-----------CART DELETE POPUP---------------
@@ -607,8 +608,8 @@ $scope.showDeleteAlert = function() {
         $scope.foods=false;
         $scope.emptyCart=true;
         $scope.subTotal=0;
-        console.log("subTotal:" +$scope.subTotal);
-        console.log($scope.emptyCart);
+        //console.log("subTotal:" +$scope.subTotal);
+        //console.log($scope.emptyCart);
         $scope.emptyPage = "empty-page";
 
       } else {

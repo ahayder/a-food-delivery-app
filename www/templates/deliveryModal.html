@@ -13,11 +13,6 @@
                 <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio>
             </div>
         </div>
-        <!-- <div class="button-bar">
-            <a class="button"><ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio></a>
-            <a class="button"><ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio></a>
-
-            </div> -->
         <div class="card list" ng-show='boolAddNewAddress'>
             <div class="item item-divider item-assertive">Add shipping address</div>
             <div class="item item-text-wrap">
@@ -184,7 +179,7 @@
             <input type="checkbox" ng-model="termsCondition"> I agree with <a href="#">terms &amp; conditions</a>
         </div>
         <div class="button-bar">
-            <a class="button button-assertive button-clear" ng-click="checkout(defaultAdrs,cartTotal,food,subTotal,deliveryChargeForShowingOnly,subTotal,percentage,subTotal,taxRate,discountAmount,gTotal)" ng-disabled='disableCheckOut || !termsCondition'>Checkout</a>
+            <a class="button button-assertive button-clear" ng-click="checkout(deliveryType, percentage.val)" ng-disabled='disableCheckOut || !termsCondition'>Checkout</a>
             <a class="button button-calm button-clear" ng-click="closeModal()">Cancel</a>
         </div>
     </ion-content>

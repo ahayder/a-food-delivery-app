@@ -23,11 +23,12 @@ angular.module('app.foodCtrl', [])
 
     FoodFactory.getRestaurantsById(restaurantId).then(function(response){
         $scope.restaurant = response.data[0];
-
+        // For using in cehckout info
+        localStorage.setItem('restaurantInfoForCheckoutInfo',JSON.stringify($scope.restaurant));
         // For using in delivery modal
         localStorage.setItem('deliveryCharge',$scope.restaurant.delivery_charged);
         localStorage.setItem('taxRate',$scope.restaurant.res_tax_rate);
-        console.log($scope.restaurant.res_tax_rate);
+        //console.log($scope.restaurant.res_tax_rate);
 
     });
 
@@ -77,7 +78,7 @@ angular.module('app.foodCtrl', [])
     	// Getting the food extras
 
     	FoodFactory.getExtrasById($scope.food.food_id).then(function(response){
-                console.log(response.data);
+                //console.log(response.data);
     		var count=0;
 
     		$scope.foodExtras = response.data;
@@ -114,7 +115,7 @@ angular.module('app.foodCtrl', [])
 
     	FoodFactory.getExtraFoodPrice($scope.food.food_id).then(function(response){
     		$scope.foodExtrasPrice = response.data;
-        console.log($scope.foodExtrasPrice);
+        //console.log($scope.foodExtrasPrice);
 
     	});
 
@@ -227,7 +228,7 @@ angular.module('app.foodCtrl', [])
         $scope.foodExtras[i].price1 = 0;
       }
     }
-    console.log($scope.foodExtras);
+    //console.log($scope.foodExtras);
 
 
 	};

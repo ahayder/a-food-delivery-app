@@ -143,30 +143,6 @@ angular.module('app.services', [])
 			}
 			//console.log(storage);
 			return storage;
-		},
-		makePayment: function(amnt, cardNum, cvv, expDate){
-			var cc = {}
-
-			cc.transaction_type = "purchase"
-			cc.amount = amnt
-			cc.currency_code = "USD"
-			cc.credit_card = {}
-			cc.credit_card.type = "visa"
-			cc.credit_card.cvv = "123"
-			cc.credit_card.cardholder_name = "John Smith"
-			cc.credit_card.card_number = "4012000033330026"
-			cc.credit_card.exp_date= "1020"
-			//return $http.post("https://api-cert.payeezy.com/v1/transactions ", data);
-			return $http({
-                    method: 'POST',
-                    url: 'https://api-cert.payeezy.com/v1/transactions',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    data: cc
-
-
-                })
 		}
 	}
 }])
