@@ -7,29 +7,43 @@ angular.module('app.foodCtrl', [])
     $scope.favClass = "not-fav";
 	var restaurantId = $stateParams.restaurantId;
     $scope.resId = restaurantId; // For menu popover
+
+
     localStorage.setItem('resId',restaurantId);
 	$scope.disableCartButton=true;
+
 
 	FoodFactory.getFoodsByRestaurantId(restaurantId).then(function(response){
 		$scope.foods = response.data;
 
         FoodFactory.getMenus(restaurantId).then(function(response){
             $scope.menus = response.data;
+            //ionic hide
+
+
+
             //console.log($scope.menus);
         });
 
 	});
 
+  $ionicLoading.show({
+        template: 'Loading...'
+    });
 
     FoodFactory.getRestaurantsById(restaurantId).then(function(response){
         $scope.restaurant = response.data[0];
         // For using in cehckout info
+
         localStorage.setItem('restaurantInfoForCheckoutInfo',JSON.stringify($scope.restaurant));
         // For using in delivery modal
+
         localStorage.setItem('deliveryCharge',$scope.restaurant.delivery_charged);
         localStorage.setItem('taxRate',$scope.restaurant.res_tax_rate);
         //console.log($scope.restaurant.res_tax_rate);
-
+        //loading hide code stars
+            $ionicLoading.hide();
+        //loading hide code ends
     });
 
 
@@ -59,9 +73,9 @@ angular.module('app.foodCtrl', [])
         $scope.qty = 1;
 		$scope.modal.show();
 		// show loading
-		$ionicLoading.show({
-      		template: 'Loading...'
-    	});
+		// $ionicLoading.show({
+    //   		template: 'Loading...'
+    // 	});
 
     	// Modal View
 
@@ -119,8 +133,8 @@ angular.module('app.foodCtrl', [])
 
     	});
 
-    	// End Modal View
-    	$ionicLoading.hide();
+    	// // End Modal View
+    	//$ionicLoading.hide();
   	};
 
 
@@ -417,7 +431,10 @@ angular.module('app.foodCtrl', [])
 
 
     }
+      //testing loading code starts
 
+
+        //testing loading code ends
 
 
 

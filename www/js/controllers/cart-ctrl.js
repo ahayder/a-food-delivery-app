@@ -382,13 +382,18 @@ $scope.saveBillingAddress=function(billingAddress) {
 
     $scope.checkout = function(deliveryType, tipPercetage) {
 
-
+      //--------
+      $ionicLoading.show({
+            template: 'Processing...'
+        });
+      //--------
         // Making the checkout object
         var checkOutInfo = {};
 
 
         // User Info
         var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
+        checkOutInfo.userinfo = userInfo;
 
         // Restaurant Info
         checkOutInfo.resInfo = JSON.parse(localStorage.getItem('restaurantInfoForCheckoutInfo'));
@@ -411,11 +416,11 @@ $scope.saveBillingAddress=function(billingAddress) {
         // Delivery Type
         checkOutInfo.deliveryType = deliveryType;
 
-        
+
         // Cart Info
         checkOutInfo.cartItem = CartFactory.getCartInfo();
-        
-        
+
+
         //Address
         checkOutInfo.shippingAddress = $scope.defaultAdrs;
 
@@ -430,17 +435,14 @@ $scope.saveBillingAddress=function(billingAddress) {
 
 
         // Grand Total
-        if(deliveryType == 'delivery'){
-            checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100)
-        }
-        else{
-            checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100) - $scope.deliveryCharge;
-        }
+        // if(deliveryType == 'delivery'){
+        //     checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100)
+        // }
+        // else{
+        //     checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100) - $scope.deliveryCharge;
+        // }
+        checkOutInfo.grandTotal = 0.1;
 
-
-        // User Info
-        checkOutInfo.userinfo = userInfo;
-        
 
         // Delivery charge
         checkOutInfo.deliveryCharge = $scope.deliveryCharge;
@@ -453,11 +455,11 @@ $scope.saveBillingAddress=function(billingAddress) {
         // Tips percentage
         checkOutInfo.tips = $scope.subTotal * tipPercetage/100;
 
-        
+
         // Speacial Intructions
         checkOutInfo.specialInstruction = "";
-        
-        
+
+
         //alert(JSON.stringify(checkOutInfo));
         //console.log(checkOutInfo);
 
@@ -468,9 +470,9 @@ $scope.saveBillingAddress=function(billingAddress) {
         ///////////////////----------------!!------------------------
 
 
-        
 
-        
+
+
 
         // Making payment Starts here
 
@@ -481,6 +483,9 @@ $scope.saveBillingAddress=function(billingAddress) {
             var cc = response.data[0];
 
             if(!cc){
+
+                $ionicLoading.hide();
+
                 $ionicPopup.alert({
                     title: 'Error!',
                     template: 'Please add a card to proceed.'
@@ -504,7 +509,7 @@ $scope.saveBillingAddress=function(billingAddress) {
                 var ccType = getCardType(cc.card_number);
                 paymentInfo.cardType = ccType;
 
-                
+
                 // Order Number
                 paymentInfo.orderNo = orderNo;
 
@@ -531,65 +536,103 @@ $scope.saveBillingAddress=function(billingAddress) {
 
 
                     }).then(function(response){
+                      $ionicLoading.hide();
+                      console.log($scope.boolPayment);
+                      // if success payment
+                      console.log(response.data);
+                      var res = response.data;
+                      // do whatever need after payment made
+                      $scope.boolPayment = true;
+                      //msg payment done
+                      var alertPopup = $ionicPopup.alert({
+                          title: 'success!!',
+                          template: 'successfully checked out...please wait for order confirmation!! '
+                      });
+                      alertPopup.then(function(res) {
+                        //-----------------Saving & Fax---------------------------------
+                        // Saving into database and send fax
+                        //////////////////////////////////////////////////////////////
 
-                        // if success payment
-                        console.log(response.data);
-                        var res = response.data;
+                                $ionicLoading.show({
+                                    template: 'Order confirm!!'
+                                });
 
-                        if(res.hasOwnProperty("Error")){
-                            alert(JSON.stringify(res));
-                        }
-                        else{
-                            $scope.boolPayment = true;
-                            alert("Payment Complete");
-                        }
-                        
+
+                            var sendReq = $http({
+                                method: 'POST',
+                                url: 'https://savor365.com/api/orderInfo',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                data: checkOutInfo
+
+
+                            }).then(function(data) {
+                                //alert(JSON.stringify(data));
+                                $ionicLoading.hide();
+                                $ionicPopup.alert({
+                                    title: 'Success!!',
+                                    template: 'Your order is confirmed!!'
+                                });
+
+                                console.log(data);
+                                localStorage.removeItem('cartInfo');
+                            },function(error){
+                              $ionicLoading.hide();
+                              //error message
+                              $ionicPopup.alert({
+                                  title: 'Error!',
+                                  template: 'Opps.. something wrong'
+                              });
+                            });
+                            //console.log(sendReq);
+                        /////////////////////////////////////////////////////
+                     });
+
                     }, function(error){
+                          $ionicLoading.hide();
+                          //alert message
+                          $ionicPopup.alert({
+                              title: 'Error!',
+                              template: 'Opps.. something wrong'
+                          });
+
+
                         // if error payment
                         console.log(error.message);
                         alert("Error");
                     });
-
+                    // end of makePayment()
                 }
 
                 makePayment();
-                
+
             }
 
         },
         function(error) {
+          $ionicLoading.hide();
+          //error message
+          $ionicPopup.alert({
+              title: 'Error!',
+              template: 'Opps.. something wrong'
+          });
             console.log(error.message);
         });
 
 
         // payment end here
 
-        
-
-        //-----------------Saving & Fax---------------------------------
-        // Saving into database and send fax
-        //////////////////////////////////////////////////////////////
-        if ($scope.boolPayment) {
-            var sendReq = $http({
-                method: 'POST',
-                url: 'https://savor365.com/api/orderInfo',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data: checkOutInfo
 
 
-            }).then(function(data) {
-                //alert(JSON.stringify(data));
-                console.log(data);
-                localStorage.removeItem('cartInfo');
-            });
-            //console.log(sendReq);
-        }
-        /////////////////////////////////////////////////////
 
-        
     } //............................For Delivery Ends........................
+
+
+
+
+
+
 
 //-----------CART DELETE POPUP---------------
 
