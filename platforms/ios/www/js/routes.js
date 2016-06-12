@@ -1,6 +1,11 @@
 angular.module('app.routes', [])
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+
+  $httpProvider.defaults.headers.common = {};
+  $httpProvider.defaults.headers.post = {};
+  $httpProvider.defaults.headers.put = {};
+  $httpProvider.defaults.headers.patch = {};
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -117,8 +122,8 @@ angular.module('app.routes', [])
           controller: 'loginCtrl'
         }
       }
-    })      
-        
+    })
+
     .state('app.signup', {
       url: '/signup',
       views: {
@@ -143,6 +148,7 @@ angular.module('app.routes', [])
 
     .state('app.foods', {
       url: '/foods/:restaurantId',
+      cache: false,
       views: {
         'side-menu': {
           templateUrl: 'templates/search/foods.html',
@@ -164,6 +170,7 @@ angular.module('app.routes', [])
 
     .state('app.cart', {
       url: '/cart',
+      cache: false,
       views: {
         'side-menu': {
           templateUrl: 'templates/cart.html',
@@ -171,8 +178,8 @@ angular.module('app.routes', [])
         }
       }
     });
-      
-    
+
+
 
   // if none of the above states are matched, use this as the fallback
    $urlRouterProvider.otherwise('app/search');

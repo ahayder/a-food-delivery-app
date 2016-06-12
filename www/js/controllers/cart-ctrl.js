@@ -384,7 +384,7 @@ $scope.saveBillingAddress=function(billingAddress) {
 
       //--------
       $ionicLoading.show({
-            template: 'Processing...'
+            template: 'Payment is processing...'
         });
       //--------
         // Making the checkout object
@@ -402,6 +402,7 @@ $scope.saveBillingAddress=function(billingAddress) {
         // Order Number
         var d = new Date();
         var time = d.getTime();
+        console.log(time);
         //alert(time);
         var orderNo = time.toString();
         orderNo = Number(orderNo.substring(4));
@@ -434,14 +435,14 @@ $scope.saveBillingAddress=function(billingAddress) {
         checkOutInfo.subTotal = $scope.subTotal;
 
 
-        // Grand Total
-        // if(deliveryType == 'delivery'){
-        //     checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100)
-        // }
-        // else{
-        //     checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100) - $scope.deliveryCharge;
-        // }
-        checkOutInfo.grandTotal = 0.1;
+        //Grand Total
+        if(deliveryType == 'delivery'){
+            checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100)
+        }
+        else{
+            checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100) - $scope.deliveryCharge;
+        }
+        //checkOutInfo.grandTotal = 0.1;
 
 
         // Delivery charge
@@ -549,16 +550,18 @@ $scope.saveBillingAddress=function(billingAddress) {
                           template: 'successfully checked out...please wait for order confirmation!! '
                       });
                       alertPopup.then(function(res) {
+
+
                         //-----------------Saving & Fax---------------------------------
                         // Saving into database and send fax
                         //////////////////////////////////////////////////////////////
 
-                                $ionicLoading.show({
-                                    template: 'Order confirm!!'
-                                });
+                            $ionicLoading.show({
+                                template: 'Order is confirming!!'
+                            });
 
 
-                            var sendReq = $http({
+                            $http({
                                 method: 'POST',
                                 url: 'https://savor365.com/api/orderInfo',
                                 headers: {
@@ -577,6 +580,7 @@ $scope.saveBillingAddress=function(billingAddress) {
 
                                 console.log(data);
                                 localStorage.removeItem('cartInfo');
+                                $state.go("app.search");
                             },function(error){
                               $ionicLoading.hide();
                               //error message
@@ -586,6 +590,7 @@ $scope.saveBillingAddress=function(billingAddress) {
                               });
                             });
                             //console.log(sendReq);
+
                         /////////////////////////////////////////////////////
                      });
 

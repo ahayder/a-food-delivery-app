@@ -2,11 +2,11 @@
 	<ion-header-bar class="bar bar-assertive">
 			<a class="button button-icon button-clear ion-close-round" ng-click="orderModalClose()"></a>
 	  	<h1 class="title">Place Your Order</h1>
-	  	<a class="button button-icon button-clear ion-ios-cart" href="#/app/cart">${{cartTotal}}</a>
+	  	<a class="button button-icon button-clear ion-ios-cart" href="#/app/cart">${{cartTotal | number:2}}</a>
 	</ion-header-bar>
 
 	<ion-header-bar class="bar-subheader bar-assertive">
-        <h1 class="title">Total Price: ${{price}}</h1>
+        <h1 class="title">Total Price: ${{price | number:2}}</h1>
     </ion-header-bar>
 
 	<ion-content class="has-subheader">

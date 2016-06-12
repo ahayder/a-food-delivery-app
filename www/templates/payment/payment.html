@@ -4,8 +4,11 @@
         <i class="icon ion-ios-plus"></i>
       </button>
     </ion-nav-buttons>
-    <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <div class="list">
+    <ion-content overflow-scroll="true" padding="true" class="has-header" ng-class="emptyPage">
+        <div class="card" ng="!card">
+            <div class="item item-text-wrap">To add a new card press the + button at the top.</div>
+        </div>
+        <div class="list" ng-show="card">
             <label class="item item-divider item-assertive">Your Default Card</label>
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Name</span>

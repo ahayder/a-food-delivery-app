@@ -10,6 +10,12 @@ angular.module('app.paymentCtrl', [])
     UsersFactory.getPaymentInfo(user[0].cus_id).then(function(response) {
             $scope.card = response.data[0];
             console.log($scope.card);
+            if($scope.card){
+                $scope.emptyPage = "";
+            }
+            else{
+                $scope.emptyPage = "empty-page";
+            }
         },
         function(error) {
             console.log(error.message);
@@ -19,18 +25,7 @@ angular.module('app.paymentCtrl', [])
 
     $scope.savePaymentInfos = function(payment) {
             if (!$scope.invalidNumber) {
-                /////////////////////////
-                // $(function() {
-                //$('#ccnum').validateCreditCard(function(result) {
-                // alert(JSON.stringify(result.valid));
-                //  if(!result.valid){
-                // alert("Please insert valid card number");
-                //  $scope.invalidNumber=true;
-                //   return;
-                //   }
-                //   else{
-                //  alert(JSON.stringify(payment));
-                //////////////////////////
+
                 $ionicLoading.show({
                     template: 'Saving into savor365 database.'
                 });
@@ -54,12 +49,7 @@ angular.module('app.paymentCtrl', [])
                     });
                     console.log("eror in payment saving" + error);
                 });
-                //////////////////////////
-                //}
 
-
-                // });
-                // });
             }
 
 

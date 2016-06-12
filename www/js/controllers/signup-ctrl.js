@@ -115,69 +115,6 @@ angular.module('app.signupCtrl', [])
                         alert('Facebook error: ' + error.error_description);
                     });
             });
-        // openFB.login(
-        //     function(response) {
-        //         //alert(JSON.stringify(response));
-        //         var accessToken = response.authResponse.accessToken;
-        //         openFB.api({
-        //             path: "/me",
-
-        //             success: function(data) {
-        //                 alert(JSON.stringify(data));
-        //                 $scope.data.name = data.name;
-        //                 $scope.data.email = data.email;
-
-        //             },
-        //             error: function() {
-
-        //             }
-        //         });
-        //     }, {
-        //         scope: "email"
-        //     });
-        // hello('facebook').login( function(res) {
-        //     console.log(res);
-        //     hello( 'facebook' ).api( '/me?fields=name,email' ).then(function(res) {
-        //      // console.log(json.name);
-
-        //       $scope.data.name=res.name;
-        //       $scope.data.email=res.email;
-        //       alert(JSON.stringify($scope.data));
-
-        //   })
-        // });      
-        // $scope.data={};
-        // $cordovaFacebook.login(["public_profile", "email", "user_friends","publish_actions"])
-        //     .then(function(success) {
-        //         // console.log(success);
-        //         ////////////////////
-        //         $cordovaFacebook.api("me?fields=name,email")
-        //             .then(function(success) {
-        //               console.log(success.name);
-        //               $scope.data.name=success.name;
-        //               $scope.data.email=success.email;
-        //               // **********Facebook Post**********
-        //                 // var options = {
-        //                 // method: 'feed',
-        //                 // link: 'http://loookz.com:3000/',
-        //                 // caption: 'An example caption',
-        //                 // };
-        //                 // $cordovaFacebook.showDialog(options)
-        //                 // .then(function(success) {
-        //                 // console.log(success);
-        //                 // }, function (error) {
-
-        //                 // });                       
-        //                 // **********Facebook Post End**********
-        //                 },
-        //                  function (error) {
-
-        //                 });      
-
-        //         //////////////////////                
-        //     }, function(error) {
-        //         // error
-        //     });
     }
 
 });

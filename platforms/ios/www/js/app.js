@@ -1,5 +1,5 @@
 
-angular.module('app', 
+angular.module('app',
   ['ionic',
   'app.appCtrl',
   'app.addressCtrl',
@@ -17,12 +17,12 @@ angular.module('app',
   'app.paymentCtrl',
   'app.searchCtrl',
   'app.signupCtrl',
-  'app.routes', 
-  'app.services', 
-  'app.directives', 
-  'ngCordova', 
+  'app.routes',
+  'app.services',
+  'app.directives',
+  'ngCordova',
   'ngOpenFB',
-  'google.places', 
+  'google.places',
   'ngResource'])
 
 .run(function($ionicPlatform,ngFB) {
