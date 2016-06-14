@@ -3,6 +3,8 @@ angular.module('app.foodCtrl', [])
 
 // Food order ctrl
 .controller("foodsCtrl", function($scope, FoodFactory, $state, $stateParams, $ionicModal, $ionicLoading, CartFactory,$cordovaFacebook, $ionicPopup, UsersFactory, $ionicPopover, $location, $anchorScroll, $ionicScrollDelegate){
+    $scope.foodSizeSelected=true;      //variable to check whether food size is selected or not
+    $scope.foodExtraSelected=true;     //variable to check whether food extras are selected or not
 
     $scope.favClass = "not-fav";
 	var restaurantId = $stateParams.restaurantId;
@@ -96,7 +98,7 @@ angular.module('app.foodCtrl', [])
     		var count=0;
 
     		$scope.foodExtras = response.data;
-
+          console.log(response.data);
     		for(var i=0;i<$scope.foodExtras.length;i++){
 
     			for(var j=0;j<$scope.foodExtras.length;j++){
@@ -201,6 +203,9 @@ angular.module('app.foodCtrl', [])
 
 	$scope.setPrice = function(price,size,sizeName){
 
+    // $scope.foodSizeSelected=false;
+
+
 		$scope.disableCartButton=false;
 		for(var i=0;i<$scope.checkOutObj.foodExtra.length;i++){
           //console.log($scope.checkOutObj.foodExtra.length);
@@ -210,16 +215,18 @@ angular.module('app.foodCtrl', [])
 
 		$scope.checkOutObj.foodExtra = [];
 
-    if($scope.checkOutObj.sizeInfo!=null){
-      return;
-    }else{
-      $scope.checkOutObj.sizeInfo = {sizeId:size,sizeName:sizeName,sizePrice:price};
-    }
+    // if($scope.checkOutObj.sizeInfo!=null){
+    //   return;
+    // }else{
+       $scope.checkOutObj.sizeInfo = {sizeId:size,sizeName:sizeName,sizePrice:price};
+    // }
 
-
-		$scope.price = Number(price) + $scope.globalPrice;
+        //testing code starts
+		$scope.price = Number(price);
 		$scope.globalPrice=$scope.price;
-    //console.log($scope.globalPrice);
+    //console.log($scope.price);
+
+    //testing code ends
 		///////////////////////////////////////
     var temp = 0
     for(var j=0;j<$scope.foodExtras.length;j++){
@@ -252,29 +259,30 @@ angular.module('app.foodCtrl', [])
 
 	$scope.increase=function(){
 
-		$scope.qty += 1;
-
-		$scope.price = $scope.globalPrice*$scope.qty;
+		$scope.qty+=1;
+		//(alert)($scope.price);
+		$scope.price=$scope.globalPrice*$scope.qty;
 
 	}
 
 	$scope.decrease=function(){
+    if($scope.qty>0){
+      $scope.qty-=1;
+    }
 
-        if($scope.qty > 1){
-
-          $scope.qty -=1;
-        }
-
-		$scope.price = $scope.globalPrice*$scope.qty;
+		$scope.price=$scope.globalPrice*$scope.qty;
 	}
 
 
 	$scope.addExtraFood=function(price,ifChecked,foodExtra1){
 
 		if(ifChecked){
-			$scope.price=Number($scope.price)+Number(price);
+      //testing code starts
+			$scope.price=Number($scope.price)+($scope.qty*Number(price));
+      //testing code ends
 			$scope.globalPrice=$scope.price;
 			$scope.checkOutObj.foodExtra.push(foodExtra1);
+      $scope.foodExtraSelected=false;
 		}
 		else{
 			$scope.price=Number($scope.price)-Number(price);

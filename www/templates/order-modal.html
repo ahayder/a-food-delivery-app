@@ -40,22 +40,7 @@
 
 
 
-			<!-- Quantity -->
 
-			<div class="row">
-				<div class="col">
-					<p class="verticle-center">Quantity</p>
-				</div>
-				<div class="col">
-					<div class="button-bar">
-					  <a class="button button-assertive" ng-click="decrease()">-</a>
-					  <a class="button">{{qty}}</a>
-					  <a class="button button-dark" ng-click="increase()">+</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- End Quantity -->
 
 
 
@@ -69,6 +54,34 @@
 			</div>
 
 			<!-- End Extras -->
+
+
+
+<!-- testing code starts here-->
+<div class="item item-divider assertive">
+	Food quantity
+</div>
+	<!-- Quantity -->
+		<div class="row">
+			<div class="col">
+				<p class="verticle-center">Quantity</p>
+			</div>
+			<div class="col">
+				<div class="button-bar">
+					<a class="button button-assertive" ng-click="decrease()" ng-disabled="foodExtraSelected">-</a>
+					<a class="button">{{qty}}</a>
+					<a class="button button-dark" ng-click="increase()" ng-disabled="foodExtraSelected">+</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- End Quantity -->
+
+
+
+<!-- testing code ends here-->
+
+
 
 
 			<!-- Special Instruction -->

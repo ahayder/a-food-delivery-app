@@ -1,7 +1,7 @@
 <ion-modal-view>
     <ion-header-bar class="bar bar-assertive">
         <a class="button button-icon button-clear ion-close-round" ng-click="closeModal()"></a>
-        <h1 class="title">Checkout</h1>
+        <h1 class="title">Delivery</h1>
         <a class="button button-icon button-clear ion-ios-cart" href="#/app/cart">${{cartTotal |number:2}}</a>
     </ion-header-bar>
     <ion-content class="padding has-header has-footer" >
@@ -75,6 +75,9 @@
                             <p>{{food.name}}</p>
                         </h4>
                         <p>Size: {{food.size}}</p>
+                        <p ng-repeat="extra in foodExtraForInvoice" ng-if="food.food_id == extra.food_id">Extra food: {{extra.item_name}}</p>
+                        <!-- <p>extras: {{food.}}</p>
+                        <p>Size: {{food.size}}</p> -->
                         <br ng-if="!$last">
                     </div>
                     <div class="col-50 remove-padding">
@@ -82,6 +85,8 @@
                         <br ng-if="!$last">
                     </div>
                 </div>
+
+
                 <hr>
                 <div class="row remove-padding">
                     <div class="col-67 remove-padding">
