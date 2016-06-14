@@ -8,6 +8,9 @@ angular.module('app.services', [])
 		login: function(email, password){
 			return $http.get("https://savor365.com/api/userLogin?email=" + email + "&password=" + password); // password will be added later on
 		},
+		signup: function(data){
+    	return $http.get("https://savor365.com/api/cusInfoStore?name="+data.name+"&email="+data.email+"&password="+data.password+"&mobile="+data.mobile+"&fbId="+data.fbUserId);
+    	},
 		// this is for to use after login
 		getUserInfo: function(email){
 			return $http.get("https://savor365.com/api/user?email="+ email);
@@ -154,16 +157,6 @@ angular.module('app.services', [])
   return {
     getZipCode: function(lat, lng) {
       return $http.get("http://ws.geonames.org/findNearbyPostalCodesJSON?formatted=true&lat="+lat+"&lng="+lng+"&username=ahayder");
-    }
-  }
-}])
-
-
-
-.factory('SignUpFactory',['$http', function($http) {
-  return {
-    signup: function(data){
-    	return $http.get("https://savor365.com/api/cusInfoStore?name="+data.name+"&email="+data.email+"&password="+data.password+"&mobile="+data.mobile);
     }
   }
 }]);

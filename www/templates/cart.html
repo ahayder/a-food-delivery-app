@@ -8,26 +8,28 @@
         <button class="button" ng-click="getPromocode()">Use Promocode</button>
 
     </ion-header-bar>
-    <ion-content overflow-scroll="true" padding="true" scroll="true" class="has-subheader" ng-class="emptyPage">
-    <!-- <button class="button button-balanced button-block button-large icon ion-cash">{{defaultAdrs}}</button> -->
-        <ion-list ng-if="!emptyCart" >
-            <ion-item class="item" ng-repeat="food in foods">
-                <h2>{{food.name}}</h2>
-                <p>Size: {{food.size}}, Quantity: {{food.qty}}</p>
-                <p>Price: ${{food.price}}</p>
-                <p>Your Instruction: {{food.specialInstruction}}</p>
-            </ion-item>
-        </ion-list>
+
+    <ion-content overflow-scroll="true" padding="true" scroll="true" class="has-subheader has-footer" ng-class="emptyPage">
+
+      <ion-list ng-if="!emptyCart" >
+          <ion-item class="item" ng-repeat="food in foods">
+              <h2>{{food.name}}</h2>
+              <p>Size: {{food.size}}, Quantity: {{food.qty}}</p>
+              <p>Price: ${{food.price}}</p>
+              <p>Your Instruction: {{food.specialInstruction}}</p>
+          </ion-item>
+      </ion-list>
+
       <!--Empty cart section-->
-        <button ng-if="!emptyCart" class="button button-assertive button-block button-large"
-        ng-click="openDeliveryModal()">Next</button>
+      <button ng-if="!emptyCart" class="button button-assertive button-block button-large"
+      ng-click="openDeliveryModal()">Next</button>
 
-        <h4 class="text-center" ng-if="emptyCart">The Cart is Empty</h4>
-
-
+      <h4 class="text-center" ng-if="emptyCart">The Cart is Empty</h4>
 
 
-        <!-- Footer -->
+
+
+      <!-- Footer -->
       <div class="bar bar-footer bar-assertive">
         <a ng-if="!emptyCart" class="button button-icon button-clear ion-android-delete" ng-click="showDeleteAlert()"> Empty Cart</a>
       </div>

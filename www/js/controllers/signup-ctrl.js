@@ -1,13 +1,13 @@
 angular.module('app.signupCtrl', [])
 
 // Savor 365 signup ctrl
-.controller('signupCtrl', function($scope, SignUpFactory, $ionicPopup, $state, UsersFactory, $rootScope,  ngFB, $ionicHistory) {
+.controller('signupCtrl', function($scope, $ionicPopup, $state, UsersFactory, $rootScope, $ionicHistory) {
 
     $scope.login1 = true;
 
     $scope.signUp = function(data) {
         $scope.user = data;
-        SignUpFactory.signup(data).then(function(response) {
+        UsersFactory.signup(data).then(function(response) {
             var popup = $ionicPopup.alert({
                 title: 'Success!',
                 template: 'Successfully signed up, now login and enjoy your food'

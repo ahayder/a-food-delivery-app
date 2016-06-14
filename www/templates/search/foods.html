@@ -41,16 +41,17 @@
         
             
             <div ng-repeat="menu in menus">
+                    
+                    <a class="item item-divider item-calm"  id="menu-{{menu.id}}">
+                        {{menu.menu_name}}
+                        
+                    </a>
 
-                <a class="item item-divider item-calm" id="menu-{{menu.id}}">
-                    {{menu.menu_name}}
-                </a>
+                    <ion-item class="item item-icon-left" ng-repeat="food in foods" ng-if="menu.id == food.menu_id" ng-click="orderModal(food)">
+                        <i class="icon ion-ios-arrow-right calm"></i>
+                        {{food.food_name}}
+                    </ion-item>
 
-                
-                <ion-item class="item item-icon-left" ng-repeat="food in foods" ng-if="menu.id == food.menu_id" ng-click="orderModal(food)">
-                    <i class="icon ion-ios-arrow-right calm"></i>
-                    {{food.food_name}}
-                </ion-item>
                 
             </div>
 

@@ -252,18 +252,20 @@ angular.module('app.foodCtrl', [])
 
 	$scope.increase=function(){
 
-		$scope.qty+=1;
-		//(alert)($scope.price);
-		$scope.price=$scope.globalPrice*$scope.qty;
+		$scope.qty += 1;
+
+		$scope.price = $scope.globalPrice*$scope.qty;
 
 	}
 
 	$scope.decrease=function(){
-    if($scope.qty>0){
-      $scope.qty-=1;
-    }
 
-		$scope.price=$scope.globalPrice*$scope.qty;
+        if($scope.qty > 1){
+
+          $scope.qty -=1;
+        }
+
+		$scope.price = $scope.globalPrice*$scope.qty;
 	}
 
 

@@ -48,9 +48,22 @@ angular.module('app.searchCtrl', [])
 
                             SearchFactory.saveSearchResult(searchResult);
                             $scope.searchResult = SearchFactory.getSearchResult();
+                        },function(error){
+                            $ionicLoading.hide();
+                            $ionicPopup.alert({
+                                title: 'Error!',
+                                template: 'Problem getting restaurants from server.' + error.message
+                            });
                         });
-                        $ionicLoading.hide();
 
+                    $ionicLoading.hide();
+
+                    },function(error){
+                        $ionicLoading.hide();
+                        $ionicPopup.alert({
+                            title: 'Error!',
+                            template: 'Problem getting your zipcode. Search manually.' + error.message
+                        });
                     });
 
                 }, function(err) {

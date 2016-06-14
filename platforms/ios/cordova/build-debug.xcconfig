@@ -22,3 +22,4 @@
 //
 
 #include "build.xcconfig"
+ENABLE_BITCODE = NO

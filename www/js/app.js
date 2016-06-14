@@ -21,12 +21,11 @@ angular.module('app',
   'app.services',
   'app.directives',
   'ngCordova',
-  'ngOpenFB',
   'google.places',
   'ngResource'])
 
-.run(function($ionicPlatform,ngFB) {
-   ngFB.init({appId: '577646735745723'});
+.run(function($ionicPlatform) {
+
   $ionicPlatform.ready(function(LocalStorageFactory) {
 
     if(window.cordova && window.cordova.plugins.Keyboard) {

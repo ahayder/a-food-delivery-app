@@ -498,6 +498,11 @@ $scope.saveBillingAddress=function(billingAddress) {
             }
             else{
 
+                // Cehcking for multiple cards
+                if(cc.length > 1){
+
+                }
+
                 // payemnt object
                 var paymentInfo = {}
 
@@ -605,7 +610,7 @@ $scope.saveBillingAddress=function(billingAddress) {
 
                         // if error payment
                         console.log(error.message);
-                        alert("Error");
+                        alert(JSON.Stringify(error.message));
                     });
                     // end of makePayment()
                 }
