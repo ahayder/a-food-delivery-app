@@ -61,43 +61,104 @@
             <div class="item item-divider item-assertive">Invoice</div>
             <div class="item item-text-wrap">
                 <div class="row remove-padding">
-                    <div class="col-50 remove-padding">
-                        <h4>Food Details</h4>
-                    </div>
-                    <div class="col-50 remove-padding">
-                        <p>Qty | Unit Price | Price</p>
-                    </div>
-                </div>
-                <hr>
-                <div class="row remove-padding" ng-repeat="food in foods">
-                    <div class="col-50 remove-padding">
-                        <h4>
-                            <p>{{food.name}}</p>
-                        </h4>
-                        <p>Size: {{food.size}}</p>
-                        <p ng-repeat="extra in foodExtraForInvoice" ng-if="food.food_id == extra.food_id">Extra food: {{extra.item_name}}</p>
-                        <!-- <p>extras: {{food.}}</p>
-                        <p>Size: {{food.size}}</p> -->
-                        <br ng-if="!$last">
-                    </div>
-                    <div class="col-50 remove-padding">
-                        <p>&nbsp;{{food.qty}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{food.price/food.qty}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    {{food.qty * (food.price/food.qty)}}</p>
-                        <br ng-if="!$last">
-                    </div>
-                </div>
+
+  <!-- code is cut from below and testing code-->
+<table >
+<tr>
+<td><strong>Item(s)</strong></td>
+<td><strong>&nbsp;Qty</strong></td>
+<td><strong>&nbsp;Unit price</strong></td>
+<td><strong>&nbsp;Price</strong></td>
+
+<td><hr></td>
+</tr>
 
 
-                <hr>
-                <div class="row remove-padding">
-                    <div class="col-67 remove-padding">
-                        <p>Sub total:</p>
-                    </div>
-                    <div class="col-33 remove-padding">
-                        <p style="text-align:right;">{{subTotal}}</p>
-                        <hr>
-                    </div>
-                </div>
-                <div class="row remove-padding">
+<tr ng-repeat="food in foodsForInvoice">
+
+<td>{{$index+1}}. {{food.mainFood.food_name}}<p>({{food.sizeInfo.sizeName}})</p><p ng-repeat="extra in food.foodExtra">{{extra.item_name}}(${{extra.price1}})</p></td>
+<td>&nbsp;&nbsp;{{food.qty}}</td>
+<td>&nbsp;&nbsp;{{food.sizeInfo.sizePrice/food.qty}}</td>
+<td>&nbsp;&nbsp;{{food.qty * (food.sizeInfo.sizePrice/food.qty)}}</td>
+<!-- Food extra section starts below -->
+
+
+<!-- Food extra section ends above -->
+<td><hr></td>
+</tr>
+
+
+
+
+<tr>
+<td><hr></td>
+</tr>
+
+
+<tr>
+<td><strong>Subtotal:</strong></td>
+<td></td>
+<td></td>
+<td>&nbsp;&nbsp;{{subTotal}}</td>
+</tr>
+<tr>
+<td><hr></td>
+</tr>
+
+
+<tr>
+  <td>Delivery fee:</td>
+  <td></td>
+  <td></td>
+  <td>&nbsp;&nbsp;{{deliveryChargeForShowingOnly}}</td>
+</tr>
+<tr>
+  <td>Tip:</td>
+  <td></td>
+  <td></td>
+  <td>&nbsp;&nbsp;{{subTotal * percentage.val/100 | number:2}}</td>
+</tr>
+<tr>
+  <td>Tax:</td>
+  <td></td>
+  <td></td>
+  <td>&nbsp;&nbsp;{{subTotal * (taxRate/100) | number:2}}</td>
+</tr>
+<tr>
+  <td>Discount</td>
+  <td></td>
+  <td></td>
+  <td>&nbsp;&nbsp;-{{discountAmount}}</td>
+</tr>
+<tr>
+<td><hr></td>
+</tr>
+
+
+<tr>
+<td><strong>Total:</strong></td>
+<td></td>
+<td></td>
+<td><p ng-show="deliveryType == 'delivery'" style="text-align:right;">{{gTotal+subTotal * percentage.val/100 | number:2}}</p>
+<p ng-show="deliveryType == 'pickup'" style="text-align:right;">{{gTotal+subTotal * percentage.val/100 - deliveryCharge | number:2}}</p>
+</td>
+</tr>
+
+</table>
+<!-- above section is cut testing code-->
+<!-- below section is commented out for testing ******************-->
+
+<!-- <div class="row remove-padding">
+    <div class="col-67 remove-padding">
+        <p>Sub total:</p>
+    </div>
+    <div class="col-33 remove-padding">
+        <p style="text-align:right;">{{subTotal}}</p>
+        <hr>
+    </div>
+</div> -->
+
+                <!-- <div class="row remove-padding">
                     <div class="col-50 remove-padding">
                         <p>Delivery fee:</p>
                         <p>Tip:</p>
@@ -110,8 +171,9 @@
                         <p>{{subTotal * (taxRate/100) | number:2}}</p>
                         <p>-{{discountAmount}}</p>
                     </div>
-                </div>
-                <div class="row remove-padding">
+                </div> -->
+
+                <!-- <div class="row remove-padding">
                     <div class="col-67 remove-padding">
                         <br>
                         <p>Total:</p>
@@ -121,8 +183,11 @@
                         <p ng-show="deliveryType == 'delivery'" style="text-align:right;">{{gTotal+subTotal * percentage.val/100 | number:2}}</p>
                         <p ng-show="deliveryType == 'pickup'" style="text-align:right;">{{gTotal+subTotal * percentage.val/100 - deliveryCharge | number:2}}</p>
 
-                        <!--Adding from above col-50-->
-                    </div>
+
+                    </div> -->
+
+  <!-- above section is commented out for testing *************************-->
+
                 </div>
             </div>
         </div>

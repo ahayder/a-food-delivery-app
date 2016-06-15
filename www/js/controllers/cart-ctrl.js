@@ -81,7 +81,8 @@ angular.module('app.cartCtrl', [])
       ///console.log($scope.cartFoods);
     if (cartInfo) {
 
-
+        $scope.foodsForInvoice = cartInfo;
+        console.log(cartInfo)
         $scope.emptyCart = false;
         var temp = [];
 
