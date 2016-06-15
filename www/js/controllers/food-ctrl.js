@@ -203,7 +203,7 @@ angular.module('app.foodCtrl', [])
 
 	$scope.setPrice = function(price,size,sizeName){
 
-    // $scope.foodSizeSelected=false;
+        $scope.foodSizeSelected=false;
 
 
 		$scope.disableCartButton=false;
