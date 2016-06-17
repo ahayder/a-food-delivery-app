@@ -16,7 +16,7 @@
               <h2>{{food.mainFood.food_name}}</h2>
               <p>Size: {{food.sizeInfo.sizeName}}, Quantity: {{food.qty}}</p>
               <p>Price: ${{food.sizeInfo.sizePrice/food.qty}}</p>
-              <p ng-repeat="extra in food.foodExtra">{{extra.item_name}}({{extra.price1}})</p>
+              <p ng-repeat="extra in food.foodExtra">{{extra.item_name}}(${{extra.price1}})</p>
               <p>Your Instruction: {{food.specialInstruction}}</p>
           </ion-item>
       </ion-list>

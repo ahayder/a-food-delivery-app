@@ -36,7 +36,7 @@
                     <input type="text" ng-model="address.phone" placeholder="Phone No" required>
                     </label>
                     <div class="button-bar">
-                        <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid"ng-click="saveAddress(address)">Save</a>
+                        <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid" ng-click="saveAddress(address)">Save</a>
                         <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
                     </div>
                 </form>
@@ -78,8 +78,8 @@
 
 <td>{{$index+1}}. {{food.mainFood.food_name}}<p>({{food.sizeInfo.sizeName}})</p><p ng-repeat="extra in food.foodExtra">{{extra.item_name}}(${{extra.price1}})</p></td>
 <td>&nbsp;&nbsp;{{food.qty}}</td>
-<td>&nbsp;&nbsp;{{food.sizeInfo.sizePrice/food.qty}}</td>
-<td>&nbsp;&nbsp;{{food.qty * (food.sizeInfo.sizePrice/food.qty)}}</td>
+<td>&nbsp;&nbsp;${{food.sizeInfo.sizePrice/food.qty}}</td>
+<td>&nbsp;&nbsp;${{food.qty * (food.sizeInfo.sizePrice/food.qty)}}</td>
 <!-- Food extra section starts below -->
 
 
@@ -99,7 +99,7 @@
 <td><strong>Subtotal:</strong></td>
 <td></td>
 <td></td>
-<td>&nbsp;&nbsp;{{subTotal}}</td>
+<td>&nbsp;&nbsp;${{subTotal}}</td>
 </tr>
 <tr>
 <td><hr></td>
@@ -110,19 +110,19 @@
   <td>Delivery fee:</td>
   <td></td>
   <td></td>
-  <td>&nbsp;&nbsp;{{deliveryChargeForShowingOnly}}</td>
+  <td>&nbsp;&nbsp;${{deliveryChargeForShowingOnly}}</td>
 </tr>
 <tr>
   <td>Tip:</td>
   <td></td>
   <td></td>
-  <td>&nbsp;&nbsp;{{subTotal * percentage.val/100 | number:2}}</td>
+  <td>&nbsp;&nbsp;${{subTotal * percentage.val/100 | number:2}}</td>
 </tr>
 <tr>
   <td>Tax:</td>
   <td></td>
   <td></td>
-  <td>&nbsp;&nbsp;{{subTotal * (taxRate/100) | number:2}}</td>
+  <td>&nbsp;&nbsp;${{subTotal * (taxRate/100) | number:2}}</td>
 </tr>
 <tr>
   <td>Discount</td>
@@ -139,8 +139,8 @@
 <td><strong>Total:</strong></td>
 <td></td>
 <td></td>
-<td><p ng-show="deliveryType == 'delivery'" style="text-align:right;">{{gTotal+subTotal * percentage.val/100 | number:2}}</p>
-<p ng-show="deliveryType == 'pickup'" style="text-align:right;">{{gTotal+subTotal * percentage.val/100 - deliveryCharge | number:2}}</p>
+<td><p ng-show="deliveryType == 'delivery'" style="text-align:right;">${{gTotal+subTotal * percentage.val/100 | number:2}}</p>
+<p ng-show="deliveryType == 'pickup'" style="text-align:right;">${{gTotal+subTotal * percentage.val/100 - deliveryCharge | number:2}}</p>
 </td>
 </tr>
 
@@ -218,7 +218,7 @@
         <div class="card list" ng-show="shipping == 'addNew'">
             <div class="item item-divider item-assertive">Add billing address</div>
             <div class="item item-text-wrap">
-                <form name="myform">
+                <form name="myformTwo">
                     <label class="item item-input">
                     <input type="text" ng-model="billingAddress.line1" placeholder="Address Line 1" required>
                     </label>
@@ -238,7 +238,7 @@
                     <input type="text" ng-model="billingAddress.phone" placeholder="Phone No" required>
                     </label>
                     <div class="button-bar">
-                        <a class="button button-small button-assertive button-clear" ng-disabled="myform.$invalid" ng-click="saveBillingAddress(billingAddress)">Save</a>
+                        <a class="button button-small button-assertive button-clear" ng-disabled="myformTwo.$invalid" ng-click="saveBillingAddress(billingAddress)">Save</a>
                         <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
                     </div>
                 </form>

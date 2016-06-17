@@ -218,7 +218,8 @@ angular.module('app.cartCtrl', [])
 //saveBillingAddress starts below
 
 $scope.saveBillingAddress=function(billingAddress) {
-    return;
+
+   return;
       $scope.address = billingAddress;
       //alert(JSON.stringify($scope.address));
 
@@ -243,8 +244,10 @@ $scope.saveBillingAddress=function(billingAddress) {
           $ionicLoading.hide();
 
           $scope.showAddAddress = true;
-          $scope.showOnlyAddAddress = false;
+//testing code starts here
 
+          $scope.showOnlyAddAddress = false;
+//testing code ends above
       }, function(error) {
           $ionicLoading.hide();
 
@@ -262,12 +265,13 @@ $scope.saveBillingAddress=function(billingAddress) {
 //saveBillingAddress ends
 
     $scope.makeThisShippingAddress = function(address){
+        console.log(address);
 
         $scope.defaultAdrs.cus_name = address.cus_name;
-        $scope.defaultAdrs.addrs = address.line1 + ' ' + address.line2;
+        $scope.defaultAdrs.addrs = address.addrs;
         $scope.defaultAdrs.state = address.state;
-        $scope.defaultAdrs.town = address.city;
-        $scope.defaultAdrs.zip_code = address.zipcode;
+        $scope.defaultAdrs.town = address.town;
+        $scope.defaultAdrs.zip_code = address.zip_code;
         $scope.defaultAdrs.phone = address.phone;
         $scope.defaultAdrs.country = "USA";
 
@@ -281,12 +285,13 @@ $scope.saveBillingAddress=function(billingAddress) {
     // getting addressess- user will select an address from these addresses
     $scope.changeAddress = function($event){
 
-
+        //testing code below
         var user = JSON.parse(window.localStorage['loggedInUserInofos']);
 
         UsersFactory.getAddresses(user[0].cus_id).then(function(response) {
-            $scope.addrsses = response.data;
 
+            $scope.addrsses = response.data;
+            console.log(response.data);
             $ionicPopover.fromTemplateUrl('templates/popovers/selectAddressPopover.html', {
                 scope: $scope
             }).then(function(popover) {
