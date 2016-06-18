@@ -10,7 +10,7 @@ angular.module('app.cartCtrl', [])
     $scope.taxRate= parseFloat(localStorage.getItem('taxRate'));
     $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
     $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
-
+    var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
     // Getting Address
     // Saving the user's defau lt address in local storage
 
@@ -101,7 +101,8 @@ angular.module('app.cartCtrl', [])
             temporaray = cartInfo[i].totalPrice;
             grandTotal += temporaray;
         }
-        $scope.subTotal = parseFloat(grandTotal);
+        var moga = parseFloat(grandTotal).toFixed(2);
+        $scope.subTotal = parseFloat(moga);
 
         // Calculating grandTotal excluding tips
         var subTotal = $scope.subTotal;
@@ -346,8 +347,9 @@ $scope.saveBillingAddress=function(billingAddress) {
         //console.log(val);
         $scope.tips = val;
 
-        $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
-        $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
+        var moga2 = $scope.foodTotal * ($scope.tips / 100);
+        $scope.tipsPercent = moga2.toFixed(2);
+
     }
 
     $scope.setDeliveryCharge = function(val) {
@@ -384,6 +386,57 @@ $scope.saveBillingAddress=function(billingAddress) {
             return "Discover"
         }
     }
+
+    // Getting Card Info
+    UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
+
+        $scope.cc = response.data;
+        $scope.ccForShowingOnly = $scope.cc[0];
+        console.log(response.data);
+
+    },
+    function(error) {
+      $ionicLoading.hide();
+      //error message
+      $ionicPopup.alert({
+          title: 'Error!',
+          template: 'Opps.. something wrong'
+      });
+        console.log(error.message);
+    });
+    // End of getting cardinfo
+
+
+
+    //Payment PopOver code start
+    $scope.changeCard = function($event){
+
+            $ionicPopover.fromTemplateUrl('templates/popovers/selectCardPopover.html', {
+                scope: $scope
+            }).then(function(popover) {
+                $scope.popover2 = popover;
+                $scope.popover2.show($event);
+
+            });
+
+
+      }
+//Payment PopOver code ends
+
+$scope.makeThisPaymentCard=function(c){
+
+    $scope.payemntCardInfo = c;
+
+    $scope.ccForShowingOnly = c;
+
+    $scope.popover2.hide();
+    $scope.$on('$destroy', function() {
+        $scope.popover2.remove();
+    });
+
+
+}
+
 
 
     $scope.checkout = function(deliveryType, tipPercetage) {
@@ -443,10 +496,12 @@ $scope.saveBillingAddress=function(billingAddress) {
 
         //Grand Total
         if(deliveryType == 'delivery'){
-            checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100)
+            var boroMoga = $scope.gTotal + ($scope.subTotal * tipPercetage/100);
+            checkOutInfo.grandTotal = boroMoga.toFixed(2);
         }
         else{
-            checkOutInfo.grandTotal = $scope.gTotal + ($scope.subTotal * tipPercetage/100) - $scope.deliveryCharge;
+          var akhriMoga = $scope.gTotal + ($scope.subTotal * tipPercetage/100) - $scope.deliveryCharge;
+            checkOutInfo.grandTotal = akhriMoga.toFixed(2);
         }
         //checkOutInfo.grandTotal = 0.1;
 
@@ -469,7 +524,7 @@ $scope.saveBillingAddress=function(billingAddress) {
 
         //alert(JSON.stringify(checkOutInfo));
         //console.log(checkOutInfo);
-
+        //return;
 
 
         // End of object building for checkout
@@ -485,156 +540,120 @@ $scope.saveBillingAddress=function(billingAddress) {
 
         $scope.boolPayment = false;
 
-        UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
-
-            var cc = response.data[0];
-
-            if(!cc){
-
-                $ionicLoading.hide();
-
-                $ionicPopup.alert({
-                    title: 'Error!',
-                    template: 'Please add a card to proceed.'
-                }).then(
-                    function(res){
-                        $state.go("app.payment");
-                    }
-                );
-            }
-            else{
-
-                // Cehcking for multiple cards
-                if(cc.length > 1){
-
-                }
-
-                // payemnt object
-                var paymentInfo = {}
+        // payemnt object
+        var paymentInfo = {}
 
 
-                // Card Info
-                paymentInfo.cardInfo = cc;
+        // Card Info
+        paymentInfo.cardInfo = $scope.payemntCardInfo;
 
 
-                // Card type
-                var ccType = getCardType(cc.card_number);
-                paymentInfo.cardType = ccType;
+        // Card type
+        var ccType = getCardType(cardInfo.card_number);
+        paymentInfo.cardType = ccType;
 
 
-                // Order Number
-                paymentInfo.orderNo = orderNo;
+        // Order Number
+        paymentInfo.orderNo = orderNo;
 
 
-                // User Info
-                paymentInfo.userinfo = userInfo[0];
+        // User Info
+        paymentInfo.userinfo = userInfo[0];
 
 
-                // Grand Total
-                paymentInfo.amount = checkOutInfo.grandTotal
+        // Grand Total
+        paymentInfo.amount = checkOutInfo.grandTotal
 
 
-                console.log(paymentInfo);
+        console.log(paymentInfo);
 
-                var makePayment = function(forHmac){
+        var makePayment = function(forHmac){
+
+            $http({
+                method: 'POST',
+                url: 'https://savor365.com/api/setPayload',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: paymentInfo
+
+
+            }).then(function(response){
+              $ionicLoading.hide();
+              console.log($scope.boolPayment);
+              // if success payment
+              console.log(response.data);
+              var res = response.data;
+              // do whatever need after payment made
+              $scope.boolPayment = true;
+              //msg payment done
+              var alertPopup = $ionicPopup.alert({
+                  title: 'success!!',
+                  template: 'successfully checked out...please wait for order confirmation!! '
+              });
+              alertPopup.then(function(res) {
+
+
+                //-----------------Saving & Fax---------------------------------
+                // Saving into database and send fax
+                //////////////////////////////////////////////////////////////
+
+                    $ionicLoading.show({
+                        template: 'Order is confirming!!'
+                    });
+
 
                     $http({
                         method: 'POST',
-                        url: 'https://savor365.com/api/setPayload',
+                        url: 'https://savor365.com/api/orderInfo',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         },
-                        data: paymentInfo
+                        data: checkOutInfo
 
 
-                    }).then(function(response){
+                    }).then(function(data) {
+                        //alert(JSON.stringify(data));
+                        $ionicLoading.hide();
+                        $ionicPopup.alert({
+                            title: 'Success!!',
+                            template: 'Your order is confirmed!!'
+                        });
+
+                        console.log(data);
+                        localStorage.removeItem('cartInfo');
+                        $state.go("app.search");
+                    },function(error){
                       $ionicLoading.hide();
-                      console.log($scope.boolPayment);
-                      // if success payment
-                      console.log(response.data);
-                      var res = response.data;
-                      // do whatever need after payment made
-                      $scope.boolPayment = true;
-                      //msg payment done
-                      var alertPopup = $ionicPopup.alert({
-                          title: 'success!!',
-                          template: 'successfully checked out...please wait for order confirmation!! '
+                      //error message
+                      $ionicPopup.alert({
+                          title: 'Error!',
+                          template: 'Opps.. something wrong'
                       });
-                      alertPopup.then(function(res) {
-
-
-                        //-----------------Saving & Fax---------------------------------
-                        // Saving into database and send fax
-                        //////////////////////////////////////////////////////////////
-
-                            $ionicLoading.show({
-                                template: 'Order is confirming!!'
-                            });
-
-
-                            $http({
-                                method: 'POST',
-                                url: 'https://savor365.com/api/orderInfo',
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded'
-                                },
-                                data: checkOutInfo
-
-
-                            }).then(function(data) {
-                                //alert(JSON.stringify(data));
-                                $ionicLoading.hide();
-                                $ionicPopup.alert({
-                                    title: 'Success!!',
-                                    template: 'Your order is confirmed!!'
-                                });
-
-                                console.log(data);
-                                localStorage.removeItem('cartInfo');
-                                $state.go("app.search");
-                            },function(error){
-                              $ionicLoading.hide();
-                              //error message
-                              $ionicPopup.alert({
-                                  title: 'Error!',
-                                  template: 'Opps.. something wrong'
-                              });
-                            });
-                            //console.log(sendReq);
-
-                        /////////////////////////////////////////////////////
-                     });
-
-                    }, function(error){
-                          $ionicLoading.hide();
-                          //alert message
-                          $ionicPopup.alert({
-                              title: 'Error!',
-                              template: 'Opps.. something wrong'
-                          });
-
-
-                        // if error payment
-                        console.log(error.message);
-                        alert(JSON.Stringify(error.message));
                     });
-                    // end of makePayment()
-                }
+                    //console.log(sendReq);
 
-                makePayment();
+                /////////////////////////////////////////////////////
+             });
 
-            }
+            }, function(error){
+                  $ionicLoading.hide();
+                  //alert message
+                  $ionicPopup.alert({
+                      title: 'Error!',
+                      template: 'Opps.. something wrong'
+                  });
 
-        },
-        function(error) {
-          $ionicLoading.hide();
-          //error message
-          $ionicPopup.alert({
-              title: 'Error!',
-              template: 'Opps.. something wrong'
-          });
-            console.log(error.message);
-        });
+
+                // if error payment
+                console.log(error.message);
+                alert(JSON.Stringify(error.message));
+            });
+            // end of makePayment()
+        }
+
+        makePayment();
+
 
 
         // payment end here

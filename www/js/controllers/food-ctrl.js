@@ -335,6 +335,7 @@ angular.module('app.foodCtrl', [])
         if(userId){
             UsersFactory.getFavs(userId).then(function(response){
                 var res = response.data;
+                console.log(res);
 
                 for(var i=0; i < res.length; i++){
                     if(res[i].res_id == resId){
@@ -372,60 +373,84 @@ angular.module('app.foodCtrl', [])
         var resId = localStorage.getItem('resId');
 
         if(window.localStorage['loggedInUserInofos']){
-
             var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
 
             var userId = userInfo[0].cus_id;
+            console.log(userId);
         }
         else{
             userId = false;
         }
+
+
+        // if already faved then unfaved
+        // else fav
+
 
         // Checking if the restaurant already favourited or not
         if(userId){
             UsersFactory.getFavs(userId).then(function(response){
                 var res = response.data;
 
-                for(var i=0; i < res.length; i++){
+                if( res.length == 0){
+                  // Now save as fouvourite
+                  UsersFactory.saveFav(resId, userId).then(function(response){
+                      console.log(response.data);
+                      if(response.data > 0){
 
-                    if(res[i].res_id == resId){
 
-                        $ionicPopup.alert({
-                            title: 'Error!',
-                            template: 'Already favourited.'
-                        });
+                          $scope.favClass = "assertive";
+                      }
+                      else{
 
-                    }
-                    else{
-
-                        // Now save as fouvourite
-                        UsersFactory.saveFav(resId, userId).then(function(response){
-                            console.log(response.data);
-                            if(response.data > 0){
-                                $ionicPopup.alert({
-                                    title: 'Succsess!',
-                                    template: "Successfully saved to your favourite list."
-                                });
-
-                                $scope.favClass = "assertive";
-                            }
-                            else{
-                                $ionicPopup.alert({
-                                    title: 'Error!',
-                                    template: 'Opps.. something wrong '
-                                });
-                                $scope.favClass = "not-fav";
-                            }
-                        }),function(error){
-                            $ionicPopup.alert({
-                                title: 'Error!',
-                                template: 'Opps.. something wrong ' + error.message
-                            });
-                            $scope.favClass = "not-fav";
-                        }
-
-                    }
+                          $scope.favClass = "not-fav";
+                      }
+                  }),function(error){
+                    
+                      $scope.favClass = "not-fav";
+                  }
                 }
+                else{
+                  for(var i=0; i < res.length; i++){
+
+                      if(res[i].res_id == resId){
+
+
+                          UsersFactory.deleteFav(resId, userId).then(function(response){
+                            $scope.favClass = "not-fav";
+                          },
+                          function(error){
+                            $scope.favClass = "assertive";
+                          });
+
+                      }
+                      else{
+
+                          // Now save as fouvourite
+                          UsersFactory.saveFav(resId, userId).then(function(response){
+                              console.log(response.data);
+                              if(response.data > 0){
+                                  $scope.favClass = "assertive";
+                              }
+                              else{
+                                  $ionicPopup.alert({
+                                      title: 'Error!',
+                                      template: 'Opps.. something wrong '
+                                  });
+                                  $scope.favClass = "not-fav";
+                              }
+                          }),function(error){
+                              $ionicPopup.alert({
+                                  title: 'Error!',
+                                  template: 'Opps.. something wrong ' + error.message
+                              });
+                              $scope.favClass = "not-fav";
+                          }
+
+                      }
+                  }
+                }
+
 
             }, function(error){
                 $ionicPopup.alert({

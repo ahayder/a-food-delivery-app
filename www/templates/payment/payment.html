@@ -8,7 +8,21 @@
         <div class="card" ng="!card">
             <div class="item item-text-wrap">To add a new card press the + button at the top.</div>
         </div>
-        <div class="list" ng-show="card">
+<!-- Testing code commented below starts below  -->
+<div ng-repeat="cardPayment in card">
+  <div class="card">
+    <div class="item item-divider assertive">{{cardPayment.holder_name}}</div>
+    <div class="item item-text-wrap" >
+          <h2>Card Number: {{cardPayment.card_number}}</h2>
+          <h2>Expiration Date: {{cardPayment.expiration_date}}</h3>
+          <h2>cvv: {{cardPayment.cvv}}</h3>
+    </div>
+  </div>
+</div>
+
+
+
+        <!-- <div class="list" ng-show="card">
             <label class="item item-divider item-assertive">Your Default Card</label>
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Name</span>
@@ -30,6 +44,7 @@
                 <span class="input-label">Billing Zip</span>
                 <input type="number" placeholder={{card.billing_zip}}>
             </label>
-        </div>
+        </div> -->
+<!-- Testing code commented ends above  -->
     </ion-content>
 </ion-view>

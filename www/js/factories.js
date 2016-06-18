@@ -42,6 +42,9 @@ angular.module('app.services', [])
 		saveFav: function(res, cus){
 			return $http.get("https://savor365.com/api/makeFav?resId="+ res +"&cusId="+ cus);
 		},
+		deleteFav: function(res, cus){
+			return $http.get("https://savor365.com/api/deleteFav?resId="+ res +"&cusId="+ cus);
+		},
 		getLastOrderStatus: function(id){
 			return $http.get("https://savor365.com/api/orderStatus?cusId="+id)
 		}

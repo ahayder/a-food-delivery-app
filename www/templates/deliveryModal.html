@@ -245,6 +245,20 @@
             </div>
         </div>
         <!--End of Billing section-->
+
+
+        <!-- Start of payment cards -->
+        <div class="card">
+            <div class="item item-divider item-assertive">Payment</div>
+            <div class="item item-text-wrap">
+                <h4>{{ccForShowingOnly.holder_name}}</h4>
+                <p>Card Number: {{ccForShowingOnly.card_number}}</p>
+                <a class="button button-dark button-clear button-small right" ng-click="changeCard($event)">Change card</a>
+                <a class="button button-dark button-clear button-small right" ui-sref="app.payment">Add new card</a>
+            </div>
+        </div>
+
+        <!-- End of payment cards -->
         <div class="item item-text-wrap">
             <input type="checkbox" ng-model="termsCondition"> I agree with <a href="#">terms &amp; conditions</a>
         </div>

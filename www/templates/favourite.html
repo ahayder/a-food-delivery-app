@@ -1,14 +1,14 @@
 <ion-view title="Favourite">
-    <ion-content overflow-scroll="true" padding="true" class="has-header empty-page">
+    <ion-content overflow-scroll="true" padding="true" class="has-header" ng-class="{{ifEmpty}}">
         <ion-list>
 
             <ion-item class="item-thumbnail-left res-info-box" collection-repeat="restaurant in restaurants" ui-sref="app.foods({restaurantId: restaurant.res_id})">
 
                 <img class="res-logo" ng-src="https://savor365.com/resource/reslogo_200x200/{{restaurant.res_logo}}">
-
+                  <br><br>
                 <h2 class="assertive">{{restaurant.res_name}}</h2>
 
-                <ul class="restaurant-thumbnail">
+                <!-- <ul class="restaurant-thumbnail">
                     <li>
                             <i class="icon ion-bag assertive delivery-text"></i> Delivery Fee : $0.00
 
@@ -18,10 +18,10 @@
 
                     </li>
                     <li><i class="icon ion-clock assertive"></i> Delivery Time :45-60 min</li>
-                </ul>
+                </ul> -->
 
                 <div class="right-section">
-                    <p><span class="badge badge-assertive rating-badge-favourite-page">{{restaurant.rating_mark}}/5</span></p>
+                    <p><span class="badge badge-assertive rating-badge-favourite-page">{{restaurant.rating_mark | number:1}}/5</span></p>
                     <p class="ratings-text-favourite-page">
                             ({{restaurant.rating_cus_number}} Ratings)
                     </p>

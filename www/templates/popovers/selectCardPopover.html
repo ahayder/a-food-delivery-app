@@ -1,0 +1,17 @@
+<ion-popover-view>
+    <ion-header-bar>
+		<h1 class="title">Select as shipping address</h1>
+    </ion-header-bar>
+    <ion-content>
+		<ion-list ng-repeat="c in cc">
+
+<!-- Testing commenting below -->
+	<ion-item ng-click="makeThisPaymentCard(c)">
+		<h4>{{c.holder_name}}</h4>
+		<p>{{c.card_number}}</p>
+
+	</ion-item>
+<!-- Testing commenting above -->
+</ion-list>
+    </ion-content>
+</ion-popover-view>

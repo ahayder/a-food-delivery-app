@@ -7,21 +7,27 @@ angular.module('app.paymentCtrl', [])
 
     var user = JSON.parse(window.localStorage['loggedInUserInofos']);
 
-    UsersFactory.getPaymentInfo(user[0].cus_id).then(function(response) {
-            $scope.card = response.data[0];
-            console.log($scope.card);
-            if($scope.card){
-                $scope.emptyPage = "";
-            }
-            else{
-                $scope.emptyPage = "empty-page";
-            }
-        },
-        function(error) {
-            console.log(error.message);
-        });
+    var getInfo=function (){
 
-    // End of call
+      UsersFactory.getPaymentInfo(user[0].cus_id).then(function(response) {
+              $scope.card = response.data;
+              console.log(response.data);
+              if($scope.card){
+                  $scope.emptyPage = "";
+              }
+              else{
+                  $scope.emptyPage = "empty-page";
+              }
+          },
+          function(error) {
+              console.log(error.message);
+          });
+
+      // End of call
+
+    }
+
+    getInfo();
 
     $scope.savePaymentInfos = function(payment) {
             if (!$scope.invalidNumber) {
@@ -39,6 +45,7 @@ angular.module('app.paymentCtrl', [])
                         title: 'Success!',
                         template: 'Successfully saved'
                     });
+                    getInfo();
                     $state.go("app.payment");
                 }, function(error) {
                     $ionicLoading.hide();
