@@ -21,6 +21,9 @@ angular.module('app.services', [])
 		addressSave: function(id, address){
 			return $http.get("https://savor365.com/api/saveAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode);
 		},
+		saveBillingAddress: function(id, address){
+				return $http.get("https://savor365.com/api/saveBillingAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode+"&aptNo="+address.aptNo);
+		},
 		saveAddressForNextState: function(addrs){
 			result = addrs;
 		},

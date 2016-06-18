@@ -868,6 +868,26 @@ $texttofax  .='</table>'; // Enter your fax contents here
         $this->response("Address Saved", 200);
     }
 
+    function saveBillingAddress_get()
+    {
+
+        $data['cus_id']   = $this->get('cusId');
+        $data['addrs']    = $this->get('address');
+        $data['apt_no']   = $this->get('aptNo');
+        $data['city']     = $this->get('city');
+        $data['state']    = $this->get('state');
+        $data['zip_code'] = $this->get('zipcode');
+        $data['phone']    = $this->get('phone');
+
+
+
+
+        $this->db->insert('cus_pay_billing_info', $data);
+
+
+        $this->response("Address Saved", 200);
+    }
+
 
     function savePaymentInfo_get()
     {

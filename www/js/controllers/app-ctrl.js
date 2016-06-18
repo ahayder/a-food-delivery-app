@@ -1,7 +1,41 @@
 angular.module('app.appCtrl', [])
 
 // Main ctrl
-.controller('appCtrl', ['$scope', '$state', '$rootScope', 'UsersFactory', 'CartFactory', function($scope, $state, $rootScope, UsersFactory, CartFactory) {
+.controller('appCtrl', function($scope, $state, $rootScope, UsersFactory, CartFactory, $ionicActionSheet) {
+
+    //ionic Action Sheet Starts below
+
+    $scope.show = function() {
+
+ // Show the action sheet
+       var hideSheet = $ionicActionSheet.show({
+         buttons: [
+           { text: 'Delivery' },
+           { text: 'Pickup' },
+           { text: 'Dine in' }
+         ],
+
+         titleText: '<h4>Set you preference</h4>',
+         cancelText: 'Cancel',
+         cancel: function() {
+              // add cancel code..
+            },
+         buttonClicked: function(index) {
+           if(index===0){
+              localStorage.setItem("userPreference", "Delivery");
+           }else if(index===1){
+              localStorage.setItem("userPreference", "Pick Up");
+           }else{
+              localStorage.setItem("userPreference", "Dine In");
+           }
+
+           return true;
+         }
+       });
+     }();
+//ionic Action sheet ends above
+
+
 
     $rootScope.login = true; // acctually it means false incase of ng-hide
 
@@ -27,7 +61,7 @@ angular.module('app.appCtrl', [])
         $state.go("app.login");
     };
 
-    
+
 
 
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -57,4 +91,4 @@ angular.module('app.appCtrl', [])
     });
 
 
-}]);
+});

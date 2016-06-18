@@ -218,48 +218,34 @@ angular.module('app.cartCtrl', [])
 
 //saveBillingAddress starts below
 
-$scope.saveBillingAddress=function(billingAddress) {
+      $scope.saveBillingAddress=function(billingAddress) {
 
-   return;
-      $scope.address = billingAddress;
-      //alert(JSON.stringify($scope.address));
+          // for checkout object
+          $scope.billingAddress = billingAddress;
 
-      $ionicLoading.show({
-          template: 'Saving into savor365 database.'
-      });
+          // Now saving into Database
+          $scope.billAddr = {};
 
-      $scope.defaultAdrs = {};
+          UsersFactory.addressSave(user[0].cus_id, $scope.address).then(function(response) {
 
-      UsersFactory.addressSave(user[0].cus_id, $scope.address).then(function(response) {
-          //$scope.address = response.data;
-          $scope.boolAddNewAddress = false;
+              alert("saved into datbase");
 
-          $scope.defaultAdrs.addrs = $scope.address.line1 + ' ' + $scope.address.line2;
-          $scope.defaultAdrs.state = $scope.address.state;
-          $scope.defaultAdrs.town = $scope.address.city;
-          $scope.defaultAdrs.zip_code = $scope.address.zipcode;
-          $scope.defaultAdrs.phone = $scope.address.phone;
-          $scope.defaultAdrs.country = "USA";
+              $scope.showAddAddress = true;
+              //testing code starts here
 
+              $scope.showOnlyAddAddress = false;
+              //testing code ends above
+          }, function(error) {
+              $ionicLoading.hide();
 
-          $ionicLoading.hide();
-
-          $scope.showAddAddress = true;
-//testing code starts here
-
-          $scope.showOnlyAddAddress = false;
-//testing code ends above
-      }, function(error) {
-          $ionicLoading.hide();
-
-          $ionicPopup.alert({
-              title: 'Error!',
-              template: 'Opps.. something wrong'
+              $ionicPopup.alert({
+                  title: 'Error!',
+                  template: 'Opps.. something wrong'
+              });
+              //console.log("eror is address saving" + error);
           });
-          //console.log("eror is address saving" + error);
-      });
 
-  }
+        }
 
 
 
@@ -282,6 +268,22 @@ $scope.saveBillingAddress=function(billingAddress) {
         });
 
     }
+
+    //same as shipping code for billing address starts
+      $scope.sameAsShipping=function(billing){
+
+              if(billing=="sameAsShipping"){
+                  $scope.billingAddress = $scope.defaultAdrs;
+              }
+              else{
+                return;
+              }
+      };
+      $scope.sameAsShipping();
+
+    //same as shipping code for billing address ends
+
+
 
     // getting addressess- user will select an address from these addresses
     $scope.changeAddress = function($event){
@@ -335,6 +337,7 @@ $scope.saveBillingAddress=function(billingAddress) {
         //  }
     }
 
+    // add new Shippig Address close
     $scope.close = function() {
         $scope.boolAddNewAddress = false;
     }
@@ -354,18 +357,23 @@ $scope.saveBillingAddress=function(billingAddress) {
 
     $scope.setDeliveryCharge = function(val) {
 
-            if(val){
+              if(val === 0){
                 $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
                 $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
                 $scope.deliverySelected = true;
                 //console.log($scope.deliveryCharge);
               }
-              else{
+              else if(val === 1){
                 //$scope.deliveryCharge = 0;
                 $scope.deliveryChargeForShowingOnly = 0;
-                $scope.pickUp=true;
+
                 $scope.deliverySelected = false;
                 //console.log($scope.deliveryCharge);
+              }
+              else{
+                $scope.deliveryChargeForShowingOnly = 0;
+
+                $scope.deliverySelected = false;
               }
 
     }
@@ -483,6 +491,10 @@ $scope.makeThisPaymentCard=function(c){
 
         //Address
         checkOutInfo.shippingAddress = $scope.defaultAdrs;
+
+
+        // billingAddress
+        checkOutInfo.billingAddress = $scope.billingAddress;
 
 
         // Checkout foods
@@ -735,9 +747,7 @@ $scope.showDeleteAlert = function() {
 
     }
 
-
-
-
+      console.log(localStorage.getItem("userPreference"));
 
 
 });

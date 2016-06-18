@@ -4,15 +4,15 @@
         <h1 class="title">Delivery</h1>
         <a class="button button-icon button-clear ion-ios-cart" href="#/app/cart">${{cartTotal |number:2}}</a>
     </ion-header-bar>
-    <ion-content class="padding has-header has-footer" >
-        <div class="row remove-padding">
-            <div class="col remove-padding">
-                <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(false)">Pickup</ion-radio>
-            </div>
-            <div class="col remove-padding">
-                <ion-radio ng-model="deliveryType" ng-value="'delivery'"ng-click="setDeliveryCharge(true)">Delivery</ion-radio>
-            </div>
-        </div>
+    <ion-content class="padding has-header">
+
+
+        <ion-radio ng-model="deliveryType" ng-value="'pickup'" ng-click="setDeliveryCharge(1)">Pickup</ion-radio>
+
+        <ion-radio ng-model="deliveryType" ng-value="'delivery'" ng-click="setDeliveryCharge(0)">Delivery</ion-radio>
+
+        <ion-radio ng-model="deliveryType" ng-value="'dineIn'" ng-click="setDeliveryCharge(2)">Dine In</ion-radio>
+
         <div class="card list" ng-show='boolAddNewAddress'>
             <div class="item item-divider item-assertive">Add shipping address</div>
             <div class="item item-text-wrap">
@@ -204,21 +204,24 @@
           <!--Billing Address section-->
         <div class="item item-divider item-assertive">Billing address</div>
         <div class="item ">
-            <div class="row remove-padding">
-                <div class="col remove-padding">
-                    <input type="radio" ng-model="shipping" name="SameAsShipping" checked> Same as shipping
+            <div class="row remove-padding" ng-init="billing='sameAsShipping'">
+                <div class="col remove-padding" >
+                    <input type="radio" ng-model="billing" value="sameAsShipping" ng-change="sameAsShipping(billing)"> Same as shipping
                     <!-- <input type="checkbox" ng-model="termsCondition">Add new -->
                 </div>
                 <div class="col remove-padding">
                     <!-- <input type="checkbox" ng-model="termsCondition">Same as shipping -->
-                    <input type="radio" ng-model="shipping" value="addNew" name="AddNewBilling"> Add new
+                    <input type="radio" ng-model="billing" value="addNew" name="AddNewBilling" ng-change="sameAsShipping(billing)"> Add new
                 </div>
             </div>
         </div>
-        <div class="card list" ng-show="shipping == 'addNew'">
+        <div class="card list" ng-show="billing == 'addNew'">
             <div class="item item-divider item-assertive">Add billing address</div>
             <div class="item item-text-wrap">
                 <form name="myformTwo">
+                    <label class="item item-input">
+                    <input type="text" ng-model="billingAddress.aptNo" placeholder="Appartment number" required>
+                    </label>
                     <label class="item item-input">
                     <input type="text" ng-model="billingAddress.line1" placeholder="Address Line 1" required>
                     </label>
@@ -239,7 +242,6 @@
                     </label>
                     <div class="button-bar">
                         <a class="button button-small button-assertive button-clear" ng-disabled="myformTwo.$invalid" ng-click="saveBillingAddress(billingAddress)">Save</a>
-                        <a class="button button-small button-calm button-clear" ng-click="close()">Cancel</a>
                     </div>
                 </form>
             </div>
