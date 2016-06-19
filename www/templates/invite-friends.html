@@ -1,32 +1,9 @@
 <ion-view title="Invite Friends">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <div class="list">
-			<label class="item item-input">
-				<input type="email" placeholder="Your friends email">
-			</label>
+        <a class="tab-item" ng-click="shareNative()">
+            <i class="icon ion-share"></i> Share
+          </a>
 
-			<label class="item item-input">
-				<textarea placeholder="Your meassage"></textarea>
-			</label>
-		</div>
-		<button class="button button-block button-positive">Send</button>
-
-		
-		<div class="card">
-			<div class="item item-divider custom-item-divider">Share your invitation link</div>
-			<div class="list">
-				<label class="item item-input item-stacked-label">
-					<span class="input-label">Your invitation link</span>
-				<input type="text" placeholder="https://savor365.com/alihayder19@gmail.com">
-			</label>
-			</div>
-			<div class="button-bar">
-				<a class="button button-positive" ng-click="invitationFB('https://savor365.com/alihayder19@gmail.com')"><i class="icon ion-social-facebook"></i></a>
-				<a class="button button-calm" ng-click="invitationTwitter()"><i class="icon ion-social-twitter"></i></a>
-				<a class="button button-assertive"><i class="icon ion-social-googleplus"></i></a>
-			</div>
-		</div>
-		
 
     </ion-content>
 </ion-view>
