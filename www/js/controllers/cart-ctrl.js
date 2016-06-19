@@ -68,6 +68,7 @@ angular.module('app.cartCtrl', [])
 
     $scope.emptyCart = true;
     var cartInfo = CartFactory.getCartInfo();
+
     $scope.resId = localStorage.getItem('resId');
     // if (cartInfo != undefined) {
     //     if (cartInfo.length > 0)
@@ -94,6 +95,7 @@ angular.module('app.cartCtrl', [])
                 qty: cartInfo[i].qty,
                 price: parseFloat(cartInfo[i].totalPrice),
                 specialInstruction: cartInfo[i].specialInstruction
+
             }
 
             temp.push(food);
@@ -312,7 +314,8 @@ angular.module('app.cartCtrl', [])
 
     }
 
-    $scope.openDeliveryModal = function() {
+    $scope.openDeliveryModal = function(instructionCart) {
+
         //    if (localStorage.getItem('defaultAddress') != null) {
         //alert(localStorage.getItem('defaultAddress'));
         var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
@@ -335,6 +338,10 @@ angular.module('app.cartCtrl', [])
         $scope.deliveryModal.show();
 
         //  }
+
+        //special instruction cartInfo
+        $scope.cartInstruction = instructionCart;
+
     }
 
     // add new Shippig Address close
@@ -447,7 +454,7 @@ $scope.makeThisPaymentCard=function(c){
 
 
 
-    $scope.checkout = function(deliveryType, tipPercetage) {
+    $scope.checkout = function(deliveryType, tipPercetage,instructionCart) {
 
       //--------
       $ionicLoading.show({
@@ -531,12 +538,15 @@ $scope.makeThisPaymentCard=function(c){
 
 
         // Speacial Intructions
-        checkOutInfo.specialInstruction = "";
+        checkOutInfo.cartInstruction=$scope.cartInstruction;
+        console.log(checkOutInfo);
+
+
 
 
         //alert(JSON.stringify(checkOutInfo));
-        //console.log(checkOutInfo);
-        //return;
+        // console.log(instructionCart);
+        return;
 
 
         // End of object building for checkout

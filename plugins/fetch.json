@@ -58,5 +58,14 @@
             "APP_ID": "1742328509350621",
             "APP_NAME": "Savor365"
         }
+    },
+    "cordova-plugin-x-socialsharing": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin/",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

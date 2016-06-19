@@ -29,6 +29,9 @@
             "APP_ID": "1742328509350621",
             "APP_NAME": "Savor365",
             "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "com.savor365.android"
         }
     },
     "dependent_plugins": {}

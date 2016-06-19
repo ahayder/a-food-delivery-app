@@ -295,19 +295,21 @@ angular.module('app.foodCtrl', [])
 		}
 	}
 
-	$scope.addToCart=function(){
+	$scope.addToCart=function(instruction){
 		// alert(localStorage.getItem('loggedIn'));
 		if(!JSON.parse(localStorage.getItem('loggedIn'))) {
 			$state.go('app.login');
 			$scope.orderModalClose();
 			return;
 		}
+    console.log(instruction+" hi");
+
 		$scope.checkOutObj.totalPrice = $scope.price;
 		$scope.checkOutObj.mainFood = $scope.food;
 		$scope.checkOutObj.qty = $scope.qty;
-		$scope.checkOutObj.specialInstruction = $scope.instruction;
-
+    $scope.checkOutObj.specialInstruction = instruction;
 		CartFactory.saveIntoCart($scope.checkOutObj);
+    console.log($scope.checkOutObj);
 
 		$state.go("app.cart");
 		$scope.orderModalClose();
@@ -315,7 +317,7 @@ angular.module('app.foodCtrl', [])
 	}
 
 
-    //
+  
     var getFav = function(){
 
         var resId = localStorage.getItem('resId');
@@ -406,7 +408,7 @@ angular.module('app.foodCtrl', [])
                           $scope.favClass = "not-fav";
                       }
                   }),function(error){
-                    
+
                       $scope.favClass = "not-fav";
                   }
                 }

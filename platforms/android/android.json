@@ -55,6 +55,10 @@
                         {
                             "xml": "<access origin=\"https://*.akamaihd.net\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -68,6 +72,10 @@
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
                             "count": 1
                         }
                     ],
@@ -121,6 +129,9 @@
         "phonegap-facebook-plugin": {
             "APP_ID": "1742328509350621",
             "APP_NAME": "Savor365",
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-x-socialsharing": {
             "PACKAGE_NAME": "com.savor365.android"
         }
     },
@@ -179,6 +190,14 @@
             "clobbers": [
                 "facebookConnectPlugin"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+            "id": "cordova-plugin-x-socialsharing.SocialSharing",
+            "pluginId": "cordova-plugin-x-socialsharing",
+            "clobbers": [
+                "window.plugins.socialsharing"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -188,6 +207,7 @@
         "cordova-plugin-whitelist": "1.2.1",
         "ionic-plugin-keyboard": "2.0.1",
         "cordova-plugin-splashscreen": "3.2.2",
-        "phonegap-facebook-plugin": "0.12.0"
+        "phonegap-facebook-plugin": "0.12.0",
+        "cordova-plugin-x-socialsharing": "5.1.1"
     }
 }
