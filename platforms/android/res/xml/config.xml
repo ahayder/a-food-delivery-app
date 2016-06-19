@@ -32,6 +32,7 @@
     <feature name="SocialSharing">
         <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
     </feature>
+<<<<<<< HEAD
     <name>Savor365</name>
     <description>
       Savor365 User App
@@ -42,6 +43,8 @@
     <content src="index.html" />
     <access origin="*" />
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+=======
+>>>>>>> b7662fbd316689350104bc89662afaeb66d3d673
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -73,4 +76,8 @@
     <preference name="android-minSdkVersion" value="16" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="loadUrlTimeoutValue" value="700000" />
+<<<<<<< HEAD
+=======
+    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+>>>>>>> b7662fbd316689350104bc89662afaeb66d3d673
 </widget>

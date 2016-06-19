@@ -4,7 +4,7 @@ angular.module('app.inviteFriendsCtrl', [])
 
 
   $scope.shareNative = function() {
-    //console.log(window.plugins);
+        console.log(window.plugins);
       if (window.plugins && window.plugins.socialsharing) {
           window.plugins.socialsharing.share("I'll be attending the session: " + $scope.session.title + ".",
               'PhoneGap Day 2014', null, "http://pgday.phonegap.com/us2014",

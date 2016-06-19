@@ -47,6 +47,10 @@
                         {
                             "xml": "<access origin=\"https://*.akamaihd.net\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -94,6 +98,9 @@
         "phonegap-facebook-plugin": {
             "APP_ID": "1742328509350621",
             "APP_NAME": "Savor365",
+            "PACKAGE_NAME": "com.savor365.app"
+        },
+        "cordova-plugin-x-socialsharing": {
             "PACKAGE_NAME": "com.savor365.app"
         }
     },
@@ -155,12 +162,21 @@
             "clobbers": [
                 "facebookConnectPlugin"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+            "id": "cordova-plugin-x-socialsharing.SocialSharing",
+            "pluginId": "cordova-plugin-x-socialsharing",
+            "clobbers": [
+                "window.plugins.socialsharing"
+            ]
         }
     ],
     "plugin_metadata": {
         "cordova-plugin-geolocation": "2.1.0",
         "cordova-plugin-inappbrowser": "1.4.1-dev",
         "cordova-plugin-splashscreen": "3.2.2",
-        "phonegap-facebook-plugin": "0.12.0"
+        "phonegap-facebook-plugin": "0.12.0",
+        "cordova-plugin-x-socialsharing": "5.1.1"
     }
 }
