@@ -13,7 +13,7 @@
       <div class="button-bar" padding="false">
         <a ng-if="!emptyCart" class="button button-calm" ng-click="showDeleteAlert()">Empty Cart</a>
         <a ng-if="!emptyCart" class="button button-assertive"
-        ng-click="openDeliveryModal()">Next</a>
+           ng-click="openDeliveryModal(instructionCart)">Next</a>
 
 </div>
 
@@ -41,6 +41,8 @@
       <!-- <div class="bar bar-footer bar-assertive">
         <a ng-if="!emptyCart" class="button button-icon button-clear ion-android-delete" ng-click="showDeleteAlert()"> Empty Cart</a>
       </div> -->
-
+      <label class="item item-input">
+        <textarea placeholder="If you have any special instruction please write" ng-model="instructionCart"></textarea>
+      </label>
     </ion-content>
 </ion-view>

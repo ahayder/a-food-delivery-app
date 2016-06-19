@@ -30,6 +30,9 @@
     <access origin="https://api.facebook.com" />
     <access origin="https://*.fbcdn.net" />
     <access origin="https://*.akamaihd.net" />
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -70,7 +73,4 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="loadUrlTimeoutValue" value="700000" />
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <feature name="SocialSharing">
-        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
-    </feature>
 </widget>

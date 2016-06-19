@@ -90,11 +90,12 @@
 				<textarea placeholder="If you have any special instruction write here" ng-model="instruction"></textarea>
 			</label>
 
+
 			<!-- End Special Instruction -->
 
 		</div>
 
-		<button class="button button-full button-assertive" ng-click="addToCart()" ng-disabled="disableCartButton">
+		<button class="button button-full button-assertive" ng-click="addToCart(instruction)" ng-disabled="disableCartButton">
 		  Add to Cart
 		</button>
 

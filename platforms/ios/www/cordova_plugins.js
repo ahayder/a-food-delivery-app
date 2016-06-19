@@ -56,6 +56,14 @@ module.exports = [
         "clobbers": [
             "facebookConnectPlugin"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+        "id": "cordova-plugin-x-socialsharing.SocialSharing",
+        "pluginId": "cordova-plugin-x-socialsharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -64,7 +72,8 @@ module.exports.metadata =
     "cordova-plugin-geolocation": "2.1.0",
     "cordova-plugin-inappbrowser": "1.4.1-dev",
     "cordova-plugin-splashscreen": "3.2.2",
-    "phonegap-facebook-plugin": "0.12.0"
+    "phonegap-facebook-plugin": "0.12.0",
+    "cordova-plugin-x-socialsharing": "5.1.1"
 }
 // BOTTOM OF METADATA
 });
