@@ -1,7 +1,25 @@
 angular.module('app.appCtrl', [])
 
 // Main ctrl
-.controller('appCtrl', function($scope, $state, $rootScope, UsersFactory, CartFactory, $ionicActionSheet) {
+.controller('appCtrl', function($scope, $state, $rootScope, UsersFactory, CartFactory, $ionicActionSheet,$cordovaSocialSharing) {
+
+  //Social sharing code Starts
+  $scope.socialSharing = function(){
+    $cordovaSocialSharing
+              //.share(message, subject, file, link) // Share via native share sheet
+              .share("message", "subject", "file", "link") // Share via native share sheet
+              .then(function(result) {
+              // Success!
+              }, function(err) {
+              // An error occured. Show a message to the user
+              });
+
+  }
+  //Social sharing code ends above
+
+
+
+
 
     //ionic Action Sheet Starts below
 

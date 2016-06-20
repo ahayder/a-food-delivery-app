@@ -62,7 +62,7 @@
     "cordova-plugin-x-socialsharing": {
         "source": {
             "type": "git",
-            "url": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin",
+            "url": "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
             "subdir": "."
         },
         "is_top_level": true,

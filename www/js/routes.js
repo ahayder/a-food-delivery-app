@@ -68,16 +68,6 @@ angular.module('app.routes', [])
       }
     })
 
-    .state('app.invite-friends', {
-      url: '/invite-friends',
-      views: {
-        'side-menu': {
-          templateUrl: 'templates/invite-friends.html',
-          controller: 'inviteFriendsCtrl'
-        }
-      }
-    })
-
     .state('app.favourite', {
       url: '/favourite',
       views: {
