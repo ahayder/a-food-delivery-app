@@ -10,12 +10,7 @@
     </ion-header-bar>
 
     <ion-content padding="true" scroll="true" class="has-subheader" ng-class="emptyPage">
-      <div class="button-bar" padding="false">
-        <a ng-if="!emptyCart" class="button button-calm" ng-click="showDeleteAlert()">Empty Cart</a>
-        <a ng-if="!emptyCart" class="button button-assertive"
-           ng-click="openDeliveryModal(instructionCart)">Next</a>
 
-</div>
 
 
       <ion-list ng-if="!emptyCart" >
@@ -24,7 +19,7 @@
               <p>Size: {{food.sizeInfo.sizeName}}, Quantity: {{food.qty}}</p>
               <p>Price: ${{food.sizeInfo.sizePrice/food.qty}}</p>
               <p ng-repeat="extra in food.foodExtra">{{extra.item_name}}(${{extra.price1}})</p>
-              <p>Your Instruction: {{food.specialInstruction}}</p>
+              <p ng-show="food.specialInstruction">Your Instruction: {{food.specialInstruction}}</p>
           </ion-item>
       </ion-list>
 
@@ -44,5 +39,16 @@
       <label class="item item-input">
         <textarea placeholder="If you have any special instruction please write" ng-model="instructionCart"></textarea>
       </label>
+      <br>
+      <br>
+
+      <!-- Empty cart and Next button below -->
+
+      <div class="button-bar" padding="false">
+        <a ng-if="!emptyCart" class="button button-calm" ng-click="showDeleteAlert()">Empty Cart</a>
+        <a ng-if="!emptyCart" class="button button-assertive"
+           ng-click="openDeliveryModal(instructionCart)">Next</a>
+
+      </div>
     </ion-content>
 </ion-view>
