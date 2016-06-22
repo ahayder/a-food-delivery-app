@@ -57,13 +57,15 @@
             <select ng-model="percentage" ng-init="percentage=percentages[1]" ng-options="percentage.per for percentage in percentages"></select>
         </label>
         <!-- Invoice -->
-        <div class="card">
+        <div class="card" >
             <div class="item item-divider item-assertive">Invoice</div>
             <div class="item item-text-wrap">
                 <div class="row remove-padding">
 
   <!-- code is cut from below and testing code-->
-<table>
+<table style="margin:0px auto; width: 100%;
+border-collapse: collapse;
+border: 1px solid #bbb;">
 <tr class="headings">
 <td>Item(s)</td>
 <td>&nbsp;Qty</td>
@@ -97,7 +99,7 @@
 <td><strong>Subtotal:</strong></td>
 <td></td>
 <td></td>
-<td>&nbsp;&nbsp;${{subTotal}}</td>
+<td>&nbsp;&nbsp;${{subTotal}}&nbsp;</td>
 </tr>
 
 <br>
@@ -135,8 +137,9 @@
 <td><strong>Total:</strong></td>
 <td></td>
 <td></td>
-<td><p ng-show="deliveryType == 'delivery'" style="text-align:right;">${{gTotal+subTotal * percentage.val/100 | number:2}}</p>
-<p ng-show="deliveryType == 'pickup'" style="text-align:right;">${{gTotal+subTotal * percentage.val/100 - deliveryCharge | number:2}}</p>
+<td><div ng-show="deliveryType == 'delivery'" >&nbsp;&nbsp;${{gTotal+subTotal * percentage.val/100 | number:2}}&nbsp;</div>
+<div ng-show="deliveryType == 'pickup'" >&nbsp;&nbsp;${{gTotal+subTotal * percentage.val/100 - deliveryCharge | number:2}}&nbsp;</div>
+<div ng-show="deliveryType == 'dineIn'" >&nbsp;&nbsp;${{gTotal+subTotal * percentage.val/100 - deliveryCharge | number:2}}&nbsp;</div>
 </td>
 </tr>
 
