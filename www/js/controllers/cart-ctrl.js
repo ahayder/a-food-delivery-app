@@ -4,6 +4,7 @@ angular.module('app.cartCtrl', [])
 .controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover, FoodFactory) {
 
     // For showing/hiding the shipping address section into modal
+    $scope.listCanSwipe=true;
     $scope.deliverySelected = true;
     $scope.termsCondition=true;
     $scope.taxRate= parseFloat(localStorage.getItem('taxRate'));
@@ -40,7 +41,12 @@ angular.module('app.cartCtrl', [])
 
     });
     // End Saving the user's default address in local storage
+    //Function for cart item slide delete
+    $scope.deleteBySwipe=function(index){
 
+          $scope.foodsForInvoice.splice(index, 1);
+          console.log($scope.foodsForInvoice);
+    };
 
     // Value initialization for tips calculation
     $scope.tips=0;
@@ -88,7 +94,7 @@ angular.module('app.cartCtrl', [])
     if (cartInfo) {
 
         $scope.foodsForInvoice = cartInfo;
-        console.log(cartInfo)
+        console.log(cartInfo);
         $scope.emptyCart = false;
         var temp = [];
 
@@ -378,15 +384,14 @@ angular.module('app.cartCtrl', [])
               else if(val === 1){
                 //$scope.deliveryCharge = 0;
                 $scope.deliveryChargeForShowingOnly = 0;
-
                 $scope.deliverySelected = false;
                 //console.log($scope.deliveryCharge);
               }
               else{
                 $scope.deliveryChargeForShowingOnly = 0;
-
                 $scope.deliverySelected = false;
               }
+
 
     }
 
@@ -726,7 +731,7 @@ $scope.showDeleteAlert = function() {
         $scope.emptyPage = "";
 
       }
-
+console.log($scope.foods);
   });
 };
 

@@ -317,7 +317,7 @@ angular.module('app.foodCtrl', [])
 	}
 
 
-  
+
     var getFav = function(){
 
         var resId = localStorage.getItem('resId');
