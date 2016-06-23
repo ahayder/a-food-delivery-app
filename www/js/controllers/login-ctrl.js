@@ -5,6 +5,8 @@ angular.module('app.loginCtrl', [])
 
     $scope.logoutMessage = false;
     $scope.login1 = true;
+
+
     $scope.login = function(user) {
 
         UsersFactory.login(user.email, user.password).then(function(response) {
@@ -13,7 +15,7 @@ angular.module('app.loginCtrl', [])
 
             if (userInfo.length == 0) {
                 $ionicPopup.alert({
-                    title: 'Unsuccessful',
+                    title: 'Error!',
                     template: 'The email or password mismatched'
                 });
             } else {
@@ -57,7 +59,7 @@ angular.module('app.loginCtrl', [])
 
         }, function(error) {
             $ionicPopup.alert({
-                title: 'Unsuccessful',
+                title: 'Error!',
                 template: 'Opps! there was a problem' + error.message
             });
         });
@@ -67,6 +69,26 @@ angular.module('app.loginCtrl', [])
 
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//
+//                                              ALL ABOUT FB
+//                                                  LOGIC
+//
+//          If user is loggin in for the first time then we savor is maing signup the user by saving
+//          user's email, name & FBid to savor Database. And also immedietely making the user login.
+//          Savor is using only the email address, & the FBid for the credentials of the user as 
+//          login credentials.          
+//
+//          If the user already allow Savor from FB then Savor will just take the users email address
+//          and FBuserId and make the user login.
+//
+//
+//
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -74,114 +96,92 @@ angular.module('app.loginCtrl', [])
 
 
 
+    $scope.loginWithFB = function(info) {
 
+        UsersFactory.loginWithFacebook(info).then(function(response) {
+            //console.log(localStorage.getItem('userId'));
+            var userInfo = response.data;
 
-
-    $scope.savorFbSignUp = function(data) {
-
-        $scope.user = data;
-
-        UsersFactory.signup(data).then(function(response) {
-
-            UsersFactory.login($scope.user.email, $scope.user.password).then(function(response) {
-
-                var userInfo = response.data;
-                ////////////////////
-                if (localStorage.getItem('userId') != userInfo[0].cus_id) {
-                    localStorage.removeItem('cartInfo');
-                }
-                localStorage.setItem('userId', userInfo[0].cus_id);
-                ////////////////////////
-                UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
-                    var addresses = response.data;
-                    for (var i = 0; i < addresses.length; i++) {
-                        if (addresses[i].adrs_type == 1) {
-                            //alert(addresses[i]);
-                            localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
-                            break;
-                        }
-                    }
-                });
-
-                if (userInfo.length == 0) {
-                    $ionicPopup.alert({
-                        title: 'Error!',
-                        template: 'The email or password mismatched'
-                    });
-                } else {
-                    //Saving variables to use later
-                    //$rootScope.login = false;
-                    $scope.login1 = false;
-                    window.localStorage['loggedIn'] = "true";
-                    window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
-                    // without timeout menu ng-show doesn't work
-                    if (localStorage.getItem('resId') == null) {
-                        $ionicHistory.nextViewOptions({
-                          disableBack: true
-                        });
-                        $state.go("app.search");
-                        $rootScope.login = false;
-                    } else {
-                        $ionicHistory.nextViewOptions({
-                          disableBack: true
-                        });
-                        $state.go("app.foods", {
-                            restaurantId: JSON.parse(localStorage.getItem('resId'))
-                        });
-                        $rootScope.login = false;
-                    }
-
-
-                }
-
-            }, function(error) {
+            if (userInfo.length == 0) {
+                $ionicLoading.hide();
                 $ionicPopup.alert({
-                    title: 'Unsuccessful',
-                    template: 'Opps! there was a problem' + JSON.parse(error)
+                    title: 'Error!',
+                    template: 'Something Wrong, please try agin'
                 });
-            });
+            } else {
 
+                if (localStorage.getItem('userId') != userInfo[0].cus_id) {
+
+                    console.log('no match');
+                    localStorage.removeItem('cartInfo');
+                    console.log(localStorage.getItem('cartInfo'));
+
+                }
+
+                localStorage.setItem('userId', userInfo[0].cus_id);
+
+
+                //Saving variables to use later
+                //$rootScope.login = false;
+                $scope.login1 = false;
+                window.localStorage['loggedIn'] = "true";
+                window.localStorage['loggedInUserInofos'] = JSON.stringify(userInfo);
+                // without timeout menu ng-show doesn't work
+                //$state.go("app.search");
+                if (localStorage.getItem('resId') == null) {
+                    $state.go("app.search");
+                    $rootScope.login = false;
+                    $ionicLoading.hide();
+                } else {
+
+                    // disabeling the back button in the next page
+                    $ionicHistory.nextViewOptions({
+                      disableAnimate: true,
+                      disableBack: true
+                    });
+                    $state.go("app.search", {
+
+                        restaurantId: JSON.parse(localStorage.getItem('resId'))
+                    });
+                    $rootScope.login = false;
+                    $ionicLoading.hide();
+                }
+
+            }
 
         }, function(error) {
+            $ionicLoading.hide();
             $ionicPopup.alert({
-                title: 'Error',
-                template: 'The signup was not successful for this reason:' + JSON.parse(error)
+                title: 'Error!',
+                template: 'Opps! there was a problem this is from log in with FB ' + JSON.stringify(error)
             });
         });
     }
 
-    // $scope.fbSignUp = function() {
-
-    // //alert('hola');
-    // $scope.data = {};
-    // ngFB.login({
-    //     scope: 'email'
-    // }).then(
-    //     function(response) {
-    //         ngFB.api({
-    //             path: '/me',
-    //             params: {
-    //                 fields: 'id,name,email'
-    //             }
-    //         }).then(
-    //             function(user) {
-
-    //                 var fbData = {};
-    //                 fbData.name = user.name;
-    //                 fbData.email = user.email;
-    //                 fbData.password = "";
-    //                 //fbData.mobile = user.mobile;
-    //                 $scope.signUp(fbData);
-    //             },
-    //             function(error) {
-    //                 alert('Facebook error: ' + error.error_description);
-    //             });
-    //     });
-    // }
 
 
 
 
+
+
+
+
+
+
+    $scope.savorFbSignUp = function(info) {
+
+        UsersFactory.signupWithFB(info).then(function(response){
+            $scope.loginWithFB(info);
+            
+        }, function(error){
+            //console.log("https://savor365.com/api/signupWithFB?name="+info.name+"&email="+info.email+"&fbId="+info.fbUserId);
+            $ionicLoading.hide();
+            $ionicPopup.alert({
+                title: 'Error',
+                template: 'The login was not successful, error: ' + error.message
+            });
+        });
+    }
 
 
 
@@ -219,87 +219,67 @@ angular.module('app.loginCtrl', [])
 
         getFacebookProfileInfo(authResponse)
         .then(function(profileInfo) {
-            // For the purpose of this example I will store user data on local storage
-            // UserService.setUser({
-            //   authResponse: authResponse,
-            //           userID: profileInfo.id,
-            //           name: profileInfo.name,
-            //           email: profileInfo.email,
-            //   picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
-            // });
-            // $ionicLoading.hide();
-            // $state.go('app.home');
-
             // Temporary for our system
             var fbData = {};
             fbData.name = profileInfo.name;
             fbData.email = profileInfo.email;
-            fbData.fbUserId = profileInfo.id;
-            fbData.password = "";
+            fbData.fbId = profileInfo.id;
             $scope.savorFbSignUp(fbData);
-            $ionicLoading.hide();
         }, function(fail){
           // Fail get profile info
           console.log('profile info fail', fail);
+          $ionicPopup.alert({
+                title: 'Error!',
+                template: 'Can\'t get your profile info from FB for the error ' + fail.message
+            });
         });
     };
 
     // This is the fail callback from the login method
     var fbLoginError = function(error){
         console.log('fbLoginError', error);
+        $ionicPopup.alert({
+            title: 'Error!',
+            template: 'FB Login in error' + error.message
+        });
         $ionicLoading.hide();
     };
 
-      //This method is executed when the user press the "Login with facebook" button
-      $scope.facebookSignIn = function() {
+    //This method is executed when the user press the "Login with facebook" button
+    $scope.facebookSignIn = function() {
 
         facebookConnectPlugin.getLoginStatus(function(success){
-             if(success.status == 'connected'){
-                // the user is logged in and has authenticated your app, and response.authResponse supplies
-                // the user's ID, a valid access token, a signed request, and the time the access token
-                // and signed request each expire
-                //console.log('getLoginStatus', success.status);
+            // if the app is already connected to FB
+            if(success.status == 'connected'){
 
-                        //check if we have our user saved
-                        //var user = UserService.getUser('facebook');
-                        //alert(JSON.stringify(window.localStorage['loggedInUserInofos']));
-                        //if(!user.userID)
-                        //{
-                            getFacebookProfileInfo(success.authResponse)
-                            .then(function(profileInfo) {
+                var authResponse = success.authResponse;
 
-                                //for the purpose of this example I will store user data on local storage
-                                // UserService.setUser({
-                                //     authResponse: success.authResponse,
-                                //     userID: profileInfo.id,
-                                //     name: profileInfo.name,
-                                //     email: profileInfo.email,
-                                //     picture : "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
-                                // });
+                getFacebookProfileInfo(authResponse)
+                .then(function(profileInfo) {
 
-                                // $state.go('app.home');
-                                $ionicLoading.show({
-                                  template: 'Logging in...'
-                                });
+                    $ionicLoading.show({
+                      template: 'Logging in...'
+                    });
 
-                                // Temporary for our system
-                                var fbData = {};
-                                fbData.name = profileInfo.name;
-                                fbData.email = profileInfo.email;
-                                fbData.fbUserId = profileInfo.id;
-                                fbData.password = "";
-                                $scope.login(fbData);
-                                $ionicLoading.hide();
+                    // Temporary for our system
+                    var fbData = {};
+                    fbData.name = profileInfo.name;
+                    fbData.email = profileInfo.email;
+                    fbData.fbId = profileInfo.id;
+                    // Saving the auth response access token
+                    $scope.loginWithFB(fbData);
 
-                            }, function(fail){
-                                //fail get profile info
-                                console.log('profile info fail', fail);
-                            });
-                        //}else{
-                           // $state.go('app.search');
-                        //}
+                }, function(fail){
+                    //fail get profile info
+                    console.log('profile info fail', fail);
+                    $ionicPopup.alert({
+                        title: 'Error!',
+                        template: 'Can\'t get your profile info from FB for the error ' + fail.message
+                    });
+                });
 
-             } else {
+            }
+            else {
                 //if (success.status === 'not_authorized') the user is logged in to Facebook, but has not authenticated your app
                 //else The person is not logged into Facebook, so we're not sure if they are logged into this app or not.
                 console.log('getLoginStatus', success.status);
@@ -311,14 +291,13 @@ angular.module('app.loginCtrl', [])
                 //ask the permissions you need. You can learn more about FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
                 facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
 
-              }
-            });
+            }
+
+        });
 
 
 
-
-
-        };
+    };
 
 
 

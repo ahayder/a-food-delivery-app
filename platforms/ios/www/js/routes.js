@@ -68,16 +68,6 @@ angular.module('app.routes', [])
       }
     })
 
-    .state('app.invite-friends', {
-      url: '/invite-friends',
-      views: {
-        'side-menu': {
-          templateUrl: 'templates/invite-friends.html',
-          controller: 'inviteFriendsCtrl'
-        }
-      }
-    })
-
     .state('app.favourite', {
       url: '/favourite',
       views: {
@@ -115,6 +105,16 @@ angular.module('app.routes', [])
         'side-menu': {
           templateUrl: 'templates/login.html',
           controller: 'loginCtrl'
+        }
+      }
+    })
+
+    .state('app.forgot-password', {
+      url: '/forgot-password',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/forgot-password.html',
+          controller: 'forgotCtrl'
         }
       }
     })

@@ -4,13 +4,18 @@ angular.module('app.cartCtrl', [])
 .controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover, FoodFactory) {
 
     // For showing/hiding the shipping address section into modal
-
     $scope.deliverySelected = true;
     $scope.termsCondition=true;
     $scope.taxRate= parseFloat(localStorage.getItem('taxRate'));
     $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
     $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
+
+    // logged in user info
     var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
+
+
+    // Payment card
+    $scope.payemntCardInfo = 
     // Getting Address
     // Saving the user's defau lt address in local storage
 
@@ -405,8 +410,9 @@ angular.module('app.cartCtrl', [])
     // Getting Card Info
     UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
 
-        $scope.cc = response.data;
-        $scope.ccForShowingOnly = $scope.cc[0];
+        var cc = response.data;
+        $scope.ccForShowingOnly = cc[0];
+        $scope.payemntCardInfo = cc[0];
         console.log(response.data);
 
     },
@@ -436,31 +442,33 @@ angular.module('app.cartCtrl', [])
 
 
       }
-//Payment PopOver code ends
-
-$scope.makeThisPaymentCard=function(c){
-
-    $scope.payemntCardInfo = c;
-
-    $scope.ccForShowingOnly = c;
-
-    $scope.popover2.hide();
-    $scope.$on('$destroy', function() {
-        $scope.popover2.remove();
-    });
+    
 
 
-}
+    //Payment PopOver code ends
+    $scope.makeThisPaymentCard=function(c){
+
+        $scope.payemntCardInfo = c;
+
+        $scope.ccForShowingOnly = c;
+
+        $scope.popover2.hide();
+        $scope.$on('$destroy', function() {
+            $scope.popover2.remove();
+        });
+
+
+    }
 
 
 
     $scope.checkout = function(deliveryType, tipPercetage,instructionCart) {
 
-      //--------
-      $ionicLoading.show({
+        //--------
+        $ionicLoading.show({
             template: 'Payment is processing...'
         });
-      //--------
+        //--------
         // Making the checkout object
         var checkOutInfo = {};
 
@@ -539,14 +547,14 @@ $scope.makeThisPaymentCard=function(c){
 
         // Speacial Intructions
         checkOutInfo.cartInstruction=$scope.cartInstruction;
-        console.log(checkOutInfo);
+        //console.log(checkOutInfo);
 
 
 
 
         //alert(JSON.stringify(checkOutInfo));
         // console.log(instructionCart);
-        return;
+        //return;
 
 
         // End of object building for checkout
@@ -568,10 +576,11 @@ $scope.makeThisPaymentCard=function(c){
 
         // Card Info
         paymentInfo.cardInfo = $scope.payemntCardInfo;
+        console.log($scope.payemntCardInfo);
 
 
         // Card type
-        var ccType = getCardType(cardInfo.card_number);
+        var ccType = getCardType($scope.payemntCardInfo.card_number);
         paymentInfo.cardType = ccType;
 
 

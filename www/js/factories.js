@@ -6,10 +6,16 @@ angular.module('app.services', [])
 	var result = [];
 	return {
 		login: function(email, password){
-			return $http.get("https://savor365.com/api/userLogin?email=" + email + "&password=" + password); // password will be added later on
+			return $http.get("https://savor365.com/api/userLogin?email=" + email + "&password=" + password);
+		},
+		loginWithFacebook: function(info){
+			return $http.get("https://savor365.com/api/userLoginWithFB?email=" + info.email +"&fbID="+info.fbId);
 		},
 		signup: function(data){
-    	return $http.get("https://savor365.com/api/cusInfoStore?name="+data.name+"&email="+data.email+"&password="+data.password+"&mobile="+data.mobile+"&fbId="+data.fbUserId);
+    		return $http.get("https://savor365.com/api/signUp?name="+data.name+"&email="+data.email+"&password="+data.password+"&mobile="+data.mobile);
+    	},
+    	signupWithFB: function(data){
+    		return $http.get("https://savor365.com/api/signupWithFB?name="+data.name+"&email="+data.email+"&fbId="+data.fbId);
     	},
 		// this is for to use after login
 		getUserInfo: function(email){
@@ -22,7 +28,7 @@ angular.module('app.services', [])
 			return $http.get("https://savor365.com/api/saveAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode);
 		},
 		saveBillingAddress: function(id, address){
-				return $http.get("https://savor365.com/api/saveBillingAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode+"&aptNo="+address.aptNo);
+			return $http.get("https://savor365.com/api/saveBillingAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode+"&aptNo="+address.aptNo);
 		},
 		saveAddressForNextState: function(addrs){
 			result = addrs;
