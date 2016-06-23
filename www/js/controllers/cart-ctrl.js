@@ -14,9 +14,6 @@ angular.module('app.cartCtrl', [])
     // logged in user info
     var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
 
-
-    // Payment card
-    $scope.payemntCardInfo = 
     // Getting Address
     // Saving the user's defau lt address in local storage
 
