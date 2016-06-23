@@ -80,8 +80,8 @@ border: 1px solid #bbb;">
 
 <td>{{$index+1}}. {{food.mainFood.food_name}}<p>({{food.sizeInfo.sizeName}})</p><p ng-repeat="extra in food.foodExtra">{{extra.item_name}}(${{extra.price1}})</p></td>
 <td>&nbsp;&nbsp;{{food.qty}}</td>
-<td>&nbsp;&nbsp;${{food.sizeInfo.sizePrice/food.qty}}</td>
 <td>&nbsp;&nbsp;${{food.qty * (food.sizeInfo.sizePrice/food.qty)}}</td>
+<td>&nbsp;&nbsp;${{food.sizeInfo.sizePrice*food.qty}}</td>
 <!-- Food extra section starts below -->
 
 

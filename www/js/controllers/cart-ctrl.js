@@ -38,11 +38,67 @@ angular.module('app.cartCtrl', [])
 
     });
     // End Saving the user's default address in local storage
+
+
     //Function for cart item slide delete
     $scope.deleteBySwipe=function(index){
 
           $scope.foodsForInvoice.splice(index, 1);
           console.log($scope.foodsForInvoice);
+    };
+
+
+    //Edit cart item quantity
+    $scope.editQuantity=function(index){
+
+            //copied alert below
+
+            $scope.showPopup = function() {
+    $scope.data = {};
+
+    // An elaborate, custom popup
+    var myPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.q">',
+      title: 'Change quantity',
+
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel',
+        onTap: function(e) {
+                myPopup.close();
+        } },
+        {
+          text: '<b>Save</b>',
+          type: 'button-assertive',
+          onTap: function(e) {
+            if (!$scope.data.q) {
+              //don't allow the user to close unless he enters wifi password
+              e.preventDefault();
+
+            } else {
+              console.log($scope.data.q);
+            $scope.foodsForInvoice[index].qty=$scope.data.q;
+            console.log("checking foodinvoice");
+            console.log($scope.foodsForInvoice[index].qty);
+            // return $scope.data.q;
+            }
+          }
+        }
+      ]
+    });
+
+    myPopup.then(function(res) {
+      console.log('Tapped!', res);
+
+      console.log($scope.foodsForInvoice[index].qty);
+      console.log($scope.data.q);
+    });
+
+
+  }();
+
+
+          //copied alert above
     };
 
     // Value initialization for tips calculation
@@ -92,6 +148,8 @@ angular.module('app.cartCtrl', [])
 
         $scope.foodsForInvoice = cartInfo;
         console.log(cartInfo);
+        console.log("showing foodFor Invoice");
+        console.log($scope.foodsForInvoice.qty);
         $scope.emptyCart = false;
         var temp = [];
 
@@ -444,7 +502,7 @@ angular.module('app.cartCtrl', [])
 
 
       }
-    
+
 
 
     //Payment PopOver code ends

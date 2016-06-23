@@ -48,6 +48,9 @@ angular.module('app.searchCtrl', [])
 
                             SearchFactory.saveSearchResult(searchResult);
                             $scope.searchResult = SearchFactory.getSearchResult();
+
+                            // maybe here
+                            
                         },function(error){
                             $ionicLoading.hide();
                             $ionicPopup.alert({
@@ -82,7 +85,7 @@ angular.module('app.searchCtrl', [])
 
 
         initialization();
-        
+
 
 
         // Searching by location
@@ -160,10 +163,10 @@ angular.module('app.searchCtrl', [])
             SearchFactory.getCuisines().then(function(response){
                 $scope.cuisines = response.data;
                     $scope.popover.show($event);
-                
-                
+
+
             });
-            
+
         }
 
         $scope.closePopover = function(id){
@@ -194,10 +197,10 @@ angular.module('app.searchCtrl', [])
 
                     SearchFactory.saveSearchResult(searchResult);
                     $scope.searchResult = SearchFactory.getSearchResult();
-                    $ionicLoading.hide(); 
+                    $ionicLoading.hide();
                 }
 
-                
+
 
             });
         }
@@ -213,8 +216,8 @@ angular.module('app.searchCtrl', [])
                     $scope.filterPop.show($event);
                 });
 
-            
-            
+
+
         }
 
         $scope.closeFilterPopover = function(){
@@ -223,7 +226,7 @@ angular.module('app.searchCtrl', [])
             $scope.$on('$destroy', function() {
                 $scope.filterPop.remove();
             });
-            
+
 
             // Getting data by free delivery charge
             $ionicLoading.show({
@@ -249,14 +252,14 @@ angular.module('app.searchCtrl', [])
 
                     SearchFactory.saveSearchResult(searchResult);
                     $scope.searchResult = SearchFactory.getSearchResult();
-                    $ionicLoading.hide(); 
+                    $ionicLoading.hide();
                 }
-                
+
 
             });
 
         }
 
-        
+
 
 });
