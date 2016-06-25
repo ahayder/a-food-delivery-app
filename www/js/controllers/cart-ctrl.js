@@ -17,90 +17,6 @@ angular.module('app.cartCtrl', [])
     // Getting Address
     // Saving the user's defau lt address in local storage
 
-    UsersFactory.getAddresses(localStorage.getItem('userId')).then(function(response) {
-
-        var addresses = response.data;
-
-
-        // jodi address matro 1 ta hoy tahole oitai save korbe
-        if(addresses.length == 1){
-            localStorage.setItem('defaultAddress', JSON.stringify(addresses[0]));
-        }
-        else{
-            for (var i = 0; i < addresses.length; i++) {
-                if (addresses[i].adrs_type == 1) {
-                    //alert(addresses[i]);
-                    localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
-                    break;
-                }
-            }
-        }
-
-    });
-    // End Saving the user's default address in local storage
-
-
-    //Function for cart item slide delete
-    $scope.deleteBySwipe=function(index){
-
-          $scope.foodsForInvoice.splice(index, 1);
-          console.log($scope.foodsForInvoice);
-    };
-
-
-    //Edit cart item quantity
-    $scope.editQuantity=function(index){
-
-            //copied alert below
-
-            $scope.showPopup = function() {
-    $scope.data = {};
-
-    // An elaborate, custom popup
-    var myPopup = $ionicPopup.show({
-      template: '<input type="text" ng-model="data.q">',
-      title: 'Change quantity',
-
-      scope: $scope,
-      buttons: [
-        { text: 'Cancel',
-        onTap: function(e) {
-                myPopup.close();
-        } },
-        {
-          text: '<b>Save</b>',
-          type: 'button-assertive',
-          onTap: function(e) {
-            if (!$scope.data.q) {
-              //don't allow the user to close unless he enters wifi password
-              e.preventDefault();
-
-            } else {
-              console.log($scope.data.q);
-            $scope.foodsForInvoice[index].qty=$scope.data.q;
-            console.log("checking foodinvoice");
-            console.log($scope.foodsForInvoice[index].qty);
-            // return $scope.data.q;
-            }
-          }
-        }
-      ]
-    });
-
-    myPopup.then(function(res) {
-      console.log('Tapped!', res);
-
-      console.log($scope.foodsForInvoice[index].qty);
-      console.log($scope.data.q);
-    });
-
-
-  }();
-
-
-          //copied alert above
-    };
-
     // Value initialization for tips calculation
     $scope.tips=0;
     $scope.percentages = [
@@ -128,7 +44,38 @@ angular.module('app.cartCtrl', [])
         val: 25,
         per: "25%"
       }];
+
       // End Value initialization for tips calculation
+
+    UsersFactory.getAddresses(localStorage.getItem('userId')).then(function(response) {
+
+        var addresses = response.data;
+
+
+        // jodi address matro 1 ta hoy tahole oitai save korbe
+        if(addresses.length == 1){
+            localStorage.setItem('defaultAddress', JSON.stringify(addresses[0]));
+        }
+        else{
+            for (var i = 0; i < addresses.length; i++) {
+                if (addresses[i].adrs_type == 1) {
+                    //alert(addresses[i]);
+                    localStorage.setItem('defaultAddress', JSON.stringify(addresses[i]));
+                    break;
+                }
+            }
+        }
+
+    });
+    // End Saving the user's default address in local storage
+
+
+
+
+
+
+
+
 
     $scope.emptyCart = true;
     var cartInfo = CartFactory.getCartInfo();
@@ -178,10 +125,11 @@ angular.module('app.cartCtrl', [])
         var taxRate = parseFloat($scope.taxRate);
 
         var tax = subTotal*(taxRate/100);
+        console.log("Tax rate calculated "+tax);
         var tips = subTotal*($scope.percentage/100);
 
         $scope.gTotal = subTotal + deliveryCharge + tax;
-
+        console.log("The gTotal is:"+$scope.gTotal);
         $scope.foods = temp;
         $ionicLoading.hide();
 
@@ -520,6 +468,91 @@ angular.module('app.cartCtrl', [])
 
     }
 
+    //Cart Edit function Starts
+
+        //Edit cart item quantity
+        $scope.editQuantity=function(index){
+
+                //copied alert below
+
+                $scope.showPopup = function() {
+        $scope.data = {};
+
+        // An elaborate, custom popup
+        var myPopup = $ionicPopup.show({
+          template: '<input type="text" ng-model="data.q">',
+          title: 'Change quantity',
+          scope: $scope,
+          buttons: [
+            { text: 'Cancel',
+            onTap: function(e) {
+                    myPopup.close();
+            } },
+            {
+              text: '<b>Save</b>',
+              type: 'button-assertive',
+              onTap: function(e) {
+                if (!$scope.data.q) {
+                  //don't allow the user to close unless he enters wifi password
+                  e.preventDefault();
+
+                } else {
+                  console.log($scope.data.q);
+                  if($scope.foodsForInvoice[index].qty>0){
+                     subTotal=subTotal/$scope.foodsForInvoice[index].qty;
+                     tax=tax/$scope.foodsForInvoice[index].qty;
+                     $scope.foodsForInvoice[index].qty=$scope.data.q;
+                     subTotal=subTotal*$scope.data.q;
+                     tax=subTotal*(taxRate/100)
+                     $scope.subTotal=subTotal;
+                     gTotal=subTotal+deliveryCharge+(tax);
+                     $scope.gTotal=gTotal;
+                     console.log(subTotal);
+                     console.log(tax+ "Tax");
+                  }
+
+
+                console.log("checking foodinvoice");
+                console.log($scope.foodsForInvoice[index].qty);
+                // return $scope.data.q;
+
+
+                }
+              }
+            }
+          ]
+        });
+
+        myPopup.then(function(res) {
+          console.log('Tapped!', res);
+
+          console.log($scope.foodsForInvoice[index].qty);
+          console.log($scope.data.q);
+        });
+
+
+      }();
+
+
+              //copied alert above
+        };
+
+
+
+
+
+    //cart edit function ends
+
+    //Function for cart item slide delete starts
+    $scope.deleteBySwipe=function(index){
+
+          $scope.foodsForInvoice.splice(index, 1);
+          console.log($scope.foodsForInvoice);
+    };
+    //Function for cart item slide delete ends
+
+
+
 
 
     $scope.checkout = function(deliveryType, tipPercetage,instructionCart) {
@@ -609,12 +642,11 @@ angular.module('app.cartCtrl', [])
         checkOutInfo.cartInstruction=$scope.cartInstruction;
         //console.log(checkOutInfo);
 
-
-
+        console.log("gTotal in checkout"+ checkOutInfo.tax);
 
         //alert(JSON.stringify(checkOutInfo));
         // console.log(instructionCart);
-        //return;
+        return;
 
 
         // End of object building for checkout
