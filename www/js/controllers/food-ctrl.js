@@ -9,7 +9,7 @@ angular.module('app.foodCtrl', [])
     $scope.favClass = "not-fav";
 	var restaurantId = $stateParams.restaurantId;
     $scope.resId = restaurantId; // For menu popover
-
+    var temp=restaurantId;
 
     localStorage.setItem('resId',restaurantId);
 	$scope.disableCartButton=true;
@@ -59,13 +59,17 @@ angular.module('app.foodCtrl', [])
 	$scope.checkOutObj={'foodExtra':[]};
 
 	// Ionic Modal Configuration
-	$ionicModal.fromTemplateUrl('templates/order-modal.html', {
-	    scope: $scope,
-	    animation: 'slide-in-up'
-	  }).then(function(modal) {
 
-	    $scope.modal = modal;
-	});
+    $ionicModal.fromTemplateUrl('templates/modals/order-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+
+        $scope.modal = modal;
+    });
+
+
+
 
 
 	// Order Modal
@@ -73,7 +77,7 @@ angular.module('app.foodCtrl', [])
         $scope.price = 0;
         $scope.globalPrice = 0;
         $scope.qty = 1;
-		$scope.modal.show();
+        $scope.modal.show();
 		// show loading
 		// $ionicLoading.show({
     //   		template: 'Loading...'

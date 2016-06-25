@@ -1,11 +1,26 @@
 angular.module('app.searchCtrl', [])
 
 // Food search logics
-.controller("searchCtrl", function($scope, $ionicPopup, $cordovaGeolocation, LocationFactory, SearchFactory, $ionicLoading, FoodFactory, $state, $window, $http, $ionicPopover, UsersFactory) {
+.controller("searchCtrl", function($scope, $ionicPopup, $cordovaGeolocation, LocationFactory, SearchFactory, $ionicLoading, FoodFactory, $state, $window, $http, $ionicPopover, UsersFactory,$ionicModal) {
 
         $ionicLoading.show({
             template: 'Loading...'
         });
+          //close button function
+
+          $scope.preferenceModalClose = function() {
+            $scope.disableCartButton=true;
+            $scope.preferenceModal.hide();
+          };
+
+          $scope.selectedPreference=function(value){
+            window.localStorage.preferenceType=value;
+            $scope.preferenceModal.hide();
+            console.log(value);
+
+          };
+
+
 
         var initialization = function(zipcode) {
             //alert(zipcode);
@@ -50,7 +65,7 @@ angular.module('app.searchCtrl', [])
                             $scope.searchResult = SearchFactory.getSearchResult();
 
                             // maybe here
-                            
+
                         },function(error){
                             $ionicLoading.hide();
                             $ionicPopup.alert({
@@ -60,6 +75,31 @@ angular.module('app.searchCtrl', [])
                         });
 
                     $ionicLoading.hide();
+
+                    //Preference modal starts here
+                    $ionicModal.fromTemplateUrl('templates/modals/preference-modal.html', {
+                        scope: $scope,
+                        animation: 'slide-in-up'
+                    }).then(function(preferenceModal) {
+                        $scope.preferenceModal = preferenceModal;
+
+                    });
+
+
+                    setTimeout(function(){
+                      $scope.openModal = function() {
+                        if(window.localStorage.preferenceType==null){
+                             $scope.preferenceModal.show();
+                        }else{
+                          return;
+                        }
+
+                                 }();
+
+                       }
+                          , 2000);
+
+                  //Preference modal ends here
 
                     },function(error){
                         $ionicLoading.hide();

@@ -22,36 +22,36 @@ angular.module('app.appCtrl', [])
 
 
     //ionic Action Sheet Starts below
+//Showing The preference below
+    // $scope.show = function() {
+    //
+    //
+    //    var hideSheet = $ionicActionSheet.show({
+    //      buttons: [
+    //        { text: 'Delivery' },
+    //        { text: 'Pickup' },
+    //        { text: 'Dine in' }
+    //      ],
+    //
+    //      titleText: '<h4>Set you preference</h4>',
+    //      cancelText: 'Cancel',
+    //      cancel: function() {
+    //
+    //         },
+    //      buttonClicked: function(index) {
+    //        if(index===0){
+    //           localStorage.setItem("userPreference", "Delivery");
+    //        }else if(index===1){
+    //           localStorage.setItem("userPreference", "Pick Up");
+    //        }else{
+    //           localStorage.setItem("userPreference", "Dine In");
+    //        }
+    //
+    //        return true;
+    //      }
+    //    });
+    //  }();
 
-    $scope.show = function() {
-
- // Show the action sheet
-       var hideSheet = $ionicActionSheet.show({
-         buttons: [
-           { text: 'Delivery' },
-           { text: 'Pickup' },
-           { text: 'Dine in' }
-         ],
-
-         titleText: '<h4>Set you preference</h4>',
-         cancelText: 'Cancel',
-         cancel: function() {
-              // add cancel code..
-            },
-         buttonClicked: function(index) {
-           if(index===0){
-              localStorage.setItem("userPreference", "Delivery");
-           }else if(index===1){
-              localStorage.setItem("userPreference", "Pick Up");
-           }else{
-              localStorage.setItem("userPreference", "Dine In");
-           }
-
-           return true;
-         }
-       });
-     }();
-//ionic Action sheet ends above
 
 
 
