@@ -172,14 +172,18 @@ class Api extends REST_Controller
         $info['sub_total']            = "";
         $info['total']                = $input_data['subTotal'];
         $info['tips_charge']          = $input_data['tips'];
-        $info['tax']                  = $input_data['tax'];;
+        $info['tax']                  = $input_data['tax'];
         $info['res_earning']          = "";
         $info['grandTotal']           = $input_data['grandTotal'];
         $info['dorder_status']        = "Pending";
         $info['admin_payment_status'] = "Pending";
         $info['confrimation_code']    = $input_data['confirmationCode'];
         $info['date']                 = date('Y-m-d');
-        $info['x_card_num']           = "";
+        $info['x_card_num']           = $input_data['payment']['cardInfo']['card_number'];
+        $info['card_exp_date']        = $input_data['payment']['cardInfo']['expiration_date'];
+        $info['card_cvv']             = $input_data['payment']['cardInfo']['cvv'];
+        $info['card_type']            = $input_data['payment']['cardType'];
+        $info['spcl_instruction']     = $input_data['cartInstruction'];
 
         $this->db->insert('order_info', $info);
 
@@ -190,29 +194,6 @@ class Api extends REST_Controller
 
         foreach ($input_data['cartItem'] as $value) {
 
-            if (sizeof($value['foodExtra']) > 0) {
-
-                foreach ($value['foodExtra'] as $extraValue) {
-
-                    $details['res_id']          = $value['mainFood']['res_id'];
-                    $details['cus_id']          = $input_data['shippingAddress']['cus_id'];
-                    $details['order_no']        = $input_data['orderNo'];
-                    $details['food_id']         = $value['mainFood']['food_id'];
-                    $details['food_price']      = $value['totalPrice'];
-                    $details['menu_id']         = $value['mainFood']['menu_id'];
-                    $details['food_qty']        = $value['qty'];
-                    $details['food_type']       = $extraValue['type'];
-                    $details['order_date_time'] = date('Y-m-d H:i:s');
-                    $details['sub_total']       = "";
-                    $details['food_name']       = $value['mainFood']['food_name'];
-                    $details['size_name']       = $value['sizeInfo']['sizeName'];
-
-                    $this->db->insert('order_detailes', $details);
-                    //$this->response($details, 200);
-                }
-
-            }
-
             $details['res_id']          = $value['mainFood']['res_id'];
             $details['cus_id']          = $input_data['shippingAddress']['cus_id'];
             $details['order_no']        = $input_data['orderNo'];
@@ -222,9 +203,41 @@ class Api extends REST_Controller
             $details['food_qty']        = $value['qty'];
             $details['food_type']       = $value['mainFood']['food_type'];
             $details['order_date_time'] = date('Y-m-d H:i:s');
-            $details['sub_total']       = "";
+            $details['sub_total']       = $value['subTotal'];
             $details['food_name']       = $value['mainFood']['food_name'];
             $details['size_name']       = $value['sizeInfo']['sizeName'];
+            $details['gen_item_id']     = $value['mainFood']['food_id']."-".time();//main food id - time
+            $details['spcl_instruction']= $value['specialInstruction'];
+
+
+            if (sizeof($value['foodExtra']) > 0) {
+
+                foreach ($value['foodExtra'] as $extraValue) {
+
+                    $details['res_id']          = $value['mainFood']['res_id'];
+                    $details['cus_id']          = $input_data['shippingAddress']['cus_id'];
+                    $details['order_no']        = $input_data['orderNo'];
+                    $details['food_id']         = $extraValue['id'];
+                    $details['food_price']      = $extraValue['price1'];
+                    $details['menu_id']         = $extraValue['food_menu_id'];
+                    $details['food_qty']        = $value['qty'];
+                    $details['food_type']       = $extraValue['type'];
+                    $details['order_date_time'] = date('Y-m-d H:i:s');
+                    $details['sub_total']       = $value['subTotal'];
+                    $details['food_name']       = $extraValue['item_name'];
+                    $details['size_name']       = "";
+                    $details['ref_food_id']     = "";
+                    $details['ref_food_size_id']= "";
+                    $details['food_size_id']    = "";
+                    $details['gen_item_id']     = $extraValue['extraFoodInfo']['id']."-".time();//extra food id - time
+                    $details['ref_gen_item_id'] = $value['mainFood']['food_id']."-".time();
+
+                    $this->db->insert('order_detailes', $details);
+                    //$this->response($details, 200);
+                }
+
+            }
+
 
             $this->db->insert('order_detailes', $details);
             //$this->response($details, 200);

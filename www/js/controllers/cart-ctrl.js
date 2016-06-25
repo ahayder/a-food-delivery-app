@@ -78,42 +78,32 @@ angular.module('app.cartCtrl', [])
 
 
     $scope.emptyCart = true;
-    var cartInfo = CartFactory.getCartInfo();
+    $scope.foodsForInvoice = CartFactory.getCartInfo();
 
     $scope.resId = localStorage.getItem('resId');
-    // if (cartInfo != undefined) {
-    //     if (cartInfo.length > 0)
-    //     console.log(cartInfo.length);
-    //         $scope.emptyCart = false;
-    // }
-    //alert(JSON.stringify(cartInfo));
-    var grandTotal = 0;
-      //$scope.cartFoods = cartInfo;
-    //  $scope.cartFoods.
-      ///console.log($scope.cartFoods);
-    if (cartInfo) {
 
-        $scope.foodsForInvoice = cartInfo;
-        console.log(cartInfo);
+    var grandTotal = 0;
+
+    if ($scope.foodsForInvoice) {
+
         console.log("showing foodFor Invoice");
         console.log($scope.foodsForInvoice.qty);
         $scope.emptyCart = false;
         var temp = [];
 
-        for (var i = 0; i < cartInfo.length; i++) {
+        for (var i = 0; i < $scope.foodsForInvoice.length; i++) {
 
             var food = {
-                name: cartInfo[i].mainFood.food_name,
-                size: cartInfo[i].sizeInfo.sizeName,
-                qty: cartInfo[i].qty,
-                price: parseFloat(cartInfo[i].totalPrice),
-                specialInstruction: cartInfo[i].specialInstruction
+                name: $scope.foodsForInvoice[i].mainFood.food_name,
+                size: $scope.foodsForInvoice[i].sizeInfo.sizeName,
+                qty: $scope.foodsForInvoice[i].qty,
+                price: parseFloat($scope.foodsForInvoice[i].totalPrice),
+                specialInstruction: $scope.foodsForInvoice[i].specialInstruction
 
             }
 
             temp.push(food);
-            // var temporaray = cartInfo[i].totalPrice*cartInfo[i].qty;
-            temporaray = cartInfo[i].totalPrice;
+            temporaray = $scope.foodsForInvoice[i].totalPrice;
             grandTotal += temporaray;
         }
         var moga = parseFloat(grandTotal).toFixed(2);
@@ -154,8 +144,8 @@ angular.module('app.cartCtrl', [])
     //........................... For Delivery Starts......................
 
     $scope.disableCheckOut = false;
-    if (CartFactory.getCartInfo() != undefined) {
-        if (CartFactory.getCartInfo().length < 1) {
+    if ($scope.foodsForInvoice != undefined) {
+        if ($scope.foodsForInvoice.length < 1) {
             $scope.disableCheckOut = true;
         }
     }
@@ -473,48 +463,48 @@ angular.module('app.cartCtrl', [])
         //Edit cart item quantity
         $scope.editQuantity=function(index){
 
-                //copied alert below
+            //copied alert below
 
-                $scope.showPopup = function() {
-        $scope.data = {};
+            $scope.showPopup = function() {
+                $scope.data = {};
 
-        // An elaborate, custom popup
-        var myPopup = $ionicPopup.show({
-          template: '<input type="text" ng-model="data.q">',
-          title: 'Change quantity',
-          scope: $scope,
-          buttons: [
-            { text: 'Cancel',
-            onTap: function(e) {
-                    myPopup.close();
-            } },
-            {
-              text: '<b>Save</b>',
-              type: 'button-assertive',
-              onTap: function(e) {
-                if (!$scope.data.q) {
-                  //don't allow the user to close unless he enters wifi password
-                  e.preventDefault();
+                // An elaborate, custom popup
+                var myPopup = $ionicPopup.show({
+                  template: '<input type="text" ng-model="data.q">',
+                  title: 'Change quantity',
+                  scope: $scope,
+                  buttons: [
+                    { text: 'Cancel',
+                    onTap: function(e) {
+                            myPopup.close();
+                    } },
+                    {
+                      text: '<b>Save</b>',
+                      type: 'button-assertive',
+                      onTap: function(e) {
+                        if (!$scope.data.q) {
+                          //don't allow the user to close unless he enters wifi password
+                          e.preventDefault();
 
-                } else {
-                  console.log($scope.data.q);
-                  if($scope.foodsForInvoice[index].qty>0){
-                     subTotal=subTotal/$scope.foodsForInvoice[index].qty;
-                     tax=tax/$scope.foodsForInvoice[index].qty;
-                     $scope.foodsForInvoice[index].qty=$scope.data.q;
-                     subTotal=subTotal*$scope.data.q;
-                     tax=subTotal*(taxRate/100)
-                     $scope.subTotal=subTotal;
-                     gTotal=subTotal+deliveryCharge+(tax);
-                     $scope.gTotal=gTotal;
-                     console.log(subTotal);
-                     console.log(tax+ "Tax");
-                  }
+                        } else {
+                          console.log($scope.data.q);
+                          if($scope.foodsForInvoice[index].qty>0){
+                             subTotal=subTotal/$scope.foodsForInvoice[index].qty;
+                             tax=tax/$scope.foodsForInvoice[index].qty;
+                             $scope.foodsForInvoice[index].qty=$scope.data.q;
+                             subTotal=subTotal*$scope.data.q;
+                             tax=subTotal*(taxRate/100)
+                             $scope.subTotal=subTotal;
+                             gTotal=subTotal+deliveryCharge+(tax);
+                             $scope.gTotal=gTotal;
+                             console.log(subTotal);
+                             console.log(tax+ "Tax");
+                          }
 
 
-                console.log("checking foodinvoice");
-                console.log($scope.foodsForInvoice[index].qty);
-                // return $scope.data.q;
+                    console.log("checking foodinvoice");
+                    console.log($scope.foodsForInvoice[index].qty);
+                    // return $scope.data.q;
 
 
                 }
@@ -594,7 +584,7 @@ angular.module('app.cartCtrl', [])
 
 
         // Cart Info
-        checkOutInfo.cartItem = CartFactory.getCartInfo();
+        checkOutInfo.cartItem = $scope.foodsForInvoice;
 
 
         //Address
@@ -606,7 +596,7 @@ angular.module('app.cartCtrl', [])
 
 
         // Checkout foods
-        checkOutInfo.foods = $scope.foods;
+        // checkOutInfo.foods = $scope.foods;
 
 
 
@@ -638,15 +628,15 @@ angular.module('app.cartCtrl', [])
         checkOutInfo.tips = $scope.subTotal * tipPercetage/100;
 
 
-        // Speacial Intructions
-        checkOutInfo.cartInstruction=$scope.cartInstruction;
-        //console.log(checkOutInfo);
+        // Speacial Intructions cart
+        checkOutInfo.cartInstruction = $scope.cartInstruction;
 
-        console.log("gTotal in checkout"+ checkOutInfo.tax);
+
+        //console.log(checkOutInfo);
 
         //alert(JSON.stringify(checkOutInfo));
         // console.log(instructionCart);
-        return;
+        //return;
 
 
         // End of object building for checkout
@@ -688,7 +678,11 @@ angular.module('app.cartCtrl', [])
         paymentInfo.amount = checkOutInfo.grandTotal
 
 
-        console.log(paymentInfo);
+        //console.log(paymentInfo);
+
+        checkOutInfo.payment = paymentInfo;
+        console.log(checkOutInfo);
+        return;
 
         var makePayment = function(forHmac){
 
@@ -702,25 +696,28 @@ angular.module('app.cartCtrl', [])
 
 
             }).then(function(response){
-              $ionicLoading.hide();
-              console.log($scope.boolPayment);
-              // if success payment
-              console.log(response.data);
-              var res = response.data;
-              // do whatever need after payment made
-              $scope.boolPayment = true;
-              //msg payment done
-              var alertPopup = $ionicPopup.alert({
-                  title: 'success!!',
-                  template: 'successfully checked out...please wait for order confirmation!! '
-              });
-              alertPopup.then(function(res) {
+
+                  $ionicLoading.hide();
+                  console.log($scope.boolPayment);
+                  // if success payment
+                  console.log(response.data);
+                  var res = response.data;
+                  // do whatever need after payment made
+                  $scope.boolPayment = true;
+                  //msg payment done
+                  var alertPopup = $ionicPopup.alert({
+                      title: 'success!!',
+                      template: 'successfully checked out...please wait for order confirmation!! '
+                  });
+                  alertPopup.then(function(res) {
 
 
-                //-----------------Saving & Fax---------------------------------
-                // Saving into database and send fax
-                //////////////////////////////////////////////////////////////
+                    //-----------------Saving & Fax---------------------------------
+                    // Saving into database and send fax
+                    //////////////////////////////////////////////////////////////
 
+                    // saving payment informations to checkout obj for saving into order info table
+                    //checkOutInfo.payment = paymentInfo;
                     $ionicLoading.show({
                         template: 'Order is confirming!!'
                     });
@@ -775,7 +772,7 @@ angular.module('app.cartCtrl', [])
             // end of makePayment()
         }
 
-        makePayment();
+        //makePayment();
 
 
 

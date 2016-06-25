@@ -234,7 +234,8 @@ angular.module('app.foodCtrl', [])
 		    for(var i=0;i<$scope.foodExtrasPrice.length;i++){
   				if($scope.foodExtrasPrice[i].extra_food_id==$scope.foodExtras[j].id && $scope.foodExtrasPrice[i].size_name_id==size){
 
-              $scope.foodExtras[j].price1=$scope.foodExtrasPrice[i].price;
+              $scope.foodExtras[j].price1 = $scope.foodExtrasPrice[i].price;
+              $scope.foodExtras[j].extraFoodInfo = $scope.foodExtrasPrice[i];
   				}
 			  }
 
