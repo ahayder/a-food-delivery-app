@@ -11,6 +11,7 @@ angular.module('app.cartCtrl', [])
     $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
     $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
 
+    console.log("This res Id"+ $scope.thisResId);
     // logged in user info
     var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
 
@@ -159,7 +160,7 @@ angular.module('app.cartCtrl', [])
     // $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
     // $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
 
-    $ionicModal.fromTemplateUrl('templates/deliveryModal.html', {
+    $ionicModal.fromTemplateUrl('templates/modals/deliveryModal.html', {
         scope: $scope,
         animation: 'slide-in-up'
     }).then(function(deliveryModal) {
@@ -633,6 +634,7 @@ angular.module('app.cartCtrl', [])
 
 
         //console.log(checkOutInfo);
+
 
         //alert(JSON.stringify(checkOutInfo));
         // console.log(instructionCart);
