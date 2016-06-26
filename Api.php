@@ -455,35 +455,35 @@ $texttofax  .='</table>'; // Enter your fax contents here
 
 
 
-        // $curl = curl_init();
+        $curl = curl_init();
 
-        // curl_setopt_array($curl, array(
-        //   CURLOPT_URL => "https://rest.interfax.net/outbound/faxes?faxNumber=001".$input_data['resInfo']['fax_no'],
-        //   CURLOPT_RETURNTRANSFER => true,
-        //   CURLOPT_ENCODING => "",
-        //   CURLOPT_MAXREDIRS => 10,
-        //   CURLOPT_TIMEOUT => 30,
-        //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //   CURLOPT_CUSTOMREQUEST => "POST",
-        //   CURLOPT_POSTFIELDS => $texttofax,
-        //   CURLOPT_HTTPHEADER => array(
-        //     "authorization: Basic Zm9vb2QzNjU6Zm9vb2QzNiQ=",
-        //     "cache-control: no-cache",
-        //     "content-type: text/html",
-        //     "postman-token: c1930f2c-bde8-1ced-dfb7-09bc94cb7729"
-        //   ),
-        // ));
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => "https://rest.interfax.net/outbound/faxes?faxNumber=001".$input_data['resInfo']['fax_no'],
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS => $texttofax,
+          CURLOPT_HTTPHEADER => array(
+            "authorization: Basic Zm9vb2QzNjU6Zm9vb2QzNiQ=",
+            "cache-control: no-cache",
+            "content-type: text/html",
+            "postman-token: c1930f2c-bde8-1ced-dfb7-09bc94cb7729"
+          ),
+        ));
 
-        // $response = curl_exec($curl);
-        // $err = curl_error($curl);
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
 
-        // curl_close($curl);
+        curl_close($curl);
 
-        // if ($err) {
-        //   echo "cURL Error #:" . $err;
-        // } else {
-        //   $this->response($response, 200);
-        // }
+        if ($err) {
+          echo "cURL Error #:" . $err;
+        } else {
+          $this->response($response, 200);
+        }
 
 
 
@@ -492,6 +492,16 @@ $texttofax  .='</table>'; // Enter your fax contents here
 
     }
 
+
+    function promocode_get(){
+
+        $this->db->select('*');
+        $this->db->from('promocode_manage');
+        $this->db->where('promocode_name', $this->get('promocode'));
+        $query = $this->db->get();
+
+        $this->response($query->result(), 200);
+    }
 
 
 
@@ -892,7 +902,7 @@ $texttofax  .='</table>'; // Enter your fax contents here
         $this->db->insert('customer_address_manage', $data);
 
 
-        $this->response("Address Saved", 200);
+        $this->response($this->db->affected_rows(), 200);
     }
 
     function saveBillingAddress_get()
@@ -955,12 +965,22 @@ $texttofax  .='</table>'; // Enter your fax contents here
 
     function makeAddressDefault_get()
     {
-        $data['adrs_type'] = "1";
+        // At first make all the address type zero
+        $zero['adrs_type'] = "0";
 
-        $this->db->update('customer_address_manage', $data, array(
+        $this->db->update('customer_address_manage', $zero, array(
+            'cus_id' => $this->get('cusId')
+        ));
+
+        // then make the particular address type one
+        $one['adrs_type'] = "1";
+
+        $this->db->update('customer_address_manage', $one, array(
             'id' => $this->get('id')
         ));
-        $this->response("Saved Successfully", 200);
+
+
+        $this->response($this->db->affected_rows(), 200);
     }
 
 

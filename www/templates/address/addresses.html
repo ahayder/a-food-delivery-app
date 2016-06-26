@@ -4,11 +4,18 @@
         <i class="icon ion-ios-plus"></i>
       </button>
     </ion-nav-buttons>
+    <div class="bar bar-subheader">
+  <h2 class="title">Please select an address to make default</h2>
+</div>
     <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader bar-light">
+
         <ion-list ng-repeat="address in addresses">
-            <ion-item class="item item-icon-right" ui-sref="app.address({id: address.id})" ng-click="saveAddressForSate(address)">
-                Address {{$index+1}}
-                <i class="icon ion-ios-arrow-right"></i>
+            <ion-item ng-click="makeDafultAddress(address.id)" class="item-icon-right">
+                <div class="item-text-wrap">
+                    <h4>{{address.cus_name}}</h4>
+                    <p>{{address.addrs}}, State: {{address.state}}, Town: {{address.town}}, Zip: {{address.zip_code}}, Phone: {{address.phone}}, Country: {{address.country}}</p>
+                </div>
+                <i class="icon ion-checkmark" ng-if="address.adrs_type == '1'"></i>
             </ion-item>
         </ion-list>
     </ion-content>

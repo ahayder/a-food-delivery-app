@@ -196,3 +196,9 @@ img.savorLogo
 .remove-padding{
 	padding:0 !important;
 }
+
+.headings{
+			background:#eee;
+			border-bottom:1px solid #ddd;
+			font-weight:bold;
+		}

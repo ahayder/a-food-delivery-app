@@ -3,7 +3,7 @@ angular.module('app.services', [])
 
 // Temporary using get for login
 .factory('UsersFactory', ['$http', function($http){
-	var result = [];
+
 	return {
 		login: function(email, password){
 			return $http.get("https://savor365.com/api/userLogin?email=" + email + "&password=" + password);
@@ -25,19 +25,14 @@ angular.module('app.services', [])
 			return $http.get("https://savor365.com/api/userAddresses?cusId=" + cusId);
 		},
 		addressSave: function(id, address){
+			console.log("https://savor365.com/api/saveAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode)
 			return $http.get("https://savor365.com/api/saveAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode);
 		},
 		saveBillingAddress: function(id, address){
 			return $http.get("https://savor365.com/api/saveBillingAddress?cusId="+id+"&address="+address.line1+" "+address.line2+"&city="+address.city+"&state="+address.state+"&phone="+address.phone+"&zipcode="+address.zipcode+"&aptNo="+address.aptNo);
 		},
-		saveAddressForNextState: function(addrs){
-			result = addrs;
-		},
-		getAddress: function(){
-			return result;
-		},
-		makeThisAddressDefault: function(id){
-			return $http.get("https://savor365.com/api/makeAddressDefault?id="+id);
+		makeThisAddressDefault: function(id, cusId){
+			return $http.get("https://savor365.com/api/makeAddressDefault?id="+id+"&cusId="+cusId);
 		},
 		paymentInfoSave: function(payment, id){
 			return $http.get("https://savor365.com/api/savePaymentInfo?cusId="+id+"&holderName="+payment.name+"&cardNumber="+payment.cardNumber+"&expDate="+payment.expDate+"&cvv="+payment.cvv+"&zip="+payment.zip);
@@ -158,6 +153,9 @@ angular.module('app.services', [])
 			}
 			//console.log(storage);
 			return storage;
+		},
+		getPromoCodeDiscount: function(code){
+			return $http.get("https://savor365.com/api/promocode?promocode="+code);
 		}
 	}
 }])

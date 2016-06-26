@@ -1,17 +1,18 @@
 angular.module('app.cartCtrl', [])
 
 // Cart Controller
-.controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover, FoodFactory) {
+.controller('cartCtrl', function($scope, $http, $ionicLoading, CartFactory, UsersFactory, $state, $ionicModal, $ionicPopup, $ionicPopover, FoodFactory, $rootScope, $ionicHistory) {
 
     // For showing/hiding the shipping address section into modal
     $scope.listCanSwipe=true;
-    $scope.deliverySelected = true;
+    //$scope.deliverySelected = true;
     $scope.termsCondition=true;
     $scope.taxRate= parseFloat(localStorage.getItem('taxRate'));
     $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
     $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
+    $scope.discountAmount = 0.00;
 
-    console.log("This res Id"+ $scope.thisResId);
+    // console.log("This res Id"+ $scope.thisResId);
     // logged in user info
     var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
 
@@ -87,8 +88,8 @@ angular.module('app.cartCtrl', [])
 
     if ($scope.foodsForInvoice) {
 
-        console.log("showing foodFor Invoice");
-        console.log($scope.foodsForInvoice.qty);
+        //console.log("showing foodFor Invoice");
+        //console.log($scope.foodsForInvoice.qty);
         $scope.emptyCart = false;
         var temp = [];
 
@@ -116,11 +117,11 @@ angular.module('app.cartCtrl', [])
         var taxRate = parseFloat($scope.taxRate);
 
         var tax = subTotal*(taxRate/100);
-        console.log("Tax rate calculated "+tax);
+        //console.log("Tax rate calculated "+tax);
         var tips = subTotal*($scope.percentage/100);
 
         $scope.gTotal = subTotal + deliveryCharge + tax;
-        console.log("The gTotal is:"+$scope.gTotal);
+        //console.log("The gTotal is:"+$scope.gTotal);
         $scope.foods = temp;
         $ionicLoading.hide();
 
@@ -160,7 +161,7 @@ angular.module('app.cartCtrl', [])
     // $scope.tipsPercent = $scope.foodTotal * ($scope.tips / 100);
     // $scope.tipsPercent = $scope.tipsPercent.toFixed(2);
 
-    $ionicModal.fromTemplateUrl('templates/modals/deliveryModal.html', {
+    $ionicModal.fromTemplateUrl('templates/modals/delivery-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
     }).then(function(deliveryModal) {
@@ -179,48 +180,48 @@ angular.module('app.cartCtrl', [])
 
 
 
-    $scope.addAddressDiv = function() {
-        $scope.boolAddNewAddress = true;
-    }
+    // $scope.addAddressDiv = function() {
+    //     $scope.boolAddNewAddress = true;
+    // }
 
-    $scope.saveAddress = function(address) {
-        $scope.address = address;
-        //alert(JSON.stringify($scope.address));
+    // $scope.saveAddress = function(address) {
+    //     $scope.address = address;
+    //     //alert(JSON.stringify($scope.address));
 
-        $ionicLoading.show({
-            template: 'Saving into savor365 database.'
-        });
-        var user = JSON.parse(localStorage.getItem('loggedInUserInofos'));
-        $scope.defaultAdrs = {};
+    //     $ionicLoading.show({
+    //         template: 'Saving into savor365 database.'
+    //     });
+    //     var user = JSON.parse(localStorage.getItem('loggedInUserInofos'));
+    //     $scope.defaultAdrs = {};
 
-        UsersFactory.addressSave(user[0].cus_id, $scope.address).then(function(response) {
-            //$scope.address = response.data;
-            $scope.boolAddNewAddress = false;
+    //     UsersFactory.addressSave(user[0].cus_id, $scope.address).then(function(response) {
+    //         //$scope.address = response.data;
+    //         $scope.boolAddNewAddress = false;
 
-            $scope.defaultAdrs.addrs = $scope.address.line1 + ' ' + $scope.address.line2;
-            $scope.defaultAdrs.state = $scope.address.state;
-            $scope.defaultAdrs.town = $scope.address.city;
-            $scope.defaultAdrs.zip_code = $scope.address.zipcode;
-            $scope.defaultAdrs.phone = $scope.address.phone;
-            $scope.defaultAdrs.country = "USA";
+    //         $scope.defaultAdrs.addrs = $scope.address.line1 + ' ' + $scope.address.line2;
+    //         $scope.defaultAdrs.state = $scope.address.state;
+    //         $scope.defaultAdrs.town = $scope.address.city;
+    //         $scope.defaultAdrs.zip_code = $scope.address.zipcode;
+    //         $scope.defaultAdrs.phone = $scope.address.phone;
+    //         $scope.defaultAdrs.country = "USA";
 
 
-            $ionicLoading.hide();
+    //         $ionicLoading.hide();
 
-            $scope.showAddAddress = true;
-            $scope.showOnlyAddAddress = false;
+    //         $scope.showAddAddress = true;
+    //         $scope.showOnlyAddAddress = false;
 
-        }, function(error) {
-            $ionicLoading.hide();
+    //     }, function(error) {
+    //         $ionicLoading.hide();
 
-            $ionicPopup.alert({
-                title: 'Error!',
-                template: 'Opps.. something wrong'
-            });
-            //console.log("eror is address saving" + error);
-        });
+    //         $ionicPopup.alert({
+    //             title: 'Error!',
+    //             template: 'Opps.. something wrong'
+    //         });
+    //         //console.log("eror is address saving" + error);
+    //     });
 
-    }
+    // }
 //saveAddress ends here
 
 //saveBillingAddress starts below
@@ -228,7 +229,7 @@ angular.module('app.cartCtrl', [])
       $scope.saveBillingAddress=function(billingAddress) {
 
           // for checkout object
-          $scope.billingAddress = billingAddress;
+          $scope.newlyAddedBillingAddress = billingAddress;
 
           // Now saving into Database
           $scope.billAddr = {};
@@ -258,87 +259,75 @@ angular.module('app.cartCtrl', [])
 
 //saveBillingAddress ends
 
-    $scope.makeThisShippingAddress = function(address){
-        console.log(address);
+    // $scope.makeThisShippingAddress = function(address){
+    //     console.log(address);
 
-        $scope.defaultAdrs.cus_name = address.cus_name;
-        $scope.defaultAdrs.addrs = address.addrs;
-        $scope.defaultAdrs.state = address.state;
-        $scope.defaultAdrs.town = address.town;
-        $scope.defaultAdrs.zip_code = address.zip_code;
-        $scope.defaultAdrs.phone = address.phone;
-        $scope.defaultAdrs.country = "USA";
+    //     $scope.defaultAdrs.cus_name = address.cus_name;
+    //     $scope.defaultAdrs.addrs = address.addrs;
+    //     $scope.defaultAdrs.state = address.state;
+    //     $scope.defaultAdrs.town = address.town;
+    //     $scope.defaultAdrs.zip_code = address.zip_code;
+    //     $scope.defaultAdrs.phone = address.phone;
+    //     $scope.defaultAdrs.country = "USA";
 
-        $scope.popover.hide();
-        $scope.$on('$destroy', function() {
-            $scope.popover.remove();
-        });
+    //     $scope.popover.hide();
+    //     $scope.$on('$destroy', function() {
+    //         $scope.popover.remove();
+    //     });
 
-    }
+    // }
 
-    //same as shipping code for billing address starts
-      $scope.sameAsShipping=function(billing){
 
-              if(billing=="sameAsShipping"){
-                  $scope.billingAddress = $scope.defaultAdrs;
-              }
-              else{
-                return;
-              }
-      };
-      $scope.sameAsShipping();
-
-    //same as shipping code for billing address ends
 
 
 
     // getting addressess- user will select an address from these addresses
-    $scope.changeAddress = function($event){
+    // $scope.changeAddress = function($event){
 
-        //testing code below
-        var user = JSON.parse(window.localStorage['loggedInUserInofos']);
+    //     //testing code below
+    //     var user = JSON.parse(window.localStorage['loggedInUserInofos']);
 
-        UsersFactory.getAddresses(user[0].cus_id).then(function(response) {
+    //     UsersFactory.getAddresses(user[0].cus_id).then(function(response) {
 
-            $scope.addrsses = response.data;
-            console.log(response.data);
-            $ionicPopover.fromTemplateUrl('templates/popovers/selectAddressPopover.html', {
-                scope: $scope
-            }).then(function(popover) {
-                $scope.popover = popover;
-                $scope.popover.show($event);
+    //         $scope.addrsses = response.data;
+    //         console.log(response.data);
+    //         $ionicPopover.fromTemplateUrl('templates/popovers/selectAddressPopover.html', {
+    //             scope: $scope
+    //         }).then(function(popover) {
+    //             $scope.popover = popover;
+    //             $scope.popover.show($event);
 
-            });
-
-
+    //         });
 
 
 
-        });
 
 
-    }
+    //     });
+
+
+    // }
 
     $scope.openDeliveryModal = function(instructionCart) {
 
         //    if (localStorage.getItem('defaultAddress') != null) {
         //alert(localStorage.getItem('defaultAddress'));
-        var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
+        //var defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'));
         //console.log(defaultAddress);
 
         // if default address value is null then don't show the address panel
-        if (defaultAddress == null) {
-            $scope.showAddAddress = false;
-            $scope.showOnlyAddAddress = true;
-            //console.log("if");
-        }
-        else{
-          $scope.showOnlyAddAddress = false;
-           $scope.showAddAddress = true;
-           $scope.defaultAdrs = defaultAddress;
-           //console.log($scope.defaultAdrs);
-           //console.log("else");
-        }
+        // if (defaultAddress == null) {
+        //     $scope.showAddAddress = false;
+        //     $scope.showOnlyAddAddress = true;
+        //     //console.log("if");
+        // }
+        // else{
+        //     $scope.showOnlyAddAddress = false;
+        //    $scope.showAddAddress = true;
+        //    $scope.defaultAdrs = defaultAddress;
+        //    //console.log($scope.defaultAdrs);
+        //    //console.log("else");
+        // }
 
         $scope.deliveryModal.show();
 
@@ -349,10 +338,10 @@ angular.module('app.cartCtrl', [])
 
     }
 
-    // add new Shippig Address close
-    $scope.close = function() {
-        $scope.boolAddNewAddress = false;
-    }
+    // // add new Shippig Address close
+    // $scope.close = function() {
+    //     $scope.boolAddNewAddress = false;
+    // }
 
 
     // calcuate tips
@@ -407,57 +396,57 @@ angular.module('app.cartCtrl', [])
     }
 
     // Getting Card Info
-    UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
+    // UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
 
-        var cc = response.data;
-        $scope.ccForShowingOnly = cc[0];
-        $scope.payemntCardInfo = cc[0];
-        console.log(response.data);
+    //     var cc = response.data;
+    //     $scope.ccForShowingOnly = cc[0];
+    //     $scope.payemntCardInfo = cc[0];
+    //     console.log(response.data);
 
-    },
-    function(error) {
-      $ionicLoading.hide();
-      //error message
-      $ionicPopup.alert({
-          title: 'Error!',
-          template: 'Opps.. something wrong'
-      });
-        console.log(error.message);
-    });
+    // },
+    // function(error) {
+    //   $ionicLoading.hide();
+    //   //error message
+    //   $ionicPopup.alert({
+    //       title: 'Error!',
+    //       template: 'Opps.. something wrong'
+    //   });
+    //     console.log(error.message);
+    // });
     // End of getting cardinfo
 
 
 
-    //Payment PopOver code start
-    $scope.changeCard = function($event){
+    // //Payment PopOver code start
+    // $scope.changeCard = function($event){
 
-            $ionicPopover.fromTemplateUrl('templates/popovers/selectCardPopover.html', {
-                scope: $scope
-            }).then(function(popover) {
-                $scope.popover2 = popover;
-                $scope.popover2.show($event);
+    //         $ionicPopover.fromTemplateUrl('templates/popovers/selectCardPopover.html', {
+    //             scope: $scope
+    //         }).then(function(popover) {
+    //             $scope.popover2 = popover;
+    //             $scope.popover2.show($event);
 
-            });
+    //         });
 
 
-      }
+    //   }
 
 
 
     //Payment PopOver code ends
-    $scope.makeThisPaymentCard=function(c){
+    // $scope.makeThisPaymentCard=function(c){
 
-        $scope.payemntCardInfo = c;
+    //     $scope.payemntCardInfo = c;
 
-        $scope.ccForShowingOnly = c;
+    //     $scope.ccForShowingOnly = c;
 
-        $scope.popover2.hide();
-        $scope.$on('$destroy', function() {
-            $scope.popover2.remove();
-        });
+    //     $scope.popover2.hide();
+    //     $scope.$on('$destroy', function() {
+    //         $scope.popover2.remove();
+    //     });
 
 
-    }
+    // }
 
     //Cart Edit function Starts
 
@@ -490,21 +479,21 @@ angular.module('app.cartCtrl', [])
                         } else {
                           console.log($scope.data.q);
                           if($scope.foodsForInvoice[index].qty>0){
-                             subTotal=subTotal/$scope.foodsForInvoice[index].qty;
-                             tax=tax/$scope.foodsForInvoice[index].qty;
-                             $scope.foodsForInvoice[index].qty=$scope.data.q;
-                             subTotal=subTotal*$scope.data.q;
-                             tax=subTotal*(taxRate/100)
-                             $scope.subTotal=subTotal;
-                             gTotal=subTotal+deliveryCharge+(tax);
-                             $scope.gTotal=gTotal;
-                             console.log(subTotal);
-                             console.log(tax+ "Tax");
+                             subTotal = subTotal/$scope.foodsForInvoice[index].qty;
+                             tax = tax/$scope.foodsForInvoice[index].qty;
+                             $scope.foodsForInvoice[index].qty = $scope.data.q;
+                             subTotal = subTotal*$scope.data.q;
+                             tax = subTotal*(taxRate/100)
+                             $scope.subTotal = subTotal;
+                             gTotal = subTotal+deliveryCharge+tax;
+                             $scope.gTotal = gTotal;
+                             //console.log(subTotal);
+                             //console.log(tax+ "Tax");
                           }
 
 
-                    console.log("checking foodinvoice");
-                    console.log($scope.foodsForInvoice[index].qty);
+                    //console.log("checking foodinvoice");
+                    //console.log($scope.foodsForInvoice[index].qty);
                     // return $scope.data.q;
 
 
@@ -515,10 +504,10 @@ angular.module('app.cartCtrl', [])
         });
 
         myPopup.then(function(res) {
-          console.log('Tapped!', res);
+          //console.log('Tapped!', res);
 
-          console.log($scope.foodsForInvoice[index].qty);
-          console.log($scope.data.q);
+          //console.log($scope.foodsForInvoice[index].qty);
+          //console.log($scope.data.q);
         });
 
 
@@ -542,6 +531,97 @@ angular.module('app.cartCtrl', [])
     };
     //Function for cart item slide delete ends
 
+
+
+    // use promode
+
+    $scope.usePromocode = function(promocode){
+
+        CartFactory.getPromoCodeDiscount(promocode).then(function(response){
+
+            $scope.PromoDiscount = response.data[0].discount;
+            $scope.PromoDiscount = parseFloat($scope.PromoDiscount);
+
+            $scope.subTotal = $scope.subTotal - $scope.subTotal * ($scope.PromoDiscount/100);
+            var discount = $scope.subTotal * ($scope.PromoDiscount/100);
+            $scope.discountAmount = discount.toFixed(2);
+
+            $scope.gTotal = gTotal - $scope.discountAmount;
+            
+            
+        },function(error){
+            $ionicPopup.alert({
+                title: "Error!",
+                template: "Your promocode is not valid."
+            });
+        });
+    }
+
+
+    // End of promocode
+
+
+    // Getting payemnt info from db
+    var getCardInfo=function (){
+
+        UsersFactory.getPaymentInfo(userInfo[0].cus_id).then(function(response) {
+              var cards = response.data;
+              $rootScope.cardForPayment = cards[0];
+        },
+        function(error) {
+            $ionicPopup.alert({
+                title: "Error!",
+                template: "Problem getting cards information."
+            });
+            console.log(error.message);
+        });
+
+      // End of call
+
+    }
+
+    getCardInfo();
+
+    // End of Getting payemnt info from db
+
+
+
+    // getting the default address
+    var getAddrs = function(){
+
+        UsersFactory.getAddresses(userInfo[0].cus_id).then(function(response) {
+            var addresses = response.data;
+
+            // Saving it for to use in checkout
+            for(var i = 0; i < addresses.length; i++){
+                if(addresses[i].adrs_type == '1'){
+                    $rootScope.selectedShippingAddress = addresses[i];
+                }
+            }
+
+            //console.log($scope.addresses);
+        });
+
+    }
+
+    getAddrs();
+
+    // End of getting the default address
+
+
+
+    //same as shipping code for billing address starts
+    $scope.sameAsShipping=function(){
+
+      $scope.sameAsShippingBillingAddress = $rootScope.selectedShippingAddress;
+
+    };
+    
+    $scope.sameAsShipping();
+
+
+
+    //same as shipping code for billing address ends
 
 
 
@@ -589,11 +669,20 @@ angular.module('app.cartCtrl', [])
 
 
         //Address
-        checkOutInfo.shippingAddress = $scope.defaultAdrs;
+        checkOutInfo.shippingAddress = $rootScope.selectedShippingAddress;
 
 
         // billingAddress
-        checkOutInfo.billingAddress = $scope.billingAddress;
+          
+        if($scope.newlyAddedBillingAddress == undefined){
+          $scope.sameAsShipping();
+          checkOutInfo.billingAddress = $scope.sameAsShippingBillingAddress;
+        }
+        else{
+          checkOutInfo.billingAddress = $scope.newlyAddedBillingAddress
+        }
+        
+
 
 
         // Checkout foods
@@ -659,12 +748,11 @@ angular.module('app.cartCtrl', [])
 
 
         // Card Info
-        paymentInfo.cardInfo = $scope.payemntCardInfo;
-        console.log($scope.payemntCardInfo);
+        paymentInfo.cardInfo = $rootScope.cardForPayment;
 
 
         // Card type
-        var ccType = getCardType($scope.payemntCardInfo.card_number);
+        var ccType = getCardType($rootScope.cardForPayment.card_number);
         paymentInfo.cardType = ccType;
 
 
@@ -683,8 +771,13 @@ angular.module('app.cartCtrl', [])
         //console.log(paymentInfo);
 
         checkOutInfo.payment = paymentInfo;
-        console.log(checkOutInfo);
-        return;
+
+
+
+
+
+
+
 
         var makePayment = function(forHmac){
 
@@ -700,9 +793,9 @@ angular.module('app.cartCtrl', [])
             }).then(function(response){
 
                   $ionicLoading.hide();
-                  console.log($scope.boolPayment);
+                  //console.log($scope.boolPayment);
                   // if success payment
-                  console.log(response.data);
+                  //console.log(response.data);
                   var res = response.data;
                   // do whatever need after payment made
                   $scope.boolPayment = true;
@@ -817,7 +910,7 @@ $scope.showDeleteAlert = function() {
         $scope.emptyPage = "";
 
       }
-console.log($scope.foods);
+    //console.log($scope.foods);
   });
 };
 
@@ -852,12 +945,12 @@ console.log($scope.foods);
         });
 
         promoPopup.then(function(res) {
-            console.log('Tapped!', res);
+            //console.log('Tapped!', res);
         });
 
     }
 
-      console.log(localStorage.getItem("userPreference"));
+      //console.log(localStorage.getItem("userPreference"));
 
 
 });

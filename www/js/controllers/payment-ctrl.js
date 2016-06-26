@@ -2,32 +2,48 @@ angular.module('app.paymentCtrl', [])
 
 
 // All about payment
-.controller('paymentCtrl', function($scope, $ionicLoading, $ionicModal, $ionicPopup, $state, UsersFactory) {
+.controller('paymentCtrl', function($scope, $ionicLoading, $ionicModal, $ionicPopup, $state, UsersFactory, $rootScope, $ionicHistory) {
 
 
     var user = JSON.parse(window.localStorage['loggedInUserInofos']);
 
     var getInfo=function (){
 
-      UsersFactory.getPaymentInfo(user[0].cus_id).then(function(response) {
-              $scope.card = response.data;
+        UsersFactory.getPaymentInfo(user[0].cus_id).then(function(response) {
+              $scope.cards = response.data;
               console.log(response.data);
-              if($scope.card){
+              if($scope.cards){
                   $scope.emptyPage = "";
               }
               else{
                   $scope.emptyPage = "empty-page";
               }
-          },
-          function(error) {
-              console.log(error.message);
-          });
+        },
+        function(error) {
+            $ionicPopup.alert({
+                title: "Error!",
+                template: "Problem getting cards information."
+            });
+            console.log(error.message);
+        });
 
       // End of call
 
     }
 
     getInfo();
+
+
+    $scope.selectThisCardForPayment = function(card){
+
+        $scope.selectedCard = card.id;
+        $rootScope.cardForPayment = card;
+        getInfo();
+
+        if($ionicHistory.backTitle() == 'Cart'){
+            $state.go("app.cart");
+        }
+    }
 
     $scope.savePaymentInfos = function(payment) {
             if (!$scope.invalidNumber) {

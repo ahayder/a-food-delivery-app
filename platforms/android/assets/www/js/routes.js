@@ -109,6 +109,16 @@ angular.module('app.routes', [])
       }
     })
 
+    .state('app.forgot-password', {
+      url: '/forgot-password',
+      views: {
+        'side-menu': {
+          templateUrl: 'templates/forgot-password.html',
+          controller: 'forgotCtrl'
+        }
+      }
+    })
+
     .state('app.signup', {
       url: '/signup',
       views: {

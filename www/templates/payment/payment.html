@@ -4,47 +4,21 @@
         <i class="icon ion-ios-plus"></i>
       </button>
     </ion-nav-buttons>
-    <ion-content overflow-scroll="true" padding="true" class="has-header" ng-class="emptyPage">
-        <div class="card" ng="!card">
-            <div class="item item-text-wrap">To add a new card press the + button at the top.</div>
-        </div>
-<!-- Testing code commented below starts below  -->
-<div ng-repeat="cardPayment in card">
-  <div class="card">
-    <div class="item item-divider assertive">{{cardPayment.holder_name}}</div>
-    <div class="item item-text-wrap" >
-          <h2>Card Number: {{cardPayment.card_number}}</h2>
-          <h2>Expiration Date: {{cardPayment.expiration_date}}</h3>
-          <h2>cvv: {{cardPayment.cvv}}</h3>
+    <div class="bar bar-subheader">
+      <div class="item item-text-wrap">Select one to make payment. To add a new card press the + button at the top.</div>
     </div>
-  </div>
-</div>
+    <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader" ng-class="emptyPage">
+        <div style="height: 20px;"></div>
+        <ion-list ng-repeat="card in cards">
+            <ion-item class="item-icon-right" ng-click="selectThisCardForPayment(card)">
+                <div class="item-text-wrap">
+                    <h2>{{card.holder_name}}</h2>
+                    <h4>Card Number: {{card.card_number}}</h4>
+                    <h4>Expiration Date: {{card.expiration_date}}</h4>
+                    <h4>cvv: {{card.cvv}}</h4>
+                    <i class="icon ion-checkmark" ng-if="card.id == selectedCard"></i>
+            </ion-item>
+        </ion-list>
 
-
-
-        <!-- <div class="list" ng-show="card">
-            <label class="item item-divider item-assertive">Your Default Card</label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Name</span>
-                <input type="text" placeholder={{card.holder_name}}>
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Card Number</span>
-                <input type="Number" placeholder={{card.card_number}}>
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Expiration Date</span>
-                <input type="text" placeholder={{card.expiration_date}}>
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">CVV</span>
-                <input type="number" placeholder={{card.cvv}}>
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Billing Zip</span>
-                <input type="number" placeholder={{card.billing_zip}}>
-            </label>
-        </div> -->
-<!-- Testing code commented ends above  -->
     </ion-content>
 </ion-view>

@@ -71,41 +71,41 @@
     "recieve_order_status": "Fax",
     "often_payment_status": "Weekly "
   },
-  "orderNo": 879947391,
-  "confirmationCode": "7391",
+  "orderNo": 880166484,
+  "confirmationCode": "6484",
   "deliveryType": "delivery",
   "cartItem": [
     {
       "foodExtra": [
         {
-          "id": "10",
+          "id": "5",
           "food_menu_id": "0",
           "food_id": "4",
           "food_size_id": "0",
-          "item_name": "Lattuce",
-          "type": "other",
-          "bool": true,
-          "$$hashKey": "object:221",
-          "price1": "1.00",
-          "extraFoodInfo": {
-            "id": "13",
-            "food_id": "4",
-            "extra_food_id": "10",
-            "size_name_id": "6",
-            "price": "1.00"
-          },
+          "item_name": "Rice",
+          "type": "topping",
+          "bool": false,
+          "$$hashKey": "object:216",
+          "price1": 0,
           "ifChecked": true
         },
         {
-          "id": "9",
+          "id": "6",
           "food_menu_id": "0",
           "food_id": "4",
           "food_size_id": "0",
-          "item_name": "Mustad",
-          "type": "souce",
-          "bool": false,
-          "$$hashKey": "object:220",
-          "price1": 0,
+          "item_name": "Raita",
+          "type": "dressing",
+          "bool": true,
+          "$$hashKey": "object:217",
+          "price1": "2.00",
+          "extraFoodInfo": {
+            "id": "11",
+            "food_id": "4",
+            "extra_food_id": "6",
+            "size_name_id": "6",
+            "price": "2.00"
+          },
           "ifChecked": true
         }
       ],
@@ -114,7 +114,7 @@
         "sizeName": "Regular",
         "sizePrice": "5.00"
       },
-      "totalPrice": 6,
+      "totalPrice": 7,
       "mainFood": {
         "food_id": "4",
         "menu_id": "26",
@@ -135,7 +135,8 @@
         "$$hashKey": "object:151"
       },
       "qty": 1,
-      "$$hashKey": "object:532"
+      "specialInstruction": "food intruction",
+      "$$hashKey": "object:536"
     },
     {
       "foodExtra": [],
@@ -162,10 +163,11 @@
         "size_type": "",
         "deals": "",
         "available_sides_selection_qnty": "0",
-        "$$hashKey": "object:429"
+        "$$hashKey": "object:431"
       },
       "qty": 1,
-      "$$hashKey": "object:533"
+      "specialInstruction": "food 2 instruction",
+      "$$hashKey": "object:537"
     }
   ],
   "shippingAddress": {
@@ -197,10 +199,10 @@
     "total_coupon_amount": "0",
     "date_time": "0000-00-00 00:00:00"
   },
-  "subTotal": 16.99,
-  "grandTotal": "18.84",
+  "subTotal": 17.99,
+  "grandTotal": "19.89",
   "deliveryCharge": "1.00",
-  "tax": 0.8494999999999999,
+  "tax": 0.8995,
   "tips": 0,
   "payment": {
     "cardInfo": {
@@ -216,7 +218,7 @@
       "billing_adrs": ""
     },
     "cardType": "MasterCard",
-    "orderNo": 879947391,
+    "orderNo": 880166484,
     "userinfo": {
       "cus_id": "121",
       "cus_fb_id": "",
@@ -232,6 +234,6 @@
       "invitation_code": "1466680143",
       "date_time": "0000-00-00 00:00:00"
     },
-    "amount": "18.84"
+    "amount": "19.89"
   }
 }
