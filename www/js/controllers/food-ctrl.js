@@ -9,7 +9,9 @@ angular.module('app.foodCtrl', [])
     $scope.favClass = "not-fav";
 	var restaurantId = $stateParams.restaurantId;
     $scope.resId = restaurantId; // For menu popover
-    var temp=restaurantId;
+    var cartInformation=CartFactory.getCartInfo();
+    var thisResId;
+
 
     localStorage.setItem('resId',restaurantId);
 	$scope.disableCartButton=true;
@@ -21,8 +23,8 @@ angular.module('app.foodCtrl', [])
         FoodFactory.getMenus(restaurantId).then(function(response){
             $scope.menus = response.data;
             //ionic hide
-
-
+            thisResId=restaurantId;
+              console.log("Dhur hala"+ thisResId);
 
             //console.log($scope.menus);
         });
@@ -74,14 +76,20 @@ angular.module('app.foodCtrl', [])
 
 	// Order Modal
 	$scope.orderModal = function(food) {
-        $scope.price = 0;
-        $scope.globalPrice = 0;
-        $scope.qty = 1;
+//if starts below
+
+
+
+if((cartInformation===undefined || cartInformation[0].mainFood.res_id===thisResId) ){
+
+  $scope.price = 0;
+  $scope.globalPrice = 0;
+  $scope.qty = 1;
+
+console.log("ThisResId"+thisResId);
         $scope.modal.show();
-		// show loading
-		// $ionicLoading.show({
-    //   		template: 'Loading...'
-    // 	});
+
+
 
     	// Modal View
 
@@ -141,6 +149,12 @@ angular.module('app.foodCtrl', [])
 
     	// // End Modal View
     	//$ionicLoading.hide();
+      //else will sit under this line
+    }
+    else{
+
+        return false;
+      }
   	};
 
 

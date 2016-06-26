@@ -11,7 +11,7 @@ angular.module('app.cartCtrl', [])
     $scope.deliveryCharge = localStorage.getItem('deliveryCharge');
     $scope.deliveryChargeForShowingOnly = localStorage.getItem('deliveryCharge');
 
-    console.log("This res Id"+ $scope.thisResId);
+    console.log("This res Id"+ $scope.thisRes);
     // logged in user info
     var userInfo = JSON.parse(window.localStorage['loggedInUserInofos']);
 
@@ -82,6 +82,8 @@ angular.module('app.cartCtrl', [])
     $scope.foodsForInvoice = CartFactory.getCartInfo();
 
     $scope.resId = localStorage.getItem('resId');
+
+    console.log("Original res Id: "+$scope.resId);
 
     var grandTotal = 0;
 
