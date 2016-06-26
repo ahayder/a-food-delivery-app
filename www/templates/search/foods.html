@@ -29,22 +29,22 @@
                 </div>
 
 
-                
+
             </ion-item>
-            
+
             <ion-item class="res-info-box">
                 <div class="button-bar">
                   <a class="button button-calm button-clear" ui-sref="app.moreInfo({restaurantId: restaurant.res_id})">More Info...</a>
                   <a class="button button-assertive button-clear" ng-click="menuPopover($event)">See Menu</a>
                 </div>
             </ion-item>
-        
-            
+
+
             <div ng-repeat="menu in menus">
-                    
+
                     <a class="item item-divider item-calm"  id="menu-{{menu.id}}">
                         {{menu.menu_name}}
-                        
+
                     </a>
 
                     <ion-item class="item item-icon-left" ng-repeat="food in foods" ng-if="menu.id == food.menu_id" ng-click="orderModal(food)">
@@ -52,7 +52,7 @@
                         {{food.food_name}}
                     </ion-item>
 
-                
+
             </div>
 
 
