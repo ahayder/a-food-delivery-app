@@ -8,21 +8,46 @@
         <button class="button" ng-click="getPromocode()">Use Promocode</button>
 
     </ion-header-bar>
-
+<!-- commented for experiment below -->
     <ion-content padding="true" scroll="true" class="has-subheader" ng-class="emptyPage">
-
-
-
-      <ion-list ng-if="!emptyCart" >
-          <ion-item class="item" ng-repeat="food in foodsForInvoice">
+      <ion-list can-swipe="listCanSwipe" ng-if="!emptyCart">
+            <ion-item class="item" ng-repeat="food in foodsForInvoice">
               <h2>{{food.mainFood.food_name}}</h2>
-              <p>Size: {{food.sizeInfo.sizeName}}, Quantity: {{food.qty}}</p>
-              <p>Price: ${{food.sizeInfo.sizePrice/food.qty}}</p>
-              <p ng-repeat="extra in food.foodExtra">{{extra.item_name}}(${{extra.price1}})</p>
+                  <p>Size: {{food.sizeInfo.sizeName}}, Quantity: {{food.qty}}</p>
+                  <p>Price: ${{food.sizeInfo.sizePrice*(food.qty)}}</p>
+              <div ng-repeat="extra in food.foodExtra">
+                  <p ng-if="extra.price1==0">{{extra.item_name}}: Free</p>
+                  <p ng-if="extra.price1 != 0">{{extra.item_name}}: (${{extra.price1}})</p>
+              </div>
               <p ng-show="food.specialInstruction">Your Instruction: {{food.specialInstruction}}</p>
-          </ion-item>
-      </ion-list>
 
+              <ion-option-button class="button-positive" ng-click="editQuantity($index)">
+                        Edit
+             </ion-option-button>
+
+              <ion-option-button class="button-assertive" ng-click="deleteBySwipe($index)">
+                        Delete
+             </ion-option-button>
+
+            </ion-item>
+      </ion-list>
+<!-- commented for experiment above -->
+
+
+<!-- Experiment code test commented starts-->
+      <!-- <ion-list ng-if="!emptyCart" >
+          <ion-item class="item" ng-repeat="food in foodsForInvoice">
+            <h2>{{food.mainFood.food_name}}</h2>
+                <p>Size: {{food.sizeInfo.sizeName}}, Quantity: {{food.qty}}</p>
+                <p>Price: ${{food.sizeInfo.sizePrice/food.qty}}</p>
+            <div ng-repeat="extra in food.foodExtra">
+                <p ng-if="extra.price1==0">{{extra.item_name}}: Free</p>
+                <p ng-if="extra.price1 != 0">{{extra.item_name}}: (${{extra.price1}})</p>
+            </div>
+            <p ng-show="food.specialInstruction">Your Instruction: {{food.specialInstruction}}</p>
+          </ion-item>
+      </ion-list> -->
+<!-- Experiment code test commented ends-->
       <!--Empty cart section-->
       <!-- <button ng-if="!emptyCart" class="button button-assertive button-block button-large"
       ng-click="openDeliveryModal()">Next</button> -->
@@ -36,7 +61,7 @@
       <!-- <div class="bar bar-footer bar-assertive">
         <a ng-if="!emptyCart" class="button button-icon button-clear ion-android-delete" ng-click="showDeleteAlert()"> Empty Cart</a>
       </div> -->
-      <label class="item item-input">
+      <label class="item item-input" ng-if="!emptyCart">
         <textarea placeholder="If you have any special instruction please write" ng-model="instructionCart"></textarea>
       </label>
       <br>
@@ -46,9 +71,9 @@
 
       <div class="button-bar" padding="false">
         <a ng-if="!emptyCart" class="button button-calm" ng-click="showDeleteAlert()">Empty Cart</a>
-        <a ng-if="!emptyCart" class="button button-assertive"
-           ng-click="openDeliveryModal(instructionCart)">Next</a>
-
+        <a ng-if="!emptyCart" class="button button-assertive" ng-click="openDeliveryModal(instructionCart)">Next</a>
       </div>
+
+
     </ion-content>
 </ion-view>

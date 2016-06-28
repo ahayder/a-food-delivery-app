@@ -36,18 +36,6 @@ angular.module('app.routes', [])
       }
     })
 
-    // Single address
-
-    .state('app.address', {
-      url: '/address',
-      views: {
-        'side-menu': {
-          templateUrl: 'templates/address/address.html',
-          controller: 'addressCtrl'
-        }
-      }
-    })
-
     // .state('app.payments', {
     //   url: '/payments',
     //   views: {

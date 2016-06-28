@@ -50,19 +50,19 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/phonegap-facebook-plugin/facebookConnectPlugin.js",
-        "id": "phonegap-facebook-plugin.FacebookConnectPlugin",
-        "pluginId": "phonegap-facebook-plugin",
-        "clobbers": [
-            "facebookConnectPlugin"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
         "id": "cordova-plugin-x-socialsharing.SocialSharing",
         "pluginId": "cordova-plugin-x-socialsharing",
         "clobbers": [
             "window.plugins.socialsharing"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
+        "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
+        "pluginId": "cordova-plugin-facebook4",
+        "clobbers": [
+            "facebookConnectPlugin"
         ]
     }
 ];
@@ -72,8 +72,8 @@ module.exports.metadata =
     "cordova-plugin-geolocation": "2.1.0",
     "cordova-plugin-inappbrowser": "1.4.1-dev",
     "cordova-plugin-splashscreen": "3.2.2",
-    "phonegap-facebook-plugin": "0.12.0",
-    "cordova-plugin-x-socialsharing": "5.1.1"
+    "cordova-plugin-x-socialsharing": "5.1.1",
+    "cordova-plugin-facebook4": "1.7.1"
 }
 // BOTTOM OF METADATA
 });

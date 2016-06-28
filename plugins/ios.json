@@ -16,12 +16,12 @@
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.savor365.android"
         },
-        "phonegap-facebook-plugin": {
-            "APP_ID": "1742328509350621",
-            "APP_NAME": "Savor365",
+        "cordova-plugin-x-socialsharing": {
             "PACKAGE_NAME": "com.savor365.app"
         },
-        "cordova-plugin-x-socialsharing": {
+        "cordova-plugin-facebook4": {
+            "APP_ID": "1742328509350621",
+            "APP_NAME": "Savor365",
             "PACKAGE_NAME": "com.savor365.app"
         }
     },

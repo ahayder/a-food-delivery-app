@@ -2,7 +2,6 @@
 angular.module('app',
   ['ionic',
   'app.appCtrl',
-  'app.addressCtrl',
   'app.addressesCtrl',
   'app.cartCtrl',
   'app.favouriteCtrl',
