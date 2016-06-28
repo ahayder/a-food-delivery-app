@@ -22,6 +22,13 @@
 #import "CDVPluginResult.h"
 #import "NSMutableArray+QueueAdditions.h"
 #import "CDVCommandDelegate.h"
+#import "CDVWebViewEngineProtocol.h"
+
+@interface UIView (org_apache_cordova_UIView_Extension)
+
+@property (nonatomic, weak) UIScrollView* scrollView;
+
+@end
 
 extern NSString* const CDVPageDidLoadNotification;
 extern NSString* const CDVPluginHandleOpenURLNotification;
@@ -32,13 +39,14 @@ extern NSString* const CDVRemoteNotificationError;
 
 @interface CDVPlugin : NSObject {}
 
-@property (nonatomic, weak) UIWebView* webView;
+@property (nonatomic, readonly, weak) UIView* webView;
+@property (nonatomic, readonly, weak) id <CDVWebViewEngineProtocol> webViewEngine;
+
 @property (nonatomic, weak) UIViewController* viewController;
 @property (nonatomic, weak) id <CDVCommandDelegate> commandDelegate;
 
 @property (readonly, assign) BOOL hasPendingOperation;
 
-- (CDVPlugin*)initWithWebView:(UIWebView*)theWebView;
 - (void)pluginInitialize;
 
 - (void)handleOpenURL:(NSNotification*)notification;
@@ -57,11 +65,5 @@ extern NSString* const CDVRemoteNotificationError;
  */
 
 - (id)appDelegate;
-
-- (NSString*)writeJavascript:(NSString*)javascript CDV_DEPRECATED(3.6, "Use the CDVCommandDelegate equivalent of evalJs:. This will be removed in 4.0.0");
-
-- (NSString*)success:(CDVPluginResult*)pluginResult callbackId:(NSString*)callbackId CDV_DEPRECATED(3.6, "Use the CDVCommandDelegate equivalent of sendPluginResult:callbackId. This will be removed in 4.0.0");
-
-- (NSString*)error:(CDVPluginResult*)pluginResult callbackId:(NSString*)callbackId CDV_DEPRECATED(3.6, "Use the CDVCommandDelegate equivalent of sendPluginResult:callbackId. This will be removed in 4.0.0");
 
 @end

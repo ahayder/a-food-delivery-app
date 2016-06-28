@@ -55,17 +55,26 @@
 #define __CORDOVA_3_6_0 30600
 #define __CORDOVA_3_7_0 30700
 #define __CORDOVA_3_8_0 30800
+#define __CORDOVA_3_9_0 30900
+#define __CORDOVA_3_9_1 30901
+#define __CORDOVA_3_9_2 30902
+#define __CORDOVA_4_0_0 40000
+#define __CORDOVA_4_0_1 40001
+#define __CORDOVA_4_1_0 40100
+#define __CORDOVA_4_1_1 40101
+/* coho:next-version,insert-before */
 #define __CORDOVA_NA 99999      /* not available */
 
 /*
- #if CORDOVA_VERSION_MIN_REQUIRED >= __CORDOVA_1_7_0
-    // do something when its at least 1.7.0
+ #if CORDOVA_VERSION_MIN_REQUIRED >= __CORDOVA_4_0_0
+    // do something when its at least 4.0.0
  #else
-    // do something else (non 1.7.0)
+    // do something else (non 4.0.0)
  #endif
  */
 #ifndef CORDOVA_VERSION_MIN_REQUIRED
-    #define CORDOVA_VERSION_MIN_REQUIRED __CORDOVA_3_8_0
+    /* coho:next-version-min-required,replace-after */
+    #define CORDOVA_VERSION_MIN_REQUIRED __CORDOVA_4_1_1
 #endif
 
 /*
@@ -88,5 +97,6 @@
 #if CDV_ENABLE_EXEC_LOGGING
     #define CDV_EXEC_LOG NSLog
 #else
-    #define CDV_EXEC_LOG(...) do {} while (NO)
+    #define CDV_EXEC_LOG(...) do { \
+} while (NO)
 #endif

@@ -7,22 +7,31 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.savor365.www"
-        },
-        "cordova-plugin-splashscreen": {
+        "cordova-plugin-device": {
             "PACKAGE_NAME": "com.savor365.android"
-        },
-        "cordova-plugin-x-socialsharing": {
-            "PACKAGE_NAME": "com.savor365.app"
         },
         "cordova-plugin-facebook4": {
             "APP_ID": "1742328509350621",
             "APP_NAME": "Savor365",
-            "PACKAGE_NAME": "com.savor365.app"
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.savor365.android"
         }
     },
     "dependent_plugins": {}

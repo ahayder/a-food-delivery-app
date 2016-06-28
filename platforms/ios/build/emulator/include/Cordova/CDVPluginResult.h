@@ -47,6 +47,8 @@ typedef enum {
 + (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal messageAsString:(NSString*)theMessage;
 + (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal messageAsArray:(NSArray*)theMessage;
 + (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal messageAsInt:(int)theMessage;
++ (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal messageAsNSInteger:(NSInteger)theMessage;
++ (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal messageAsNSUInteger:(NSUInteger)theMessage;
 + (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal messageAsDouble:(double)theMessage;
 + (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal messageAsBool:(BOOL)theMessage;
 + (CDVPluginResult*)resultWithStatus:(CDVCommandStatus)statusOrdinal messageAsDictionary:(NSDictionary*)theMessage;
@@ -60,12 +62,5 @@ typedef enum {
 - (void)setKeepCallbackAsBool:(BOOL)bKeepCallback;
 
 - (NSString*)argumentsAsJSON;
-
-// These methods are used by the legacy plugin return result method
-- (NSString*)toJSONString CDV_DEPRECATED(3.6, "Only used by toSuccessCallbackString and toErrorCallbackString which are deprecated. This will be removed in 4.0.0");
-
-- (NSString*)toSuccessCallbackString:(NSString*)callbackId CDV_DEPRECATED(3.6, "Use the CDVCommandDelegate method sendPluginResult:callbackId instead. This will be removed in 4.0.0");
-
-- (NSString*)toErrorCallbackString:(NSString*)callbackId CDV_DEPRECATED(3.6, "Use the CDVCommandDelegate method sendPluginResult:callbackId instead. This will be removed in 4.0.0");
 
 @end

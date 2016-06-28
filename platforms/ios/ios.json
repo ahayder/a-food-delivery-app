@@ -9,19 +9,7 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
                             "count": 1
                         },
                         {
@@ -51,18 +39,32 @@
                         {
                             "xml": "<access origin=\"https://*.akamaihd.net\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
             },
             "*-Info.plist": {
                 "parents": {
-                    "NSLocationWhenInUseUsageDescription": [
-                        {
-                            "xml": "<string />",
-                            "count": 1
-                        }
-                    ],
                     "FacebookAppID": [
                         {
                             "xml": "<string>1742328509350621</string>",
@@ -92,32 +94,63 @@
                             "xml": "<array><string>fbapi</string><string>fb-messenger-api</string><string>fbauth2</string><string>fbshareextension</string></array>",
                             "count": 1
                         }
+                    ],
+                    "NSLocationWhenInUseUsageDescription": [
+                        {
+                            "xml": "<string />",
+                            "count": 1
+                        }
                     ]
                 }
             }
         }
     },
     "installed_plugins": {
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.savor365.www"
-        },
-        "cordova-plugin-splashscreen": {
+        "cordova-plugin-device": {
             "PACKAGE_NAME": "com.savor365.android"
-        },
-        "cordova-plugin-x-socialsharing": {
-            "PACKAGE_NAME": "com.savor365.app"
         },
         "cordova-plugin-facebook4": {
             "APP_ID": "1742328509350621",
             "APP_NAME": "Savor365",
-            "PACKAGE_NAME": "com.savor365.app"
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "com.savor365.android"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.savor365.android"
         }
     },
     "dependent_plugins": {},
     "modules": [
+        {
+            "file": "plugins/cordova-plugin-device/www/device.js",
+            "id": "cordova-plugin-device.device",
+            "pluginId": "cordova-plugin-device",
+            "clobbers": [
+                "device"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
+            "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
+            "pluginId": "cordova-plugin-facebook4",
+            "clobbers": [
+                "facebookConnectPlugin"
+            ]
+        },
         {
             "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
             "id": "cordova-plugin-geolocation.Coordinates",
@@ -176,19 +209,23 @@
             ]
         },
         {
-            "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
-            "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
-            "pluginId": "cordova-plugin-facebook4",
+            "file": "plugins/ionic-plugin-keyboard/www/ios/keyboard.js",
+            "id": "ionic-plugin-keyboard.keyboard",
+            "pluginId": "ionic-plugin-keyboard",
             "clobbers": [
-                "facebookConnectPlugin"
-            ]
+                "cordova.plugins.Keyboard"
+            ],
+            "runs": true
         }
     ],
     "plugin_metadata": {
+        "cordova-plugin-device": "1.1.1",
+        "cordova-plugin-facebook4": "1.7.1",
         "cordova-plugin-geolocation": "2.1.0",
         "cordova-plugin-inappbrowser": "1.4.1-dev",
         "cordova-plugin-splashscreen": "3.2.2",
+        "cordova-plugin-whitelist": "1.2.1",
         "cordova-plugin-x-socialsharing": "5.1.1",
-        "cordova-plugin-facebook4": "1.7.1"
+        "ionic-plugin-keyboard": "2.0.1"
     }
 }
