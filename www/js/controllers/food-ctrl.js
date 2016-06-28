@@ -24,7 +24,7 @@ angular.module('app.foodCtrl', [])
             $scope.menus = response.data;
             //ionic hide
             thisResId=restaurantId;
-              console.log("Dhur hala"+ thisResId);
+              console.log("Res Id "+ thisResId);
 
             //console.log($scope.menus);
         });
@@ -42,8 +42,11 @@ angular.module('app.foodCtrl', [])
         localStorage.setItem('restaurantInfoForCheckoutInfo',JSON.stringify($scope.restaurant));
         // For using in delivery modal
 
-        localStorage.setItem('deliveryCharge',$scope.restaurant.delivery_charged);
-        localStorage.setItem('taxRate',$scope.restaurant.res_tax_rate);
+
+
+
+        // localStorage.setItem('deliveryCharge',$scope.restaurant.delivery_charged);
+        // localStorage.setItem('taxRate',$scope.restaurant.res_tax_rate);
         //console.log($scope.restaurant.res_tax_rate);
         //loading hide code stars
             $ionicLoading.hide();
@@ -80,7 +83,12 @@ angular.module('app.foodCtrl', [])
 
 
 
-if((cartInformation===undefined || cartInformation[0].mainFood.res_id===thisResId) ){
+if((cartInformation===undefined || cartInformation===null) ){
+
+
+  // These two lines are copied from above and above lines are commented
+  localStorage.setItem('deliveryCharge',$scope.restaurant.delivery_charged);
+  localStorage.setItem('taxRate',$scope.restaurant.res_tax_rate);
 
   $scope.price = 0;
   $scope.globalPrice = 0;
@@ -150,8 +158,99 @@ console.log("ThisResId"+thisResId);
     	// // End Modal View
     	//$ionicLoading.hide();
       //else will sit under this line
+    } else if(cartInformation[0].mainFood.res_id===thisResId){
+
+
+
+
+      // These two lines are copied from above and above lines are commented
+      localStorage.setItem('deliveryCharge',$scope.restaurant.delivery_charged);
+      localStorage.setItem('taxRate',$scope.restaurant.res_tax_rate);
+
+      $scope.price = 0;
+      $scope.globalPrice = 0;
+      $scope.qty = 1;
+
+    console.log("ThisResId"+thisResId);
+            $scope.modal.show();
+
+
+
+          // Modal View
+
+          // initializing the food
+
+          $scope.food = food;
+
+          // Getting the food sizes .... the price is also here
+
+          FoodFactory.getFoodSize($scope.food.food_id).then(function(response){
+            $scope.foodSizes = response.data;
+          });
+
+          // Getting the food extras
+
+          FoodFactory.getExtrasById($scope.food.food_id).then(function(response){
+                    //console.log(response.data);
+            var count=0;
+
+            $scope.foodExtras = response.data;
+              console.log(response.data);
+            for(var i=0;i<$scope.foodExtras.length;i++){
+
+              for(var j=0;j<$scope.foodExtras.length;j++){
+
+                // Checking if multiple same type exists for not duplication of
+                // Extras heading title in ng-repeat
+
+                if($scope.foodExtras[i].type == $scope.foodExtras[j].type){
+
+                  count++;
+
+                  if(count>1){
+
+                    $scope.foodExtras[j].bool=false;
+
+                  }
+                  else{
+
+                    $scope.foodExtras[i].bool=true;
+                  }
+
+                }
+              }
+
+              count=0;
+            }
+          });
+
+          // Getting the extras price
+
+          FoodFactory.getExtraFoodPrice($scope.food.food_id).then(function(response){
+            $scope.foodExtrasPrice = response.data;
+            //console.log($scope.foodExtrasPrice);
+
+          });
+
+          // // End Modal View
+          //$ionicLoading.hide();
+          //else will sit under this line
+
     }
     else{
+        console.log("hochche na");
+      $scope.showAlert = function() {
+
+  var alertPopup = $ionicPopup.alert({
+     title: 'Plz add from only one restaurent',
+     template: 'You can not add item from multiple restaurent!'
+  });
+
+  alertPopup.then(function(res) {
+     // Custom functionality....
+  });
+}();
+
 
         return false;
       }
